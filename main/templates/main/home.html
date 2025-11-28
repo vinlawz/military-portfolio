@@ -6,134 +6,1144 @@
     <title>Vinlawz | Tactical Portfolio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{% static 'css/output.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+        
+        :root {
+            --neon-green: #39FF14;
+            --tactical-blue: #00f7ff;
+            --dark-bg: #0a0f0d;
+            --card-bg: rgba(10, 15, 13, 0.6);
+            --text-primary: #e2f3f5;
+            --text-secondary: #b0b0b0;
+            --section-spacing: 6rem;
+            --line-height-normal: 1.7;
+            --line-height-heading: 1.3;
+        }
+
+        /* Grid Pattern Overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(57, 255, 20, 0.05) 0,
+                    rgba(57, 255, 20, 0.05) 1px,
+                    transparent 1px,
+                    transparent 20px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(57, 255, 20, 0.05) 0,
+                    rgba(57, 255, 20, 0.05) 1px,
+                    transparent 1px,
+                    transparent 20px
+                );
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        
+        /* Background overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.92), rgba(0, 0, 0, 0.92));
+            z-index: -2;
+        }
+
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Consolas', monospace;
-            color: #0ff;
-            background: url('https://wallpapercave.com/wp/wp7626073.jpg') no-repeat center center fixed;
-            background-size: cover;
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--text-primary);
+            line-height: var(--line-height-normal);
+            letter-spacing: 0.3px;
+            background: url('https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?ixlib=rb-4.0.3') center/cover fixed;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+        }
+
+        .hud-border {
+            border: 1px solid rgba(57, 255, 20, 0.15);
+            box-shadow: 0 0 0 1px rgba(0, 247, 255, 0.1),
+                        0 4px 20px rgba(0, 0, 0, 0.3),
+                        0 0 15px rgba(57, 255, 20, 0.1),
+                        inset 0 0 10px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            background: var(--card-bg);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            border-radius: 0.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Corner accents */
+        .hud-border::before,
+        .hud-border::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--neon-green);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .hud-border::before {
+            top: -1px;
+            left: -1px;
+            border-right: none;
+            border-bottom: none;
+            border-top-left-radius: 0.5rem;
+        }
+
+        .hud-border::after {
+            bottom: -1px;
+            right: -1px;
+            border-left: none;
+            border-top: none;
+            border-bottom-right-radius: 0.5rem;
+        }
+
+        .hud-border:hover::before,
+        .hud-border:hover::after {
+            width: 30px;
+            height: 30px;
+            opacity: 1;
+        }
+        
+        .hud-border:hover {
+            @apply transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg hover:shadow-neon-green/20;
+        }
+
+        .hud-border::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-green), transparent);
+            animation: scanline 3s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .neon-text {
+            text-shadow: 0 0 5px var(--neon-green), 0 0 10px var(--neon-green);
+        }
+
+        /* Radar Pulse Animation for Section Headers */
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin: 0 0 2.5rem 0;
+            padding: 0 0 0.5rem 0;
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--neon-green);
+            line-height: var(--line-height-heading);
+        }
+        
+        .section-title i {
+            position: relative;
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            margin-right: 0.5rem;
+        }
+        
+        .section-title i::before {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .section-title i::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 1em;
+            height: 1em;
+            background: var(--neon-green);
+            border-radius: 50%;
+            opacity: 0.2;
+            z-index: 1;
+            animation: radarPulse 2s infinite;
+        }
+        
+        @keyframes radarPulse {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.3;
+            }
+            70% {
+                transform: translate(-50%, -50%) scale(2);
+                opacity: 0;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 70px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-green), transparent);
+            border-radius: 2px;
+        }
+
+        .skill-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 0.75rem 0 2rem;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-green), var(--tactical-blue));
+            border-radius: 3px;
+            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .skill-progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.2) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) skewX(-15deg); }
+            100% { transform: translateX(100%) skewX(-15deg); }
+        }
+        /* Section Spacing */
+        section {
+            padding: var(--section-spacing) 0;
+        }
+        
+        /* Card Styles */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(57, 255, 20, 0.1);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .card:hover {
+            border-color: rgba(57, 255, 20, 0.3);
+            transform: translateY(-5px);
+        }
+        
+        /* Form Elements */
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            color: white;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--neon-green);
+            box-shadow: 0 0 0 3px rgba(57, 255, 20, 0.1);
+        }
+        
+        /* Utility Classes */
+        .text-gradient {
+            background: linear-gradient(90deg, var(--neon-green), var(--tactical-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glass-effect {
+            background: rgba(10, 15, 13, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            :root {
+                --section-spacing: 3rem;
+                --line-height-normal: 1.6;
+            }
+            
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            /* Stack grid columns on mobile */
+            .grid-cols-2, 
+            .grid-cols-3,
+            .md\:grid-cols-2,
+            .lg\:grid-cols-3 {
+                grid-template-columns: 1fr !important;
+            }
+            
+            /* Adjust section padding */
+            section {
+                padding: 2rem 0;
+            }
+            
+            /* Typography scaling */
+            h1 {
+                font-size: 2.25rem !important;
+            }
+            
+            h2 {
+                font-size: 1.75rem !important;
+            }
+            
+            h3 {
+                font-size: 1.25rem !important;
+            }
+            
+            .text-base {
+                font-size: 0.95rem;
+            }
+            
+            .text-lg {
+                font-size: 1.1rem;
+            }
+            
+            /* Adjust padding and margins */
+            .hud-border {
+                padding: 1.25rem !important;
+            }
+            
+            .p-8, .p-10 {
+                padding: 1.25rem !important;
+            }
+            
+            /* Form elements */
+            input, textarea, button {
+                font-size: 1rem !important;
+            }
+            
+            /* Navigation */
+            nav a {
+                padding: 0.5rem 0.75rem !important;
+                font-size: 0.9rem !important;
+            }
+            
+            /* Ensure background overlay stays intact */
+            body::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.9);
+                z-index: -2;
+            }
+        }
+        
+        /* Project Card Glow Effect */
+        .project-card {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-green), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .project-card:hover::before {
+            transform: translateX(100%);
+        }
+        
+        /* Project Title Hover Glow */
+        .project-title {
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .project-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-green);
+            transition: width 0.3s ease;
+        }
+        
+        .project-card:hover .project-title {
+            color: var(--neon-green);
+            text-shadow: 0 0 8px rgba(57, 255, 20, 0.6);
+        }
+        
+        .project-card:hover .project-title::after {
+            width: 100%;
+        }
+        
+        /* Typing animation cursor */
+        #typing-text::after {
+            content: '|';
+            display: inline-block;
+            margin-left: 2px;
+            color: var(--neon-green);
+            animation: blink 1s step-end infinite;
+        }
+        
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        /* Radar Animation */
+        .radar-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            opacity: 0.25;
+            z-index: 10;
+            pointer-events: none;
+            display: none;
+        }
+        
+        @media (min-width: 768px) {
+            .radar-container {
+                display: block;
+            }
+        }
+        
+        .radar-sweep {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid var(--neon-green);
+            opacity: 0.5;
+        }
+        
+        .radar-sweep::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-green));
+            transform-origin: left center;
+            animation: radar-rotate 8s linear infinite;
+        }
+        
+        .radar-inner-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--neon-green);
+            box-shadow: 0 0 10px var(--neon-green);
+        }
+        
+        .radar-pulse {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            border: 1px solid var(--neon-green);
+            animation: radar-pulse 4s ease-out infinite;
+            opacity: 0;
+        }
+        
+        .radar-pulse:nth-child(2) {
+            animation-delay: 1s;
+        }
+        
+        .radar-pulse:nth-child(3) {
+            animation-delay: 2s;
+        }
+        
+        @keyframes radar-rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes radar-pulse {
+            0% {
+                transform: scale(0.1);
+                opacity: 0.8;
+            }
+            70% {
+                opacity: 0.1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
         }
     </style>
 </head>
-<body class="bg-cover bg-center text-cyan-400 font-mono" style="background-image: url('https://wallpapercave.com/wp/wp7626073.jpg');">
-    <div class="bg-black/85 min-h-screen pb-8">
-
-        <!-- Tactical Navigation Radar -->
-        <nav class="bg-black/90 border-b border-cyan-400 fixed top-0 w-full z-50">
-            <div class="max-w-6xl mx-auto px-6 py-3 flex justify-between items-center text-cyan-300 text-sm">
-                <span class="font-bold tracking-widest">🛰️ Vinlawz Ops</span>
-                <div class="space-x-6">
-                    <a href="#mission" class="hover:underline">Mission</a>
-                    <a href="#arsenal" class="hover:underline">Arsenal</a>
-                    <a href="#projects" class="hover:underline">Field Ops</a>
-                    <a href="#contact" class="hover:underline">Contact HQ</a>
+<body class="min-h-screen">
+    <!-- Radar Animation -->
+    <div class="radar-container">
+        <div class="radar-sweep"></div>
+        <div class="radar-pulse"></div>
+        <div class="radar-pulse"></div>
+        <div class="radar-pulse"></div>
+        <div class="radar-inner-circle"></div>
+    </div>
+    
+    <div class="min-h-screen" itemscope itemtype="https://schema.org/Person">
+        <!-- Tactical Navigation -->
+        <nav class="fixed top-0 w-full z-50 bg-black/95 backdrop-blur-sm border-b border-neon-green/30 px-2 sm:px-4" aria-label="Main navigation">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center">
+                        <span class="text-xl font-bold text-neon-green font-mono">>_ VINLAWZ_OPS</span>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-8">
+                        <a href="#mission" class="text-neon-green hover:text-white px-3 py-2 text-sm font-medium transition-all duration-300 border-b-2 border-transparent hover:border-neon-green">
+                            <i class="fas fa-crosshairs mr-1"></i> Mission
+                        </a>
+                        <a href="#arsenal" class="text-neon-green hover:text-white px-3 py-2 text-sm font-medium transition-all duration-300 border-b-2 border-transparent hover:border-neon-green">
+                            <i class="fas fa-tools mr-1"></i> Arsenal
+                        </a>
+                        <a href="#projects" class="text-neon-green hover:text-white px-3 py-2 text-sm font-medium transition-all duration-300 border-b-2 border-transparent hover:border-neon-green">
+                            <i class="fas fa-project-diagram mr-1"></i> Field Ops
+                        </a>
+                        <a href="#contact" class="text-neon-green hover:text-white px-3 py-2 text-sm font-medium transition-all duration-300 border-b-2 border-transparent hover:border-neon-green">
+                            <i class="fas fa-satellite-dish mr-1"></i> Contact HQ
+                        </a>
+                    </div>
+                    <div class="md:hidden flex items-center">
+                        <!-- Mobile menu button -->
+                        <button type="button" class="text-neon-green hover:text-white focus:outline-none" id="mobile-menu-button">
+                            <i class="fas fa-bars text-2xl"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile menu -->
+            <div class="md:hidden hidden bg-black/95 border-t border-neon-green/20" id="mobile-menu">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <a href="#mission" class="block px-3 py-2 text-neon-green hover:bg-gray-800 rounded-md">
+                        <i class="fas fa-crosshairs mr-2"></i>Mission Brief
+                    </a>
+                    <a href="#arsenal" class="block px-3 py-2 text-neon-green hover:bg-gray-800 rounded-md">
+                        <i class="fas fa-tools mr-2"></i>Arsenal
+                    </a>
+                    <a href="#projects" class="block px-3 py-2 text-neon-green hover:bg-gray-800 rounded-md">
+                        <i class="fas fa-project-diagram mr-2"></i>Field Ops
+                    </a>
+                    <a href="#contact" class="block px-3 py-2 text-neon-green hover:bg-gray-800 rounded-md">
+                        <i class="fas fa-satellite-dish mr-2"></i>Contact HQ
+                    </a>
                 </div>
             </div>
         </nav>
 
-        <!-- Tactical Header -->
-        <header class="bg-black/80 pt-28 pb-6 border-b-2 border-cyan-400 text-center">
-            <img src="{% static 'images/operative.jpg' %}" alt="Vinlawz" class="rounded-full w-32 h-32 mx-auto border-4 border-cyan-400 shadow-cyan-500/30">
-            <h1 class="text-3xl font-bold tracking-widest text-cyan-300 mt-4">Vinlawz</h1>
-            <p class="text-sm text-gray-400">Digital Recon Specialist | Django Operative | Cybersecurity Cadet</p>
-        </header>
-
-        <main class="max-w-6xl mx-auto px-6 py-10">
+        <!-- Main Content -->
+        <main class="pt-24 md:pt-32 pb-8 md:pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <!-- Spacer for fixed header -->
+            <div class="h-4 md:h-6"></div>
+            <!-- Hero Section -->
+            <header class="text-center pt-16 pb-24" role="banner">
+                <div class="container mx-auto px-4">
+                <div class="relative">
+                    <div class="absolute inset-0 bg-neon-green/10 rounded-full filter blur-3xl -z-10"></div>
+                    <div class="relative">
+                        <img src="{% static 'images/operative.jpg' %}" alt="Operative Vinlawz" class="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full border-4 border-neon-green/50 shadow-lg shadow-neon-green/20 hover:border-neon-green transition-all duration-500 transform hover:scale-105">
+                        <h1 class="mt-6 text-4xl md:text-5xl font-bold text-neon-green tracking-tight" itemprop="name">VINLAWZ</h1>
+                        <div class="mt-2 text-tactical-blue text-lg md:text-xl font-mono" itemprop="jobTitle">
+                            <span class="typing-text"></span><span class="blink">|</span>
+                        </div>
+                        <p class="mt-4 text-gray-300 max-w-2xl mx-auto" itemprop="description">
+                            <span class="inline-block mx-1"><i class="fas fa-crosshairs text-neon-green/70 mr-1"></i> Digital Recon Specialist</span> |
+                            <span class="inline-block mx-1"><i class="fas fa-code text-tactical-blue/70 mr-1"></i> Full-Stack Operative</span> |
+                            <span class="inline-block mx-1"><i class="fas fa-shield-alt text-neon-green/70 mr-1"></i> Cybersecurity Enthusiast</span>
+                        </p>
+                    </div>
+                </div>
+            </section>
 
             <!-- Mission Brief -->
-            <section id="mission" class="bg-zinc-900/90 border border-cyan-400 p-6 mb-10 rounded-lg shadow-md">
-                <h2 class="text-xl font-semibold mb-2 text-cyan-300">🗂️ Mission Brief</h2>
-                <p>This isn’t just a portfolio. It’s a live ops terminal. I build systems, deploy full-stack apps, and secure them. Django is my war zone. Python is my rifle.</p>
+            <section id="mission" class="py-8 md:py-16" itemscope itemtype="https://schema.org/AboutPage">
+                <div class="hud-border p-4 sm:p-6 md:p-10">
+                <h2 class="text-2xl font-bold text-neon-green mb-6 section-title">
+                    <i class="fas fa-crosshairs"></i> <span itemprop="headline">MISSION BRIEF</span>
+                </h2>
+                <p id="mission-text" class="text-gray-300 mb-4 leading-relaxed typing-text" itemprop="description"></p>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <p class="text-gray-300 mb-4 leading-relaxed">
+                            This isn't just a portfolio—it's a live ops terminal. I specialize in building robust, secure, and scalable web applications with a focus on clean code and user experience.
+                        </p>
+                        <p class="text-gray-300 mb-6 leading-relaxed">
+                            My mission is to deliver high-impact solutions that solve real-world problems while maintaining the highest standards of security and performance.
+                        </p>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="px-3 py-1 bg-neon-green/10 text-neon-green text-xs font-mono rounded-full border border-neon-green/30">Full-Stack Development</span>
+                            <span class="px-3 py-1 bg-neon-green/10 text-neon-green text-xs font-mono rounded-full border border-neon-green/30">Cybersecurity</span>
+                            <span class="px-3 py-1 bg-neon-green/10 text-neon-green text-xs font-mono rounded-full border border-neon-green/30">Cloud Architecture</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 bg-black/30 border border-neon-green/20 rounded-lg hover:bg-neon-green/5 transition-all duration-300">
+                            <div class="text-neon-green text-3xl mb-2"><i class="fas fa-shield-alt"></i></div>
+                            <h3 class="font-bold text-white mb-1">Secure</h3>
+                            <p class="text-xs text-gray-400">Enterprise-grade security practices</p>
+                        </div>
+                        <div class="p-4 bg-black/30 border border-neon-green/20 rounded-lg hover:bg-neon-green/5 transition-all duration-300">
+                            <div class="text-neon-green text-3xl mb-2"><i class="fas fa-bolt"></i></div>
+                            <h3 class="font-bold text-white mb-1">Fast</h3>
+                            <p class="text-xs text-gray-400">Optimized performance</p>
+                        </div>
+                        <div class="p-4 bg-black/30 border border-neon-green/20 rounded-lg hover:bg-neon-green/5 transition-all duration-300">
+                            <div class="text-neon-green text-3xl mb-2"><i class="fas fa-mobile-alt"></i></div>
+                            <h3 class="font-bold text-white mb-1">Responsive</h3>
+                            <p class="text-xs text-gray-400">Flawless on all devices</p>
+                        </div>
+                        <div class="p-4 bg-black/30 border border-neon-green/20 rounded-lg hover:bg-neon-green/5 transition-all duration-300">
+                            <div class="text-neon-green text-3xl mb-2"><i class="fas fa-code"></i></div>
+                            <h3 class="font-bold text-white mb-1">Clean Code</h3>
+                            <p class="text-xs text-gray-400">Maintainable & scalable</p>
+                        </div>
+                    </div>
+                </div>
             </section>
 
-            <!-- Tactical Grid -->
-            <div class="grid md:grid-cols-2 gap-6 mb-10">
+            <!-- Arsenal Section -->
+            <section id="arsenal" class="py-8 md:py-16" itemscope itemtype="https://schema.org/ItemList">
+                <h2 class="text-2xl font-bold text-neon-green mb-8 text-center section-title mx-auto">
+                    <i class="fas fa-tools mr-2"></i>ARSENAL
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Frontend -->
+                    <div class="hud-border p-6 rounded-lg bg-dark-bg/80 backdrop-blur-sm hover:shadow-neon-green/20 hover:shadow-lg transition-all duration-300">
+                        <div class="flex items-center mb-4">
+                            <div class="text-neon-green text-2xl mr-3"><i class="fas fa-laptop-code"></i></div>
+                            <h3 class="text-xl font-bold text-white" itemprop="name">Frontend</h3>
+                        </div>
+                        <ul class="space-y-3">
+                            <li>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-300">HTML5 / CSS3</span>
+                                    <span class="text-neon-green text-sm">95%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 95%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-300">JavaScript</span>
+                                    <span class="text-neon-green text-sm">90%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 90%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-300">React</span>
+                                    <span class="text-neon-green text-sm">85%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 85%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-300">Tailwind CSS</span>
+                                    <span class="text-neon-green text-sm">92%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 92%"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
 
-                <!-- Arsenal -->
-                <section id="arsenal" class="bg-zinc-900/95 border border-cyan-500 p-6 rounded-xl shadow-lg shadow-cyan-500/20">
-                    <h2 class="text-xl font-bold mb-4 text-cyan-300 tracking-wider">⚔️ Arsenal</h2>
-                    <table class="w-full text-left border-collapse text-sm">
-                        <thead>
-                            <tr class="border-b border-cyan-400/50 text-cyan-400 uppercase tracking-widest text-xs">
-                                <th class="pb-2">Tool</th>
-                                <th class="pb-2">Purpose</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="hover:bg-black/30">
-                                <td class="py-2 text-green-400 font-semibold">Django</td>
-                                <td class="py-2 text-gray-300">Combat-ready backend systems</td>
-                            </tr>
-                            <tr class="hover:bg-black/30">
-                                <td class="py-2 text-green-400 font-semibold">Tailwind CSS</td>
-                                <td class="py-2 text-gray-300">Tactical UI deployment</td>
-                            </tr>
-                            <tr class="hover:bg-black/30">
-                                <td class="py-2 text-green-400 font-semibold">PostgreSQL</td>
-                                <td class="py-2 text-gray-300">Encrypted data ops</td>
-                            </tr>
-                            <tr class="hover:bg-black/30">
-                                <td class="py-2 text-green-400 font-semibold">Kali Linux</td>
-                                <td class="py-2 text-gray-300">Network infiltration testing</td>
-                            </tr>
-                            <tr class="hover:bg-black/30">
-                                <td class="py-2 text-green-400 font-semibold">RBAC + NetSec</td>
-                                <td class="py-2 text-gray-300">Access control & cyber defense</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </section>
+                    <!-- Backend -->
+                    <div class="hud-border p-6 rounded-lg bg-dark-bg/80 backdrop-blur-sm hover:shadow-neon-green/20 hover:shadow-lg transition-all duration-300">
+                        <div class="flex items-center mb-4">
+                            <div class="text-neon-green text-2xl mr-3"><i class="fas fa-server"></i></div>
+                            <h3 class="text-xl font-bold text-white">Backend</h3>
+                        </div>
+                        <ul class="space-y-3">
+                            <li>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-300">Python</span>
+                                    <span class="text-neon-green text-sm">95%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 95%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-300">Django</span>
+                                    <span class="text-neon-green text-sm">90%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 90%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-300">Node.js</span>
+                                    <span class="text-neon-green text-sm">80%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 80%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-300">REST APIs</span>
+                                    <span class="text-neon-green text-sm">88%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 88%"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
 
-                <!-- Field Projects -->
-                <section id="projects" class="bg-zinc-900/95 border border-cyan-500 p-6 rounded-xl shadow-lg shadow-cyan-500/20">
-                    <h2 class="text-xl font-bold mb-4 text-cyan-300 tracking-wider">🎯 Field Projects</h2>
-                    <ul class="space-y-3 text-sm">
-                        <li>
-                            <span class="text-green-300 font-bold">➤ Military Asset Tracker</span><br>
-                            <span class="text-gray-300">Combat asset readiness, RBAC-secured logs, PWA deploy</span>
-                        </li>
-                        <li>
-                            <span class="text-green-300 font-bold">➤ COMBAT_READINESS</span><br>
-                            <span class="text-gray-300">Live status tracking of units, med ops, and training metrics</span>
-                        </li>
-                        <li>
-                            <span class="text-green-300 font-bold">➤ Library Command System</span><br>
-                            <span class="text-gray-300">Structured info flow for book missions & academic retrieval</span>
-                        </li>
-                    </ul>
-                </section>
-            </div>
+                    <!-- Other Skills -->
+                    <div class="hud-border p-6 rounded-lg bg-dark-bg/80 backdrop-blur-sm hover:shadow-neon-green/20 hover:shadow-lg transition-all duration-300">
+                        <div class="flex items-center mb-4">
+                            <div class="text-neon-green text-2xl mr-3"><i class="fas fa-shield-alt"></i></div>
+                            <h3 class="text-xl font-bold text-white">Security & Tools</h3>
+                        </div>
+                        <ul class="space-y-3">
+                            <li>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-300">Cybersecurity</span>
+                                    <span class="text-neon-green text-sm">85%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 85%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-300">Docker</span>
+                                    <span class="text-neon-green text-sm">88%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 88%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-300">Git</span>
+                                    <span class="text-neon-green text-sm">92%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 92%"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-300">AWS/GCP</span>
+                                    <span class="text-neon-green text-sm">78%</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" style="width: 78%"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Field Projects -->
+            <section id="projects" class="py-8 md:py-16" itemscope itemtype="https://schema.org/ItemList">
+                <h2 class="text-2xl font-bold text-neon-green mb-8 text-center section-title mx-auto">
+                    <i class="fas fa-project-diagram mr-2"></i>FIELD PROJECTS
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Project 1 -->
+                    <div class="project-card hud-border rounded-lg overflow-hidden bg-dark-bg/80 backdrop-blur-sm hover:shadow-neon-green/20 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="h-48 bg-gradient-to-r from-neon-green/10 to-tactical-blue/10 flex items-center justify-center">
+                            <i class="fas fa-shield-alt text-5xl text-neon-green"></i>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="project-title text-xl font-bold text-white mb-2">Military Asset Tracker</h3>
+                            <p class="text-gray-300 text-sm mb-4">A comprehensive system for tracking military assets with real-time updates and secure access controls.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 bg-neon-green/10 text-neon-green text-xs rounded">Django</span>
+                                <span class="px-2 py-1 bg-neon-green/10 text-neon-green text-xs rounded">React</span>
+                                <span class="px-2 py-1 bg-neon-green/10 text-neon-green text-xs rounded">PostgreSQL</span>
+                            </div>
+                            <a href="#" class="inline-flex items-center text-neon-green hover:text-white text-sm font-medium">
+                                View Deployment <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 -->
+                    <div class="hud-border rounded-lg overflow-hidden bg-dark-bg/80 backdrop-blur-sm hover:shadow-neon-green/20 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="h-48 bg-gradient-to-r from-tactical-blue/10 to-purple-500/10 flex items-center justify-center">
+                            <i class="fas fa-heartbeat text-5xl text-tactical-blue"></i>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="project-title text-xl font-bold text-white mb-2">Combat Readiness System</h3>
+                            <p class="text-gray-300 text-sm mb-4">Real-time monitoring of unit status, medical readiness, and training metrics with analytics dashboard.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 bg-neon-green/10 text-neon-green text-xs rounded">Node.js</span>
+                                <span class="px-2 py-1 bg-neon-green/10 text-neon-green text-xs rounded">MongoDB</span>
+                                <span class="px-2 py-1 bg-neon-green/10 text-neon-green text-xs rounded">WebSockets</span>
+                            </div>
+                            <a href="#" class="inline-flex items-center text-neon-green hover:text-white text-sm font-medium">
+                                View Deployment <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="hud-border rounded-lg overflow-hidden bg-dark-bg/80 backdrop-blur-sm hover:shadow-neon-green/20 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="h-48 bg-gradient-to-r from-purple-500/10 to-pink-500/10 flex items-center justify-center">
+                            <i class="fas fa-book text-5xl text-purple-400"></i>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="project-title text-xl font-bold text-white mb-2" itemprop="name">Secure Auth System</h3>
+                            <p class="text-gray-300 text-sm mb-4">Digital library management system with advanced search, user roles, and resource tracking.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 bg-neon-green/10 text-neon-green text-xs rounded">Python</span>
+                                <span class="px-2 py-1 bg-neon-green/10 text-neon-green text-xs rounded">Django REST</span>
+                                <span class="px-2 py-1 bg-neon-green/10 text-neon-green text-xs rounded">Vue.js</span>
+                            </div>
+                            <a href="#" class="inline-flex items-center text-neon-green hover:text-white text-sm font-medium">
+                                View Deployment <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-10 text-center">
+                    <a href="#" class="inline-flex items-center px-6 py-3 border border-neon-green text-neon-green rounded-md hover:bg-neon-green/10 transition-colors duration-300">
+                        <i class="fas fa-eye mr-2"></i> View All Operations
+                    </a>
+                </div>
+            </section>
 
             <!-- Contact HQ -->
-            <section id="contact" class="bg-zinc-900/90 border border-cyan-400 p-6 mb-10 rounded-lg shadow-md">
-                <h2 class="text-xl font-semibold mb-2 text-cyan-300">📡 Contact HQ</h2>
-                <p>Reach out for missions, mentorship, or collaboration:</p>
-                <ul class="list-disc list-inside space-y-1">
-                    <li>Email: <span class="text-green-400 font-bold">vinlawz07@gmail.com</span></li>
-                    <li>GitHub: <span class="text-green-400 font-bold">github.com/vinlawz</span></li>
-                    <li>Signal ID: <span class="text-green-400 font-bold">classified</span></li>
-                </ul>
+            <section id="contact" class="py-8 md:py-16" itemscope itemtype="https://schema.org/ContactPage">
+                <div class="hud-border p-8 sm:p-10">
+                <h2 class="text-2xl font-bold text-neon-green mb-6 section-title">
+                    <i class="fas fa-satellite-dish mr-2"></i>CONTACT HQ
+                </h2>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <p class="text-gray-300 mb-6">
+                            Ready to discuss your next mission? Send me an encrypted message and I'll get back to you as soon as possible.
+                        </p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="text-neon-green text-xl mr-4 mt-1"><i class="fas fa-envelope"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-white">Email</h4>
+                                    <a href="mailto:vinlawz07@gmail.com" class="text-gray-300 hover:text-neon-green transition-colors">vinlawz07@gmail.com</a>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="text-neon-green text-xl mr-4 mt-1"><i class="fab fa-github"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-white">GitHub</h4>
+                                    <a href="https://github.com/vinlawz" target="_blank" class="text-gray-300 hover:text-neon-green transition-colors">github.com/vinlawz</a>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="text-neon-green text-xl mr-4 mt-1"><i class="fas fa-shield-alt"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-white">Secure Channel</h4>
+                                    <span class="text-gray-300">Signal ID: classified</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form class="space-y-4">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Call Sign</label>
+                            <input type="text" id="name" class="w-full bg-black/30 border border-neon-green/30 rounded-md px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-neon-green/50 focus:border-transparent" placeholder="Your name">
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Secure Comms</label>
+                            <input type="email" id="email" class="w-full bg-black/30 border border-neon-green/30 rounded-md px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-neon-green/50 focus:border-transparent" placeholder="your.secure@comms.ch">
+                        </div>
+                        
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-300 mb-1">Encrypted Message</label>
+                            <textarea id="message" rows="4" class="w-full bg-black/30 border border-neon-green/30 rounded-md px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-neon-green/50 focus:border-transparent" placeholder="Begin secure transmission..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-neon-green/10 border border-neon-green text-neon-green py-2 px-6 rounded-md hover:bg-neon-green hover:text-black transition-colors duration-300 font-medium flex items-center justify-center">
+                            <i class="fas fa-paper-plane mr-2"></i> Transmit
+                        </button>
+                    </form>
+                </div>
             </section>
 
-            <!-- Current Objective with Progress Bar -->
-            <section class="bg-zinc-900/90 border border-cyan-400 p-6 rounded-lg shadow-md">
-                <h2 class="text-xl font-semibold mb-2 text-cyan-300">🎯 Current Objective</h2>
-                <p>Tailwind CSS deployment and layout optimization. Phase 3 locked. Tactical move ready.</p>
-                <div class="mt-4 w-full bg-black/30 rounded-full h-3">
-                    <div class="bg-cyan-400 h-3 rounded-full w-3/4 animate-pulse"></div>
+            <!-- Current Objective -->
+            <section class="py-8 md:py-16" itemscope itemtype="https://schema.org/Action">
+                <div class="hud-border p-8 sm:p-10">
+                <h2 class="text-2xl font-bold text-neon-green mb-6 section-title">
+                    <i class="fas fa-bullseye mr-2"></i> <span itemprop="name">CURRENT OBJECTIVE</span>
+                </h2>
+                
+                <div class="mb-4">
+                    <h3 class="text-lg font-semibold text-white mb-2">Portfolio Enhancement Initiative</h3>
+                    <p class="text-gray-300 mb-4">Deploying advanced UI/UX patterns and performance optimizations to the tactical portfolio.</p>
+                    
+                    <div class="mb-2 flex justify-between text-sm text-gray-400">
+                        <span>Phase 3: Deployment</span>
+                        <span>75% Complete</span>
+                    </div>
+                    
+                    <div class="w-full bg-black/30 rounded-full h-3">
+                        <div class="bg-gradient-to-r from-neon-green to-tactical-blue h-full rounded-full animate-pulse" style="width: 75%"></div>
+                    </div>
+                    
+                    <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                        <div class="p-3 bg-black/30 rounded-lg border border-neon-green/20">
+                            <div class="text-neon-green text-xl mb-1"><i class="fas fa-check-circle"></i></div>
+                            <p class="text-xs text-gray-300">Research</p>
+                        </div>
+                        <div class="p-3 bg-black/30 rounded-lg border border-neon-green/20">
+                            <div class="text-neon-green text-xl mb-1"><i class="fas fa-check-circle"></i></div>
+                            <p class="text-xs text-gray-300">Design</p>
+                        </div>
+                        <div class="p-3 bg-gradient-to-br from-neon-green/10 to-tactical-blue/10 rounded-lg border border-neon-green/30">
+                            <div class="text-neon-green text-xl mb-1"><i class="fas fa-spinner fa-pulse"></i></div>
+                            <p class="text-xs text-neon-green font-medium">Development</p>
+                        </div>
+                        <div class="p-3 bg-black/10 rounded-lg border border-neon-green/10 opacity-50">
+                            <div class="text-gray-500 text-xl mb-1"><i class="far fa-circle"></i></div>
+                            <p class="text-xs text-gray-500">Deployment</p>
+                        </div>
+                    </div>
                 </div>
-                <p class="text-xs text-center mt-1 text-gray-300">Phase 3: Deployment Imminent (75%)</p>
             </section>
         </main>
 
-        <!-- Footer Signature -->
-        <footer class="bg-black/80 text-center py-6 text-xs text-gray-500 border-t border-cyan-400/30">
-            Operative Codename: <span class="text-green-400 font-bold">Vinlawz</span><br>
-            Motto: <em>“Stay low. Move smart. Execute flawlessly.”</em><br>
-            &copy; 2025 All Rights Secured.
+        <!-- Footer -->
+        <footer class="text-center py-8 text-gray-500 text-sm" role="contentinfo" itemscope itemtype="https://schema.org/WPFooter">
+            <p> 2023 <span itemprop="copyrightHolder" itemscope itemtype="https://schema.org/Person"><span itemprop="name">VINLAWZ</span></span>. All rights reserved. | <a href="#" class="hover:text-neon-green transition-colors" aria-label="Privacy Policy">Privacy Policy</a></p>
         </footer>
     </div>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Typing effect
+        const texts = ['Full-Stack Developer', 'Cybersecurity Enthusiast', 'Problem Solver', 'Tech Enthusiast'];
+        let count = 0;
+        let index = 0;
+        let currentText = '';
+        let letter = '';
+        let isDeleting = false;
+        let typingSpeed = 100;
+
+        function type() {
+            if (count === texts.length) {
+                count = 0;
+            }
+            
+            currentText = texts[count];
+            
+            if (isDeleting) {
+                letter = currentText.substring(0, index - 1);
+                index--;
+                typingSpeed = 50;
+            } else {
+                letter = currentText.substring(0, index + 1);
+                index++;
+                typingSpeed = 100;
+            }
+            
+            document.querySelector('.typing-text').textContent = letter;
+            
+            if (!isDeleting && letter === currentText) {
+                typingSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && letter === '') {
+                isDeleting = false;
+                count++;
+                typingSpeed = 500;
+            }
+            
+            setTimeout(type, typingSpeed);
+        }
+        
+        // Mission Brief Typing Animation
+        const missionText = "This isn't just a portfolio—it's a live ops terminal. I specialize in building robust, secure, and scalable web applications with a focus on clean code and user experience. My mission is to deliver high-impact solutions that solve real-world problems while maintaining the highest standards of security and performance.";
+        let charIndex = 0;
+        let isDeleting = false;
+        let isEnd = false;
+        
+        function typeMissionText() {
+            const currentText = missionText.substring(0, charIndex);
+            document.getElementById('mission-text').textContent = currentText;
+            
+            if (!isDeleting && charIndex < missionText.length) {
+                charIndex++;
+                setTimeout(typeMissionText, Math.random() * 20 + 20);
+            } else if (isDeleting && charIndex > 0) {
+                charIndex--;
+                setTimeout(typeMissionText, 30);
+            } else if (charIndex === missionText.length) {
+                isDeleting = true;
+                setTimeout(typeMissionText, 2000);
+            } else if (charIndex === 0 && isDeleting) {
+                isDeleting = false;
+                setTimeout(typeMissionText, 500);
+            }
+        }
+        
+        // Typing animation for the hero text
+        function typeWriter(text, element, speed = 100) {
+            let i = 0;
+            element.textContent = '';
+            
+            function type() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    // Keep the cursor blinking after typing is done
+                    element.classList.add('typing-done');
+                }
+            }
+            
+            type();
+        }
+        
+        // Start the typing effects
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hero typing text
+            const typingText = 'This isn\'t a website — it\'s a live operations terminal.';
+            const typingElement = document.getElementById('typing-text');
+            if (typingElement) {
+                // Add initial cursor
+                typingElement.innerHTML = '<span class="cursor"></span>';
+                // Start typing after a short delay
+                setTimeout(() => {
+                    typeWriter(typingText, typingElement, 50);
+                }, 1000);
+            }
+            // Hero typing effect
+            setTimeout(type, 1000);
+            // Mission brief typing effect
+            setTimeout(typeMissionText, 1500);
+            
+            // Add animation to skill bars on scroll
+            const skillBars = document.querySelectorAll('.skill-progress');
+            
+            const animateOnScroll = () => {
+                skillBars.forEach(bar => {
+                    const barPosition = bar.getBoundingClientRect().top;
+                    const screenPosition = window.innerHeight / 1.3;
+                    
+                    if (barPosition < screenPosition) {
+                        bar.style.width = bar.getAttribute('style').match(/\d+/)[0] + '%';
+                    }
+                });
+            };
+            
+            window.addEventListener('scroll', animateOnScroll);
+            // Initial check in case elements are already in view
+            animateOnScroll();
+        });
+    </script>
 </body>
 </html>

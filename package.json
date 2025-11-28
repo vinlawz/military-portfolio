@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "tailwindcss -i static/tailwind/input.css -o static/css/output.css --watch",
-    "build": "tailwindcss -i static/tailwind/input.css -o static/css/output.css"
+    "dev": "tailwindcss -i static/tailwind/input.css -o static/css/output.css --watch --config=./theme/tailwind.config.js",
+    "build": "tailwindcss -i static/tailwind/input.css -o static/css/output.css --config=./theme/tailwind.config.js"
   },
   "repository": {
     "type": "git",
