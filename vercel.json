@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "package.json",
+      "src": "main/templates/main/home.html",
       "use": "@vercel/static-build",
       "config": {
         "distDir": "staticfiles"
@@ -10,9 +10,13 @@
     }
   ],
   "routes": [
-    { "handle": "filesystem" },
-    { "src": "/static/(.*)", "dest": "/static/$1" },
-    { "src": "/favicon.ico", "dest": "/static/favicon.ico" },
-    { "src": "/(.*)", "dest": "/index.html" }
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/main/templates/main/home.html"
+    }
   ]
 }
