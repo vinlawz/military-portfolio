@@ -153,11 +153,11 @@ Domains of focus:
 
 ---
 
-## ✅ Final Note
+##  Final Note
 
 This portfolio is built with intent.
 Not to impress — but to demonstrate **readiness**.
 
 If you understand it, you belong here.
 
-🫡 **End of Brief.**
+ **End of Brief.**
