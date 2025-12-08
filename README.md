@@ -89,7 +89,7 @@ This portfolio follows a **security‑first mindset**:
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/military-portfolio.git
+git clone https://github.com/vinlawz/military-portfolio.git
 cd military-portfolio
 ```
 
