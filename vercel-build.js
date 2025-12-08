@@ -4,10 +4,15 @@ const { execSync } = require('child_process');
 
 // Configuration
 const config = {
-  outputDir: path.join(process.cwd(), 'public'), // Use absolute path
-  staticDirs: ['static', 'media', 'images', 'css', 'js'],
+  outputDir: path.join(process.cwd(), 'public'),
+  staticDirs: ['static', 'media', 'images', 'css', 'js', 'fonts'],
   htmlFiles: ['main/templates/main/home.html'],
-  copyDirs: ['theme']
+  copyDirs: ['theme'],
+  copyFiles: [
+    'favicon.ico',
+    'robots.txt',
+    'site.webmanifest'
+  ]
 };
 
 // Create output directory if it doesn't exist
@@ -80,7 +85,20 @@ try {
     }
   });
 
-  // 3. Copy HTML files
+  // 3. Copy individual files
+  console.log('\n📄 Copying individual files...');
+  config.copyFiles.forEach(file => {
+    const src = path.join(process.cwd(), file);
+    const dest = path.join(config.outputDir, file);
+    if (fs.existsSync(src)) {
+      console.log(`  → Copying ${file}`);
+      copyFileSync(src, dest);
+    } else {
+      console.warn(`  → File not found: ${file}`);
+    }
+  });
+
+  // 4. Copy HTML files
   console.log('\n📄 Processing HTML files...');
   config.htmlFiles.forEach(htmlFile => {
     const source = path.join(process.cwd(), htmlFile);
@@ -90,13 +108,30 @@ try {
       console.log(`  → Processing ${htmlFile} → /index.html`);
       console.log(`  Source: ${source}`);
       console.log(`  Destination: ${destFile}`);
-      copyFileSync(source, destFile);
+      
+      // Read the HTML file
+      let htmlContent = fs.readFileSync(source, 'utf8');
+      
+      // Fix any relative paths in the HTML
+      htmlContent = htmlContent.replace(/(href|src)="([^"]*\.(css|js|jpg|jpeg|png|gif|svg|ico))"(?!.*http)/g, (match, p1, p2) => {
+        // If the path starts with /static/, keep it as is
+        if (p2.startsWith('/static/')) {
+          return `${p1}="${p2}"`;
+        }
+        // Otherwise, make sure it points to the correct static path
+        return `${p1}="/static/${p2}"`;
+      });
+      
+      // Write the modified HTML to the destination
+      ensureDir(path.dirname(destFile));
+      fs.writeFileSync(destFile, htmlContent, 'utf8');
+      console.log(`  → Successfully processed and copied HTML`);
     } else {
       console.error(`  → Error: HTML file not found at ${source}`);
     }
   });
 
-  // 4. Copy additional directories
+  // 5. Copy additional directories
   console.log('\n📦 Copying additional directories...');
   config.copyDirs.forEach(dir => {
     const src = path.join(process.cwd(), dir);
@@ -112,13 +147,13 @@ try {
     }
   });
 
-  // 5. Create _redirects for SPA
+  // 6. Create _redirects for SPA
   const redirectsPath = path.join(config.outputDir, '_redirects');
   console.log(`\n📝 Creating _redirects at: ${redirectsPath}`);
   fs.writeFileSync(redirectsPath, '/* /index.html 200');
   console.log('✅ Created _redirects for SPA routing');
 
-  // 6. Verify the output directory
+  // 7. Verify the output directory
   console.log('\n🔍 Verifying output directory...');
   if (!fs.existsSync(config.outputDir)) {
     throw new Error(`Output directory not found: ${config.outputDir}`);
@@ -127,6 +162,23 @@ try {
   const files = fs.readdirSync(config.outputDir);
   console.log(`📂 Contents of ${config.outputDir}:`);
   console.log(files.join('\n'));
+
+  // 8. List all files in static directory for debugging
+  console.log('\n🔍 Listing static files:');
+  const listFiles = (dir, indent = '') => {
+    const items = fs.readdirSync(dir);
+    items.forEach(item => {
+      const fullPath = path.join(dir, item);
+      const stats = fs.statSync(fullPath);
+      console.log(`${indent}${item}${stats.isDirectory() ? '/' : ''}`);
+      if (stats.isDirectory()) {
+        listFiles(fullPath, indent + '  ');
+      }
+    });
+  };
+  
+  console.log('\n📂 Static directory structure:');
+  listFiles(path.join(config.outputDir, 'static'));
 
   console.log('\n✨ Build completed successfully!');
   console.log(`📁 Output directory: ${config.outputDir}`);
