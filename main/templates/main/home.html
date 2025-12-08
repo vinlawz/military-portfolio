@@ -1,7 +1,51 @@
  {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
+    <style>
+        /* Optimized smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 6rem;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Optimize animations with hardware acceleration */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translate3d(0, 20px, 0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+            will-change: transform, opacity;
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                        transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
+        
+        /* Optimize fixed elements */
+        .fixed {
+            will-change: transform;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+        }
+        
+        /* Optimize transitions */
+        .transition-all {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Force hardware acceleration for smooth animations */
+        .hw-accelerate {
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+        }
+    </style>
     <meta charset="UTF-8">
     <title>Vinlawz | Tactical Portfolio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
@@ -1133,6 +1177,82 @@
     <link rel="preload" href="{% static 'images/profile-picture.jpg' %}" as="image">
     
     <script>
+        // Optimized scroll animations with throttling
+        function initScrollAnimations() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            const header = document.querySelector('header');
+            let ticking = false;
+            let lastScroll = 0;
+            
+            // Throttle function for scroll events
+            function throttle(callback, limit) {
+                let waiting = false;
+                return function() {
+                    if (!waiting) {
+                        callback.apply(this, arguments);
+                        waiting = true;
+                        setTimeout(() => {
+                            waiting = false;
+                        }, limit);
+                    }
+                };
+            }
+            
+            // Intersection Observer for scroll animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        requestAnimationFrame(() => {
+                            entry.target.classList.add('visible');
+                        });
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -10% 0px'
+            });
+            
+            // Observe all elements
+            elements.forEach(element => {
+                observer.observe(element);
+                // Add hardware acceleration class
+                element.classList.add('hw-accelerate');
+            });
+            
+            // Optimized scroll handler for header
+            function updateHeader() {
+                const currentScroll = window.pageYOffset;
+                
+                if (currentScroll <= 0) {
+                    header.classList.remove('scrolled');
+                    ticking = false;
+                    return;
+                }
+                
+                if (currentScroll > 100) {
+                    if (currentScroll > lastScroll) {
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
+                }
+                
+                lastScroll = currentScroll;
+                ticking = false;
+            }
+            
+            // Throttled scroll event
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(updateHeader);
+                    ticking = true;
+                }
+            }, { passive: true });
+            
+            // Initial check
+            updateHeader();
+        }
+        
         // Mobile menu toggle with animation
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         
@@ -1248,6 +1368,9 @@
         
         // Start the typing effects with requestAnimationFrame for better performance
         document.addEventListener('DOMContentLoaded', () => {
+            // Initialize scroll animations
+            initScrollAnimations();
+            
             // Use requestIdleCallback for non-critical animations
             if ('requestIdleCallback' in window) {
                 window.requestIdleCallback(initAnimations, { timeout: 2000 });
