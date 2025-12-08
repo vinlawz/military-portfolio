@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "main/templates/main/home.html",
+      "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
         "distDir": "staticfiles"
@@ -16,7 +16,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/main/templates/main/home.html"
+      "dest": "/index.html"
     }
   ]
 }
