@@ -1,13 +1,10 @@
 {
   "name": "military_portfolio",
   "version": "1.0.0",
-  "private": true,
   "main": "index.js",
   "scripts": {
     "dev": "tailwindcss -i static/tailwind/input.css -o static/css/output.css --watch --config=./theme/tailwind.config.js",
-    "build": "node vercel-build.js",
-    "start": "vercel dev",
-    "vercel-build": "npm run build"
+    "build": "tailwindcss -i static/tailwind/input.css -o static/css/output.css --config=./theme/tailwind.config.js"
   },
   "repository": {
     "type": "git",
