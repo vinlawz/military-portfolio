@@ -13,30 +13,48 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-(+u48z+nk==ra7yc1@6!mq8xc)yti9n^&wbyyc59vzxdiv58z6')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Debug settings
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['*']  # Replace * with your domain in production
+# Security settings for production
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    X_FRAME_OPTIONS = 'DENY'
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+
+# Allowed hosts
+ALLOWED_HOSTS = [
+    'Vin2lawz.pythonanywhere.com',
+    'www.Vin2lawz.pythonanywhere.com',
+]
+
+# Add localhost for development
+if DEBUG:
+    ALLOWED_HOSTS.extend(['localhost', '127.0.0.1', '0.0.0.0'])
 
 # Application definition
 INSTALLED_APPS = [
-    'django.contrib.admin',
+   'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    # Custom apps
     'main',
-
-    # Tailwind
     'tailwind',
-    'theme',
+    'military_portfolio',  # Add this line
     'sslserver',
 ]
+Update TAILWIND_APP
 
 # Tailwind settings
-TAILWIND_APP_NAME = 'theme'
+TAILWIND_APP_NAME = 'military_portfolio'
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
