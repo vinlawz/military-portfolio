@@ -48,13 +48,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     'tailwind',
-    'military_portfolio',  # Add this line
+    'military_portfolio',
     'sslserver',
 ]
-Update TAILWIND_APP
 
 # Tailwind settings
 TAILWIND_APP_NAME = 'military_portfolio'
+NPM_BIN_PATH = "C:\\Program Files\\nodejs\\npm.cmd"
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
