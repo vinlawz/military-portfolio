@@ -1,1710 +1,1211 @@
- {% load static %}
+{% load static %}
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-    <style>
-        /* Optimized smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 6rem;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        
-        /* Optimize animations with hardware acceleration */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translate3d(0, 20px, 0);
-            backface-visibility: hidden;
-            perspective: 1000px;
-            will-change: transform, opacity;
-            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
-                        transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translate3d(0, 0, 0);
-        }
-        
-        /* Optimize fixed elements */
-        .fixed {
-            will-change: transform;
-            transform: translateZ(0);
-            backface-visibility: hidden;
-        }
-        
-        /* Optimize transitions */
-        .transition-all {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        /* Force hardware acceleration for smooth animations */
-        .hw-accelerate {
-            transform: translateZ(0);
-            backface-visibility: hidden;
-            perspective: 1000px;
-        }
-    </style>
     <meta charset="UTF-8">
-    <title>Vinlawz | Tactical Portfolio</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#39FF14">
-    <meta name="description" content="Vinlawz - Digital Recon Specialist & Full-Stack Developer">
+    <meta name="description" content="Vinlawz — Full-Stack Developer & Cybersecurity Enthusiast based in Mombasa, Kenya.">
+    <title>Vinlawz | Tactical Portfolio</title>
+
     <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
-    <link rel="icon" type="image/png" href="{% static 'favicon.png' %}">
-    <link rel="apple-touch-icon" href="{% static 'favicon.png' %}">
+    <link rel="icon" type="image/png"     href="{% static 'favicon.png' %}">
+    <link rel="apple-touch-icon"          href="{% static 'favicon.png' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="{% static 'css/output.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preload" href="{% static 'images/profile-picture.jpg' %}" as="image">
+
     <style>
-        /* Preload critical fonts */
-        @font-face {
-            font-family: 'Share Tech Mono';
-            font-style: normal;
-            font-weight: 400;
-            font-display: swap;
-            src: url('https://fonts.gstatic.com/s/sharetechmono/v15/J7aHnp1uDWRBEqV98dVQztYldFcLowEF.woff2') format('woff2');
-            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-        }
-        
-        /* Smooth scrolling for the whole page */
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 6rem;
-        }
-        
-        :root {
-            --neon-green: #39FF14;
-            --tactical-blue: #00f7ff;
-            --dark-bg: #0a0f0d;
-            --card-bg: rgba(10, 15, 13, 0.6);
-            --text-primary: #e2f3f5;
-            --text-secondary: #b0b0b0;
-            --section-spacing: 6rem;
-            --line-height-normal: 1.7;
-            --line-height-heading: 1.3;
-        }
+    /* ── Font ─────────────────────────────────────────── */
+    @font-face {
+        font-family: 'Share Tech Mono';
+        font-style: normal; font-weight: 400; font-display: swap;
+        src: url('https://fonts.gstatic.com/s/sharetechmono/v15/J7aHnp1uDWRBEqV98dVQztYldFcLowEF.woff2') format('woff2');
+    }
 
-        /* Grid Pattern Overlay */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                repeating-linear-gradient(
-                    0deg,
-                    rgba(57, 255, 20, 0.05) 0,
-                    rgba(57, 255, 20, 0.05) 1px,
-                    transparent 1px,
-                    transparent 20px
-                ),
-                repeating-linear-gradient(
-                    90deg,
-                    rgba(57, 255, 20, 0.05) 0,
-                    rgba(57, 255, 20, 0.05) 1px,
-                    transparent 1px,
-                    transparent 20px
-                );
-            background-size: 40px 40px;
-            pointer-events: none;
-            z-index: -1;
-            opacity: 0.3;
-        }
-        
-        /* Background overlay */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(rgba(0, 0, 0, 0.92), rgba(0, 0, 0, 0.92));
-            z-index: -2;
-        }
+    /* ── Variables ─────────────────────────────────────── */
+    :root {
+        --neon:  #39FF14;
+        --cyan:  #00f7ff;
+        --dark:  #060c07;
+        --card:  rgba(8,14,10,0.72);
+        --nav-h: 4rem;
+        --gap:   1.5rem;
+    }
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Share Tech Mono', monospace;
-            color: var(--text-primary);
-            line-height: var(--line-height-normal);
-            letter-spacing: 0.3px;
-            background: url('https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?ixlib=rb-4.0.3') center/cover fixed;
-            min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            position: relative;
-        }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .hud-border {
-            border: 1px solid rgba(57, 255, 20, 0.15);
-            box-shadow: 0 0 0 1px rgba(0, 247, 255, 0.1),
-                        0 4px 20px rgba(0, 0, 0, 0.3),
-                        0 0 15px rgba(57, 255, 20, 0.1),
-                        inset 0 0 10px rgba(0, 0, 0, 0.5);
-            position: relative;
-            overflow: hidden;
-            background: var(--card-bg);
-            -webkit-backdrop-filter: blur(8px);
-            backdrop-filter: blur(8px);
-            border-radius: 0.5rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+    html {
+        scroll-behavior: smooth;
+        scroll-padding-top: var(--nav-h);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
 
-        /* Corner accents */
-        .hud-border::before,
-        .hud-border::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--neon-green);
-            opacity: 0.7;
-            transition: all 0.3s ease;
-        }
+    body {
+        font-family: 'Share Tech Mono', monospace;
+        color: #d8eed9;
+        background: var(--dark) url('https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?ixlib=rb-4.0.3') center/cover fixed;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
 
-        .hud-border::before {
-            top: -1px;
-            left: -1px;
-            border-right: none;
-            border-bottom: none;
-            border-top-left-radius: 0.5rem;
-        }
+    /* Grid overlay */
+    body::before {
+        content: ''; position: fixed; inset: 0; pointer-events: none; z-index: -1;
+        background-image:
+            repeating-linear-gradient(0deg,  rgba(57,255,20,.03) 0, rgba(57,255,20,.03) 1px, transparent 1px, transparent 40px),
+            repeating-linear-gradient(90deg, rgba(57,255,20,.03) 0, rgba(57,255,20,.03) 1px, transparent 1px, transparent 40px);
+        background-size: 40px 40px;
+    }
+    body::after {
+        content: ''; position: fixed; inset: 0; z-index: -2;
+        background: rgba(0,0,0,.88);
+    }
 
-        .hud-border::after {
-            bottom: -1px;
-            right: -1px;
-            border-left: none;
-            border-top: none;
-            border-bottom-right-radius: 0.5rem;
-        }
+    /* ── Navigation ─────────────────────────────────────── */
+    nav.site-nav {
+        position: fixed; top: 0; width: 100%; height: var(--nav-h); z-index: 50;
+        display: flex; align-items: center;
+        background: rgba(3,7,4,.96); backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(57,255,20,.13);
+    }
+    .nav-inner {
+        width: 100%; max-width: 1200px; margin: 0 auto;
+        padding: 0 1.5rem;
+        display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand {
+        display: flex; align-items: center; gap: .5rem;
+        font-size: .95rem; font-weight: 700; letter-spacing: .15em;
+        color: var(--neon); text-decoration: none;
+    }
+    .blink-dot {
+        width: 6px; height: 6px; border-radius: 50%;
+        background: var(--neon); box-shadow: 0 0 6px var(--neon);
+        animation: blink-dot 2s ease-in-out infinite;
+        flex-shrink: 0;
+    }
+    @keyframes blink-dot { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-        .hud-border:hover::before,
-        .hud-border:hover::after {
-            width: 30px;
-            height: 30px;
-            opacity: 1;
-        }
-        
-        .hud-border:hover {
-            @apply transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg hover:shadow-neon-green/20;
-        }
+    .nav-links { display: flex; align-items: center; gap: .25rem; }
+    .nav-link {
+        position: relative;
+        color: rgba(57,255,20,.68); font-size: .82rem; font-weight: 500;
+        padding: .4rem .8rem; border-radius: .35rem;
+        text-decoration: none;
+        transition: color .18s, background .18s;
+    }
+    .nav-link::after {
+        content: ''; position: absolute; bottom: 2px; left: .8rem; right: .8rem;
+        height: 2px; background: var(--neon); border-radius: 1px;
+        transform: scaleX(0); transform-origin: center;
+        transition: transform .22s ease;
+    }
+    .nav-link:hover, .nav-link.active        { color: var(--neon); }
+    .nav-link:hover::after, .nav-link.active::after { transform: scaleX(1); }
 
-        .hud-border::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--neon-green), transparent);
-            animation: scanline 3s linear infinite;
-        }
+    .nav-hamburger {
+        display: none; background: none; border: none; cursor: pointer;
+        color: var(--neon); font-size: 1.25rem; padding: .4rem;
+        transition: color .2s;
+    }
+    .nav-hamburger:hover { color: #fff; }
 
-        @keyframes scanline {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
+    #mobile-menu {
+        max-height: 0; overflow: hidden;
+        transition: max-height .3s cubic-bezier(.4,0,.2,1);
+        background: rgba(2,5,3,.98);
+        border-top: 1px solid rgba(57,255,20,.1);
+    }
+    #mobile-menu.open { max-height: 20rem; }
+    .mobile-link {
+        display: flex; align-items: center; gap: .75rem;
+        padding: .75rem 1.5rem; color: var(--neon); text-decoration: none;
+        font-size: .875rem; transition: background .15s, color .15s;
+    }
+    .mobile-link:hover { background: rgba(57,255,20,.07); color: #fff; }
 
-        .neon-text {
-            text-shadow: 0 0 5px var(--neon-green), 0 0 10px var(--neon-green);
-        }
+    @media (max-width: 767px) {
+        .nav-links     { display: none; }
+        .nav-hamburger { display: block; }
+    }
 
-        /* Radar Pulse Animation for Section Headers */
-        .section-title {
-            position: relative;
-            display: inline-block;
-            margin: 0 0 2.5rem 0;
-            padding: 0 0 0.5rem 0;
-            font-size: 1.875rem;
-            font-weight: 700;
-            color: var(--neon-green);
-            line-height: var(--line-height-heading);
-        }
-        
-        .section-title i {
-            position: relative;
-            display: inline-block;
-            width: 1em;
-            height: 1em;
-            margin-right: 0.5rem;
-        }
-        
-        .section-title i::before {
-            position: relative;
-            z-index: 2;
-        }
-        
-        .section-title i::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 1em;
-            height: 1em;
-            background: var(--neon-green);
-            border-radius: 50%;
-            opacity: 0.2;
-            z-index: 1;
-            animation: radarPulse 2s infinite;
-        }
-        
-        @keyframes radarPulse {
-            0% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0.3;
-            }
-            70% {
-                transform: translate(-50%, -50%) scale(2);
-                opacity: 0;
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0;
-            }
-        }
+    /* ── Page wrapper ───────────────────────────────────── */
+    .page {
+        max-width: 1200px; margin: 0 auto;
+        padding: var(--nav-h) 1.5rem 0;
+    }
 
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 70px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--neon-green), transparent);
-            border-radius: 2px;
-        }
+    /* ── Sections ───────────────────────────────────────── */
+    .section { padding: 5rem 0; scroll-margin-top: var(--nav-h); }
+    .section + .section { padding-top: 5rem; }
 
-        .skill-bar {
-            height: 6px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 3px;
-            overflow: hidden;
-            margin: 0.75rem 0 2rem;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
-        }
+    /* ── Section headings ───────────────────────────────── */
+    .sh {               /* left-aligned */
+        display: flex; align-items: center; flex-wrap: wrap; gap: .6rem;
+        margin-bottom: 2rem;
+    }
+    .sh-center {        /* centred */
+        flex-direction: column; align-items: center; text-align: center;
+        margin-bottom: 2rem;
+    }
+    .sh-title {
+        font-size: clamp(1.4rem,2.8vw,1.8rem); font-weight: 700;
+        color: var(--neon); line-height: 1.2;
+        position: relative; padding-bottom: .6rem;
+    }
+    .sh-title::after {
+        content: ''; position: absolute; bottom: 0; left: 0;
+        width: 3rem; height: 3px;
+        background: linear-gradient(90deg, var(--neon), transparent);
+        border-radius: 2px;
+    }
+    .sh-center .sh-title::after {
+        left: 50%; transform: translateX(-50%);
+        background: linear-gradient(90deg, transparent, var(--neon), transparent);
+    }
+    .sh-title i {
+        position: relative; display: inline-block; margin-right: .4rem;
+    }
+    .sh-title i::after {
+        content: ''; position: absolute; top: 50%; left: 50%;
+        width: 1.5em; height: 1.5em; border-radius: 50%;
+        background: var(--neon); opacity: 0;
+        transform: translate(-50%,-50%) scale(.3);
+        animation: rpulse 2.6s ease-out infinite; z-index: -1;
+    }
+    @keyframes rpulse {
+        0%   { transform: translate(-50%,-50%) scale(.3); opacity: .3; }
+        75%  { transform: translate(-50%,-50%) scale(2.6); opacity: 0; }
+        100% { transform: translate(-50%,-50%) scale(.3); opacity: 0; }
+    }
+    .sh-tag {
+        font-size: .6rem; letter-spacing: .08em;
+        color: rgba(57,255,20,.38);
+        border: 1px solid rgba(57,255,20,.16);
+        border-radius: 3px; padding: .08rem .45rem;
+        background: rgba(57,255,20,.04);
+        font-family: 'Share Tech Mono', monospace;
+        align-self: center;
+    }
+    .sh-stat-line {
+        width: 100%; font-size: .62rem; letter-spacing: .07em;
+        color: rgba(57,255,20,.3); font-family: 'Share Tech Mono', monospace;
+        display: flex; flex-wrap: wrap; justify-content: center; gap: .8rem;
+        margin-top: .25rem;
+    }
+    .sh-stat-dot {
+        width: 5px; height: 5px; border-radius: 50%;
+        background: var(--neon); opacity: .5;
+        animation: blink-dot 2s ease-in-out infinite;
+        align-self: center; flex-shrink: 0;
+    }
 
-        .skill-progress {
-            height: 100%;
-            background: linear-gradient(90deg, var(--neon-green), var(--tactical-blue));
-            border-radius: 3px;
-            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .skill-progress::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(
-                90deg,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.2) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
-            animation: shine 3s infinite;
-        }
-        
-        @keyframes shine {
-            0% { transform: translateX(-100%) skewX(-15deg); }
-            100% { transform: translateX(100%) skewX(-15deg); }
-        }
-        /* Section Spacing */
-        section {
-            padding: var(--section-spacing) 0;
-        }
-        
-        /* Card Styles */
-        .card {
-            background: var(--card-bg);
-            border: 1px solid rgba(57, 255, 20, 0.1);
-            border-radius: 1rem;
-            padding: 2rem;
-            transition: all 0.3s ease;
-            height: 100%;
-        }
-        
-        .card:hover {
-            border-color: rgba(57, 255, 20, 0.3);
-            transform: translateY(-5px);
-        }
-        
-        /* Form Elements */
-        input[type="text"],
-        input[type="email"],
-        textarea {
-            width: 100%;
-            padding: 0.875rem 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 0.5rem;
-            color: white;
-            font-family: inherit;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-        
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        textarea:focus {
-            outline: none;
-            border-color: var(--neon-green);
-            box-shadow: 0 0 0 3px rgba(57, 255, 20, 0.1);
-        }
-        
-        /* Utility Classes */
-        .text-gradient {
-            background: linear-gradient(90deg, var(--neon-green), var(--tactical-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .glass-effect {
-            background: rgba(10, 15, 13, 0.6);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-        
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .animate-fade-in {
-            animation: fadeIn 0.6s ease-out forwards;
-        }
-        
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            :root {
-                --section-spacing: 3rem;
-                --line-height-normal: 1.6;
-            }
-            
-            .container {
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
-            
-            /* Stack grid columns on mobile */
-            .grid-cols-2, 
-            .grid-cols-3,
-            .md\:grid-cols-2,
-            .lg\:grid-cols-3 {
-                grid-template-columns: 1fr !important;
-            }
-            
-            /* Adjust section padding */
-            section {
-                padding: 2rem 0;
-            }
-            
-            /* Typography scaling */
-            h1 {
-                font-size: 2.25rem !important;
-            }
-            
-            h2 {
-                font-size: 1.75rem !important;
-            }
-            
-            h3 {
-                font-size: 1.25rem !important;
-            }
-            
-            .text-base {
-                font-size: 0.95rem;
-            }
-            
-            .text-lg {
-                font-size: 1.1rem;
-            }
-            
-            /* Adjust padding and margins */
-            .hud-border {
-                padding: 1.25rem !important;
-            }
-            
-            .p-8, .p-10 {
-                padding: 1.25rem !important;
-            }
-            
-            /* Form elements */
-            input, textarea, button {
-                font-size: 1rem !important;
-            }
-            
-            /* Navigation */
-            nav a {
-                padding: 0.5rem 0.75rem !important;
-                font-size: 0.9rem !important;
-            }
-            
-            /* Ensure background overlay stays intact */
-            body::before {
-                content: '';
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(0, 0, 0, 0.9);
-                z-index: -2;
-            }
-        }
-        
-        /* Project Card Glow Effect */
-        .project-card {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .project-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--neon-green), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
-        }
-        
-        .project-card:hover::before {
-            transform: translateX(100%);
-        }
-        
-        /* Project Title Hover Glow */
-        .project-title {
-            transition: all 0.3s ease;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .project-title::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--neon-green);
-            transition: width 0.3s ease;
-        }
-        
-        .project-card:hover .project-title {
-            color: var(--neon-green);
-            text-shadow: 0 0 8px rgba(57, 255, 20, 0.6);
-        }
-        
-        .project-card:hover .project-title::after {
-            width: 100%;
-        }
-        
-        /* Typing animation cursor */
-        #typing-text::after {
-            content: '|';
-            display: inline-block;
-            margin-left: 2px;
-            color: var(--neon-green);
-            animation: blink 1s step-end infinite;
-        }
-        
-        @keyframes blink {
-            from, to { opacity: 1; }
-            50% { opacity: 0; }
-        }
-        
-        /* Radar Animation */
-        .radar-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 80px;
-            height: 80px;
-            opacity: 0.25;
-            z-index: 10;
-            pointer-events: none;
-            display: none;
-        }
-        
-        @media (min-width: 768px) {
-            .radar-container {
-                display: block;
-            }
-        }
-        
-        .radar-sweep {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 2px solid var(--neon-green);
-            opacity: 0.5;
-        }
-        
-        .radar-sweep::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 50%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--neon-green));
-            transform-origin: left center;
-            animation: radar-rotate 8s linear infinite;
-        }
-        
-        .radar-inner-circle {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: var(--neon-green);
-            box-shadow: 0 0 10px var(--neon-green);
-        }
-        
-        .radar-pulse {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: 50%;
-            border: 1px solid var(--neon-green);
-            animation: radar-pulse 4s ease-out infinite;
-            opacity: 0;
-        }
-        
-        .radar-pulse:nth-child(2) {
-            animation-delay: 1s;
-        }
-        
-        .radar-pulse:nth-child(3) {
-            animation-delay: 2s;
-        }
-        
-        @keyframes radar-rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        @keyframes radar-pulse {
-            0% {
-                transform: scale(0.1);
-                opacity: 0.8;
-            }
-            70% {
-                opacity: 0.1;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 0;
-            }
-        }
+    /* ── HUD card ───────────────────────────────────────── */
+    .hud {
+        position: relative; overflow: hidden;
+        border: 1px solid rgba(57,255,20,.13);
+        background: var(--card);
+        backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+        border-radius: .75rem;
+        box-shadow: 0 4px 32px rgba(0,0,0,.5), inset 0 0 32px rgba(0,0,0,.15);
+        transition: border-color .3s, box-shadow .3s;
+    }
+    .hud:hover {
+        border-color: rgba(57,255,20,.28);
+        box-shadow: 0 8px 44px rgba(0,0,0,.55), 0 0 20px rgba(57,255,20,.07), inset 0 0 32px rgba(0,0,0,.15);
+    }
+    /* Scanline top */
+    .hud::before {
+        content: ''; position: absolute;
+        top: 0; left: 0; right: 0; height: 2px; z-index: 2;
+        background: linear-gradient(90deg,transparent,var(--neon),transparent);
+        animation: scan 4s linear infinite;
+    }
+    /* Bottom-right corner bracket */
+    .hud::after {
+        content: ''; position: absolute; bottom: 6px; right: 6px;
+        width: 10px; height: 10px; pointer-events: none;
+        border-bottom: 1.5px solid rgba(57,255,20,.4);
+        border-right:  1.5px solid rgba(57,255,20,.4);
+        transition: width .25s, height .25s, opacity .25s; opacity: .65;
+    }
+    .hud:hover::after { width: 15px; height: 15px; opacity: 1; }
+    @keyframes scan { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+
+    /* Section number (big faint bg) */
+    .sec-n {
+        position: absolute; top: .75rem; right: 1rem;
+        font-size: 5rem; font-weight: 900; line-height: 1;
+        color: rgba(57,255,20,.04); letter-spacing: -.05em;
+        user-select: none; pointer-events: none;
+        font-family: 'Share Tech Mono', monospace;
+    }
+
+    /* ── Skill bars ─────────────────────────────────────── */
+    .skill-bar  { height: 5px; background: rgba(255,255,255,.06); border-radius: 3px; overflow: hidden; margin: .35rem 0 1.1rem; }
+    .skill-prog {
+        height: 100%; width: 0; border-radius: 3px;
+        background: linear-gradient(90deg,var(--neon),var(--cyan));
+        transition: width 1.2s cubic-bezier(.4,0,.2,1);
+        position: relative; overflow: hidden;
+    }
+    .skill-prog::after {
+        content: ''; position: absolute; inset: 0;
+        background: linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);
+        animation: shine 2.6s ease-in-out infinite;
+    }
+    @keyframes shine { 0%{transform:translateX(-150%) skewX(-15deg)} 100%{transform:translateX(250%) skewX(-15deg)} }
+
+    /* ── Project card ───────────────────────────────────── */
+    .pcard {
+        transition: transform .3s cubic-bezier(.4,0,.2,1), box-shadow .3s, border-color .3s;
+    }
+    .pcard:hover { transform: translateY(-6px) scale(1.014); }
+    .pcard-scan {
+        position: absolute; top: 0; left: -100%; width: 100%; height: 2px; z-index: 3;
+        background: linear-gradient(90deg,transparent,var(--neon),transparent);
+        transition: left .5s ease;
+    }
+    .pcard:hover .pcard-scan { left: 100%; }
+    .pcard-title { transition: color .22s; }
+    .pcard:hover .pcard-title { color: var(--neon); }
+
+    /* ── Forms ──────────────────────────────────────────── */
+    .finput {
+        display: block; width: 100%; padding: .75rem 1rem;
+        background: rgba(0,0,0,.3); border: 1px solid rgba(57,255,20,.2);
+        border-radius: .5rem; color: #d8eed9; font-family: inherit; font-size: .9rem;
+        transition: border-color .18s, box-shadow .18s;
+    }
+    .finput:focus {
+        outline: none; border-color: var(--neon);
+        box-shadow: 0 0 0 3px rgba(57,255,20,.1);
+    }
+    .finput::placeholder { color: rgba(255,255,255,.25); }
+
+    /* ── Buttons ────────────────────────────────────────── */
+    .btn {
+        display: inline-flex; align-items: center; gap: .5rem;
+        padding: .7rem 1.6rem; border-radius: 9999px; cursor: pointer;
+        font-family: inherit; font-size: .875rem; font-weight: 500;
+        text-decoration: none; border: 1.5px solid transparent;
+        transition: transform .22s, box-shadow .22s, background .22s, color .22s, border-color .22s;
+    }
+    .btn-g {
+        background: rgba(57,255,20,.1); border-color: rgba(57,255,20,.48);
+        color: var(--neon);
+    }
+    .btn-g:hover {
+        background: var(--neon); color: #000;
+        transform: scale(1.05); box-shadow: 0 0 20px rgba(57,255,20,.38);
+    }
+    .btn-c {
+        background: transparent; border-color: rgba(0,247,255,.35);
+        color: var(--cyan);
+    }
+    .btn-c:hover { background: rgba(0,247,255,.1); transform: scale(1.05); }
+
+    /* ── Status badge ───────────────────────────────────── */
+    .status-badge {
+        display: inline-flex; align-items: center; gap: .45rem;
+        padding: .28rem .85rem; border-radius: 9999px;
+        border: 1px solid rgba(57,255,20,.25);
+        background: rgba(57,255,20,.06);
+        font-size: .65rem; letter-spacing: .1em;
+        color: rgba(57,255,20,.7);
+    }
+
+    /* ── Profile scan rings ─────────────────────────────── */
+    .p-ring {
+        position: relative; display: inline-block;
+    }
+    .p-ring::before {
+        content: ''; position: absolute; inset: -9px; border-radius: 50%;
+        border: 1.5px solid rgba(57,255,20,.22);
+        animation: ring-pulse 3s ease-in-out infinite;
+        pointer-events: none;
+    }
+    .p-ring::after {
+        content: ''; position: absolute; inset: -18px; border-radius: 50%;
+        border: 1px solid rgba(57,255,20,.09);
+        animation: ring-pulse 3s ease-in-out infinite 1.5s;
+        pointer-events: none;
+    }
+    @keyframes ring-pulse { 0%,100%{opacity:.4;transform:scale(1)} 50%{opacity:.85;transform:scale(1.02)} }
+
+    /* ── Stat cards (Mission Brief) ──────────────────────── */
+    .stat-card {
+        padding: 1rem; border-radius: .65rem; text-align: center;
+        border: 1px solid rgba(57,255,20,.13);
+        background: rgba(0,0,0,.28);
+        transition: border-color .25s, background .25s;
+    }
+    .stat-card:hover {
+        border-color: rgba(57,255,20,.3);
+        background: rgba(57,255,20,.04);
+    }
+    .stat-value {
+        font-size: 1.75rem; font-weight: 700; color: var(--neon); line-height: 1;
+        margin-bottom: .3rem;
+    }
+    .stat-label {
+        font-size: .62rem; letter-spacing: .08em;
+        color: rgba(255,255,255,.4); text-transform: uppercase;
+    }
+
+    /* ── Deploy bar ─────────────────────────────────────── */
+    .d-bar  { height: 8px; background: rgba(255,255,255,.06); border-radius: 4px; overflow: hidden; }
+    .d-fill { height: 100%; width: 0; border-radius: 4px; background: linear-gradient(90deg,var(--neon),var(--cyan)); transition: width 1.5s cubic-bezier(.4,0,.2,1); }
+
+    /* ── Typing cursor ──────────────────────────────────── */
+    .cursor { display: inline-block; color: var(--neon); margin-left: 1px; animation: blink 1s step-end infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ── Radar ──────────────────────────────────────────── */
+    .radar {
+        position: fixed; top: 5.5rem; right: 1.5rem;
+        width: 60px; height: 60px; opacity: .16;
+        pointer-events: none; z-index: 5; display: none;
+    }
+    @media (min-width:1280px) { .radar { display: block; } }
+    .radar-ring { position: absolute; inset: 0; border-radius: 50%; border: 1.5px solid var(--neon); overflow: hidden; }
+    .radar-ring::before {
+        content: ''; position: absolute; top: 50%; left: 50%;
+        width: 50%; height: 1.5px;
+        background: linear-gradient(90deg,transparent,var(--neon));
+        transform-origin: 0 50%;
+        animation: r-spin 6s linear infinite;
+    }
+    .radar-dot { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 5px; height: 5px; border-radius: 50%; background: var(--neon); box-shadow: 0 0 7px var(--neon); }
+    .radar-wave { position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--neon); opacity: 0; animation: r-wave 4s ease-out infinite; }
+    .radar-wave:nth-child(3){animation-delay:1.33s}
+    .radar-wave:nth-child(4){animation-delay:2.66s}
+    @keyframes r-spin { to{transform:rotate(360deg)} }
+    @keyframes r-wave { 0%{transform:scale(.1);opacity:.6} 80%{opacity:.04} 100%{transform:scale(1);opacity:0} }
+
+    /* ── Scroll hint ────────────────────────────────────── */
+    .scroll-hint {
+        display: flex; flex-direction: column; align-items: center; gap: .35rem;
+        color: rgba(57,255,20,.28); font-size: .62rem; letter-spacing: .12em;
+        margin-top: 3rem;
+        animation: fadeInHint 1s .8s both;
+    }
+    @keyframes fadeInHint { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+    .scroll-arrow { animation: bounce 2s ease-in-out infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+    /* ── Hero entrance ──────────────────────────────────── */
+    .h-in  { animation: h-enter .75s cubic-bezier(.4,0,.2,1) both; }
+    .h-d1  { animation-delay: .15s; }
+    .h-d2  { animation-delay: .3s;  }
+    .h-d3  { animation-delay: .45s; }
+    .h-d4  { animation-delay: .6s;  }
+    @keyframes h-enter { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+
+    /* ── SCROLL REVEAL (bidirectional, 0.38 s) ──────────── */
+    .sr {
+        opacity: 0; transform: translateY(24px);
+        transition: opacity .38s cubic-bezier(.4,0,.2,1),
+                    transform .38s cubic-bezier(.4,0,.2,1);
+        will-change: opacity, transform;
+    }
+    .sr.from-top  { transform: translateY(-24px); }
+    .sr.visible   { opacity: 1; transform: none; }
+
+    /* Stagger inside .sr-grid */
+    .sr-grid > .sr:nth-child(1) { transition-delay:   0ms; }
+    .sr-grid > .sr:nth-child(2) { transition-delay:  70ms; }
+    .sr-grid > .sr:nth-child(3) { transition-delay: 140ms; }
+    .sr-grid > .sr:nth-child(4) { transition-delay: 210ms; }
+    .sr-grid > .sr:nth-child(5) { transition-delay: 280ms; }
+
+    /* ── Misc ───────────────────────────────────────────── */
+    @media (max-width:640px) {
+        .sec-n { font-size: 3.5rem; }
+        .stat-value { font-size: 1.4rem; }
+    }
     </style>
 </head>
-<body class="min-h-screen">
-    <!-- Radar Animation -->
-    <div class="radar-container">
-        <div class="radar-sweep"></div>
-        <div class="radar-pulse"></div>
-        <div class="radar-pulse"></div>
-        <div class="radar-pulse"></div>
-        <div class="radar-inner-circle"></div>
+<body>
+
+    <!-- Radar deco -->
+    <div class="radar">
+        <div class="radar-ring"></div>
+        <div class="radar-dot"></div>
+        <div class="radar-wave"></div>
+        <div class="radar-wave"></div>
+        <div class="radar-wave"></div>
     </div>
-    
-    <div class="min-h-screen" itemscope itemtype="https://schema.org/Person">
-        <!-- Tactical Navigation -->
-        <nav class="fixed top-0 w-full z-50 bg-black/95 backdrop-blur-sm border-b border-neon-green/30 px-2 sm:px-4" aria-label="Main navigation">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-16">
-                    <div class="flex items-center">
-                        <span class="text-white font-bold text-xl"></span>
-                    </div>
-                    <div class="flex items-center">
-                        <span class="text-xl font-bold text-neon-green font-mono">>_ VINLAWZ_OPS</span>
-                    </div>
-                    <div class="hidden md:flex items-center space-x-8">
-                        <a href="#mission" class="text-neon-green hover:text-white px-3 py-2 text-sm font-medium transition-all duration-300 border-b-2 border-transparent hover:border-neon-green">
-                            <i class="fas fa-crosshairs mr-1"></i> Mission
-                        </a>
-                        <a href="#arsenal" class="text-neon-green hover:text-white px-3 py-2 text-sm font-medium transition-all duration-300 border-b-2 border-transparent hover:border-neon-green">
-                            <i class="fas fa-tools mr-1"></i> Arsenal
-                        </a>
-                        <a href="#projects" class="text-neon-green hover:text-white px-3 py-2 text-sm font-medium transition-all duration-300 border-b-2 border-transparent hover:border-neon-green">
-                            <i class="fas fa-project-diagram mr-1"></i> Field Ops
-                        </a>
-                        <a href="#contact" class="text-neon-green hover:text-white px-3 py-2 text-sm font-medium transition-all duration-300 border-b-2 border-transparent hover:border-neon-green">
-                            <i class="fas fa-satellite-dish mr-1"></i> Contact HQ
-                        </a>
-                    </div>
-                    <div class="md:hidden flex items-center">
-                        <!-- Mobile menu button -->
-                        <button type="button" class="text-neon-green hover:text-white focus:outline-none" id="mobile-menu-button">
-                            <i class="fas fa-bars text-2xl"></i>
-                        </button>
+
+    <!-- ════════════════════ NAV ════════════════════ -->
+    <nav class="site-nav" aria-label="Main navigation">
+        <div class="nav-inner">
+            <a href="#" class="nav-brand" aria-label="Home">
+                <span class="blink-dot"></span>
+                &gt;_ VINLAWZ_OPS
+            </a>
+
+            <div class="nav-links">
+                <a href="#sitrep"  class="nav-link"><i class="fas fa-crosshairs mr-1 opacity-50 text-xs"></i>Sitrep</a>
+                <a href="#arsenal" class="nav-link"><i class="fas fa-tools mr-1 opacity-50 text-xs"></i>Arsenal</a>
+                <a href="#ops"     class="nav-link"><i class="fas fa-project-diagram mr-1 opacity-50 text-xs"></i>Field Ops</a>
+                <a href="#comms"   class="nav-link"><i class="fas fa-satellite-dish mr-1 opacity-50 text-xs"></i>Contact HQ</a>
+            </div>
+
+            <button id="ham" class="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+                <i id="ham-icon" class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu">
+            <a href="#sitrep"  class="mobile-link"><i class="fas fa-crosshairs w-4"></i>Sitrep</a>
+            <a href="#arsenal" class="mobile-link"><i class="fas fa-tools w-4"></i>Arsenal</a>
+            <a href="#ops"     class="mobile-link"><i class="fas fa-project-diagram w-4"></i>Field Ops</a>
+            <a href="#comms"   class="mobile-link"><i class="fas fa-satellite-dish w-4"></i>Contact HQ</a>
+        </div>
+    </nav>
+
+    <div class="page" itemscope itemtype="https://schema.org/Person">
+
+        <!-- ════════════════════ HERO ════════════════════ -->
+        <section class="section" style="padding-top:6rem;padding-bottom:5rem;text-align:center" aria-label="Hero">
+
+            <div class="status-badge h-in" style="margin-bottom:1.25rem">
+                <span class="blink-dot"></span>
+                STATUS: OPERATIONAL
+            </div>
+
+            <!-- Profile rings -->
+            <div style="position:relative;display:inline-block;margin-bottom:1.5rem" class="h-in h-d1">
+                <div style="position:absolute;inset:-27px;border-radius:50%;border:1px solid rgba(57,255,20,.07);pointer-events:none"></div>
+                <div class="p-ring">
+                    <button onclick="document.getElementById('modal-profile').classList.remove('hidden')"
+                            class="group" style="background:none;border:none;cursor:pointer;padding:0;display:block"
+                            aria-label="View full profile picture">
+                        <img src="{% static 'images/profile-picture.jpg' %}" alt="Vincent Chiriba"
+                             itemprop="image"
+                             style="width:10rem;height:10rem;border-radius:50%;object-fit:cover;
+                                    border:4px solid rgba(57,255,20,.35);
+                                    box-shadow:0 0 32px rgba(57,255,20,.18);
+                                    transition:transform .4s, border-color .4s;"
+                             onmouseover="this.style.transform='scale(1.05)';this.style.borderColor='rgba(57,255,20,.7)'"
+                             onmouseout="this.style.transform='scale(1)';this.style.borderColor='rgba(57,255,20,.35)'">
+                    </button>
+                </div>
+            </div>
+
+            <h1 class="h-in h-d2"
+                style="font-size:clamp(2.2rem,5vw,3.5rem);font-weight:700;color:var(--neon);letter-spacing:-.01em;margin-bottom:.5rem"
+                itemprop="name">VINCENT CHIRIBA</h1>
+
+            <div class="h-in h-d3"
+                 style="font-size:1.1rem;color:var(--cyan);font-family:'Share Tech Mono',monospace;height:2rem;margin-bottom:.5rem"
+                 itemprop="jobTitle">
+                <span id="typing"></span><span class="cursor">|</span>
+            </div>
+
+            <!-- Coordinates -->
+            <p class="h-in h-d3"
+               style="font-size:.6rem;letter-spacing:.14em;color:rgba(57,255,20,.26);margin-bottom:1.25rem;font-family:'Share Tech Mono',monospace">
+                04°03'16"S &nbsp; 39°40'03"E &nbsp;·&nbsp; MOMBASA, KE &nbsp;·&nbsp; ALT 17m
+            </p>
+
+            <p class="h-in h-d3"
+               style="color:rgba(216,238,217,.55);max-width:38rem;margin:0 auto 2rem;font-size:.925rem;line-height:1.8"
+               itemprop="description">
+                <span style="margin:0 .35rem"><i class="fas fa-crosshairs" style="color:rgba(57,255,20,.5);font-size:.75rem;margin-right:.3rem"></i>Digital Recon Specialist</span>
+                <span style="color:rgba(255,255,255,.15)">|</span>
+                <span style="margin:0 .35rem"><i class="fas fa-code" style="color:rgba(0,247,255,.5);font-size:.75rem;margin-right:.3rem"></i>Full-Stack Operative</span>
+                <span style="color:rgba(255,255,255,.15)">|</span>
+                <span style="margin:0 .35rem"><i class="fas fa-shield-alt" style="color:rgba(57,255,20,.5);font-size:.75rem;margin-right:.3rem"></i>Security Enthusiast</span>
+            </p>
+
+            <div class="h-in h-d4" style="display:flex;flex-wrap:wrap;justify-content:center;gap:1rem">
+                <a href="#ops"   class="btn btn-g"><i class="fas fa-project-diagram"></i>View Field Ops</a>
+                <a href="#comms" class="btn btn-c"><i class="fas fa-satellite-dish"></i>Contact HQ</a>
+            </div>
+
+            <!-- Scroll hint -->
+            <div class="scroll-hint" aria-hidden="true">
+                <span>SCROLL</span>
+                <i class="fas fa-chevron-down scroll-arrow" style="font-size:.7rem"></i>
+            </div>
+        </section>
+
+        <!-- ════════════════════ SITREP (Mission Brief) ════════════════════ -->
+        <section id="sitrep" class="section" itemscope itemtype="https://schema.org/AboutPage">
+            <!-- Section heading -->
+            <div class="sh sr">
+                <h2 class="sh-title"><i class="fas fa-crosshairs"></i><span itemprop="headline">SITREP</span></h2>
+                <span class="sh-tag">SYS_BRIEF · 01</span>
+            </div>
+
+            <!-- Quick stats row -->
+            <div class="sr-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap);margin-bottom:2rem">
+                <div class="stat-card sr"><div class="stat-value">5+</div><div class="stat-label">Missions Deployed</div></div>
+                <div class="stat-card sr"><div class="stat-value">12</div><div class="stat-label">Weapons in Arsenal</div></div>
+                <div class="stat-card sr"><div class="stat-value">3+</div><div class="stat-label">Years in the Field</div></div>
+                <div class="stat-card sr"><div class="stat-value">100%</div><div class="stat-label">Deployment Rate</div></div>
+            </div>
+
+            <!-- Two-column content -->
+            <div class="hud sr" style="padding:2rem 2rem 2rem">
+                <span class="sec-n">01</span>
+                <div style="display:grid;grid-template-columns:1fr;gap:2rem">
+
+                    <!-- About text -->
+                    <div class="sr" style="transition-delay:60ms">
+                        <p style="color:rgba(216,238,217,.82);line-height:1.85;margin-bottom:1rem" itemprop="description">
+                            This isn't just a portfolio — it's a live ops terminal. I specialize in building robust,
+                            secure, and scalable web applications with a focus on clean code and user experience.
+                        </p>
+                        <p style="color:rgba(216,238,217,.65);line-height:1.85;margin-bottom:1.5rem">
+                            My mission: deliver high-impact solutions that solve real-world problems while maintaining
+                            the highest standards of security and performance.
+                        </p>
+
+                        <!-- Trait pills row -->
+                        <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.5rem">
+                            <span style="padding:.3rem .85rem;background:rgba(57,255,20,.07);color:var(--neon);font-size:.72rem;border-radius:9999px;border:1px solid rgba(57,255,20,.25)"><i class="fas fa-shield-alt" style="margin-right:.35rem;opacity:.7"></i>Secure</span>
+                            <span style="padding:.3rem .85rem;background:rgba(57,255,20,.07);color:var(--neon);font-size:.72rem;border-radius:9999px;border:1px solid rgba(57,255,20,.25)"><i class="fas fa-bolt" style="margin-right:.35rem;opacity:.7"></i>Fast</span>
+                            <span style="padding:.3rem .85rem;background:rgba(57,255,20,.07);color:var(--neon);font-size:.72rem;border-radius:9999px;border:1px solid rgba(57,255,20,.25)"><i class="fas fa-mobile-alt" style="margin-right:.35rem;opacity:.7"></i>Responsive</span>
+                            <span style="padding:.3rem .85rem;background:rgba(57,255,20,.07);color:var(--neon);font-size:.72rem;border-radius:9999px;border:1px solid rgba(57,255,20,.25)"><i class="fas fa-code" style="margin-right:.35rem;opacity:.7"></i>Clean Code</span>
+                            <span style="padding:.3rem .85rem;background:rgba(57,255,20,.07);color:var(--neon);font-size:.72rem;border-radius:9999px;border:1px solid rgba(57,255,20,.25)">Full-Stack Dev</span>
+                            <span style="padding:.3rem .85rem;background:rgba(57,255,20,.07);color:var(--neon);font-size:.72rem;border-radius:9999px;border:1px solid rgba(57,255,20,.25)">Cybersecurity</span>
+                            <span style="padding:.3rem .85rem;background:rgba(57,255,20,.07);color:var(--neon);font-size:.72rem;border-radius:9999px;border:1px solid rgba(57,255,20,.25)">Cloud Architecture</span>
+                        </div>
+
+                        <!-- Featured article -->
+                        <div style="padding:1rem 1.25rem;border-radius:.65rem;border:1px solid rgba(57,255,20,.18);background:linear-gradient(135deg,rgba(57,255,20,.04),rgba(0,247,255,.03))">
+                            <h4 style="color:var(--neon);font-size:.78rem;font-weight:700;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem">
+                                <i class="fas fa-newspaper"></i>Featured Mission Report
+                            </h4>
+                            <p style="color:rgba(216,238,217,.5);font-size:.75rem;margin-bottom:.75rem;line-height:1.6">
+                                How I deployed this Django portfolio on PythonAnywhere with full email functionality.
+                            </p>
+                            <a href="https://vinlawz.hashnode.dev/how-i-deployed-my-django-portfolio-on-pythonanywhere?showSharer=true"
+                               target="_blank" rel="noopener noreferrer"
+                               style="display:inline-flex;align-items:center;gap:.4rem;padding:.3rem .85rem;font-size:.72rem;border-radius:9999px;border:1px solid rgba(57,255,20,.28);background:rgba(57,255,20,.08);color:var(--neon);text-decoration:none;transition:background .2s,color .2s"
+                               onmouseover="this.style.background='#39FF14';this.style.color='#000'"
+                               onmouseout="this.style.background='rgba(57,255,20,.08)';this.style.color='var(--neon)'">
+                                <i class="fas fa-external-link-alt" style="font-size:.65rem"></i>Read Guide
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- Mobile menu -->
-            <div class="md:hidden hidden bg-black/95 border-t border-neon-green/20" id="mobile-menu">
-                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                    <a href="#mission" class="block px-3 py-2 text-neon-green hover:bg-gray-800 rounded-md">
-                        <i class="fas fa-crosshairs mr-2"></i>Mission Brief
-                    </a>
-                    <a href="#arsenal" class="block px-3 py-2 text-neon-green hover:bg-gray-800 rounded-md">
-                        <i class="fas fa-tools mr-2"></i>Arsenal
-                    </a>
-                    <a href="#projects" class="block px-3 py-2 text-neon-green hover:bg-gray-800 rounded-md">
-                        <i class="fas fa-project-diagram mr-2"></i>Field Ops
-                    </a>
-                    <a href="#contact" class="block px-3 py-2 text-neon-green hover:bg-gray-800 rounded-md">
-                        <i class="fas fa-satellite-dish mr-2"></i>Contact HQ
-                    </a>
+        </section>
+
+        <!-- ════════════════════ ARSENAL ════════════════════ -->
+        <section id="arsenal" class="section" itemscope itemtype="https://schema.org/ItemList">
+            <div class="sh-center sr">
+                <h2 class="sh-title"><i class="fas fa-tools"></i>ARSENAL</h2>
+                <span class="sh-tag" style="margin-top:.25rem">WEAPONS_ARRAY · 02</span>
+                <div class="sh-stat-line" style="margin-top:.6rem">
+                    <span class="sh-stat-dot"></span>
+                    <span>ALL SYSTEMS NOMINAL</span>
+                    <span class="hidden sm:inline">·</span>
+                    <span class="hidden sm:inline">12 WEAPONS LOADED</span>
+                    <span class="hidden sm:inline">·</span>
+                    <span class="hidden sm:inline">READINESS 100%</span>
                 </div>
             </div>
-        </nav>
 
-        <!-- Main Content -->
-        <main class="pt-24 md:pt-32 pb-8 md:pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-            <!-- Spacer for fixed header -->
-            <div class="h-4 md:h-6"></div>
-            <!-- Hero Section -->
-            <header class="text-center pt-16 pb-24" role="banner">
-                <div class="container mx-auto px-4">
-                <div class="relative">
-                    <div class="absolute inset-0 bg-neon-green/10 rounded-full filter blur-3xl -z-10"></div>
-                    <div class="relative">
-                        <button onclick="document.getElementById('profileModal').classList.remove('hidden')" class="focus:outline-none hover:outline-none">
-                            <img src="{% static 'images/profile-picture.jpg' %}" alt="Vinlawz Profile" class="w-36 h-36 md:w-40 md:h-40 mx-auto rounded-full border-4 border-neon-green/50 shadow-lg shadow-neon-green/20 hover:border-neon-green transition-all duration-500 transform hover:scale-105 object-cover cursor-pointer">
-                        </button>
-                        
-                        <!-- Profile Picture Modal -->
-                        <div id="profileModal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-[9999] flex items-center justify-center p-4" onclick="this.classList.add('hidden')" style="z-index: 9999 !important;">
-                            <div class="relative w-full max-w-4xl h-[90vh] flex items-center justify-center" onclick="event.stopPropagation()">
-                                <button onclick="document.getElementById('profileModal').classList.add('hidden')" class="absolute top-4 right-4 md:top-8 md:right-8 text-neon-green hover:text-white transition-colors z-10 bg-black/70 rounded-full p-2" aria-label="Close">
-                                    <i class="fas fa-times text-2xl"></i>
-                                </button>
-                                <div class="relative w-full h-full flex items-center justify-center">
-                                    <img src="{% static 'images/profile-picture.jpg' %}" 
-                                         alt="Vinlawz Profile - Full Size" 
-                                         class="max-w-full max-h-full object-contain rounded-lg border-2 border-neon-green/50 shadow-2xl shadow-neon-green/30"
-                                         style="max-height: 90vh; width: auto; height: auto;">
-                                </div>
-                            </div>
-                        </div>
-                        <h1 class="mt-6 text-4xl md:text-5xl font-bold text-neon-green tracking-tight" itemprop="name">VINCENT CHIRIBA</h1>
-                        <div class="mt-2 text-tactical-blue text-lg md:text-xl font-mono" itemprop="jobTitle">
-                            <span class="typing-text"></span><span class="blink">|</span>
-                        </div>
-                        <p class="mt-4 text-gray-300 max-w-2xl mx-auto" itemprop="description">
-                            <span class="inline-block mx-1"><i class="fas fa-crosshairs text-neon-green/70 mr-1"></i> Digital Recon Specialist</span> |
-                            <span class="inline-block mx-1"><i class="fas fa-code text-tactical-blue/70 mr-1"></i> Full-Stack Operative</span> |
-                            <span class="inline-block mx-1"><i class="fas fa-shield-alt text-neon-green/70 mr-1"></i> Cybersecurity Enthusiast</span>
+            <div class="sr-grid" style="display:grid;grid-template-columns:1fr;gap:var(--gap)">
+
+                <!-- Frontend -->
+                <div class="hud sr" style="padding:1.75rem">
+                    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem">
+                        <i class="fas fa-laptop-code" style="color:var(--neon);font-size:1.2rem"></i>
+                        <h3 style="font-size:1rem;font-weight:700;color:#fff" itemprop="name">Frontend</h3>
+                        <span class="sh-tag" style="margin-left:auto">ACTIVE</span>
+                    </div>
+                    <ul style="list-style:none">
+                        <li><div style="display:flex;justify-content:space-between;font-size:.82rem"><span style="color:rgba(216,238,217,.75)">HTML5 / CSS3</span><span style="color:var(--neon)">95%</span></div><div class="skill-bar"><div class="skill-prog" data-w="95"></div></div></li>
+                        <li><div style="display:flex;justify-content:space-between;font-size:.82rem"><span style="color:rgba(216,238,217,.75)">JavaScript</span><span style="color:var(--neon)">90%</span></div><div class="skill-bar"><div class="skill-prog" data-w="90"></div></div></li>
+                        <li><div style="display:flex;justify-content:space-between;font-size:.82rem"><span style="color:rgba(216,238,217,.75)">React</span><span style="color:var(--neon)">85%</span></div><div class="skill-bar"><div class="skill-prog" data-w="85"></div></div></li>
+                        <li><div style="display:flex;justify-content:space-between;font-size:.82rem"><span style="color:rgba(216,238,217,.75)">Tailwind CSS</span><span style="color:var(--neon)">92%</span></div><div class="skill-bar"><div class="skill-prog" data-w="92"></div></div></li>
+                    </ul>
+                </div>
+
+                <!-- Backend -->
+                <div class="hud sr" style="padding:1.75rem">
+                    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem">
+                        <i class="fas fa-server" style="color:var(--neon);font-size:1.2rem"></i>
+                        <h3 style="font-size:1rem;font-weight:700;color:#fff">Backend</h3>
+                        <span class="sh-tag" style="margin-left:auto">ACTIVE</span>
+                    </div>
+                    <ul style="list-style:none">
+                        <li><div style="display:flex;justify-content:space-between;font-size:.82rem"><span style="color:rgba(216,238,217,.75)">Python</span><span style="color:var(--neon)">95%</span></div><div class="skill-bar"><div class="skill-prog" data-w="95"></div></div></li>
+                        <li><div style="display:flex;justify-content:space-between;font-size:.82rem"><span style="color:rgba(216,238,217,.75)">Django</span><span style="color:var(--neon)">90%</span></div><div class="skill-bar"><div class="skill-prog" data-w="90"></div></div></li>
+                        <li><div style="display:flex;justify-content:space-between;font-size:.82rem"><span style="color:rgba(216,238,217,.75)">Node.js</span><span style="color:var(--neon)">80%</span></div><div class="skill-bar"><div class="skill-prog" data-w="80"></div></div></li>
+                        <li><div style="display:flex;justify-content:space-between;font-size:.82rem"><span style="color:rgba(216,238,217,.75)">REST APIs</span><span style="color:var(--neon)">88%</span></div><div class="skill-bar"><div class="skill-prog" data-w="88"></div></div></li>
+                    </ul>
+                </div>
+
+                <!-- Security & Tools -->
+                <div class="hud sr" style="padding:1.75rem">
+                    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem">
+                        <i class="fas fa-shield-alt" style="color:var(--neon);font-size:1.2rem"></i>
+                        <h3 style="font-size:1rem;font-weight:700;color:#fff">Security &amp; Tools</h3>
+                        <span class="sh-tag" style="margin-left:auto">ACTIVE</span>
+                    </div>
+                    <ul style="list-style:none">
+                        <li><div style="display:flex;justify-content:space-between;font-size:.82rem"><span style="color:rgba(216,238,217,.75)">Cybersecurity</span><span style="color:var(--neon)">85%</span></div><div class="skill-bar"><div class="skill-prog" data-w="85"></div></div></li>
+                        <li><div style="display:flex;justify-content:space-between;font-size:.82rem"><span style="color:rgba(216,238,217,.75)">Docker</span><span style="color:var(--neon)">88%</span></div><div class="skill-bar"><div class="skill-prog" data-w="88"></div></div></li>
+                        <li><div style="display:flex;justify-content:space-between;font-size:.82rem"><span style="color:rgba(216,238,217,.75)">Git</span><span style="color:var(--neon)">92%</span></div><div class="skill-bar"><div class="skill-prog" data-w="92"></div></div></li>
+                        <li><div style="display:flex;justify-content:space-between;font-size:.82rem"><span style="color:rgba(216,238,217,.75)">AWS / GCP</span><span style="color:var(--neon)">78%</span></div><div class="skill-bar"><div class="skill-prog" data-w="78"></div></div></li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ════════════════════ FIELD OPS ════════════════════ -->
+        <section id="ops" class="section" itemscope itemtype="https://schema.org/ItemList">
+            <div class="sh-center sr">
+                <h2 class="sh-title"><i class="fas fa-project-diagram"></i>FIELD OPS</h2>
+                <span class="sh-tag" style="margin-top:.25rem">OP_LOG · 03</span>
+                <div class="sh-stat-line" style="margin-top:.6rem">
+                    <span class="sh-stat-dot"></span>
+                    <span>5 ACTIVE MISSIONS</span>
+                    <span class="hidden sm:inline">·</span>
+                    <span class="hidden sm:inline">ACCESS: GRANTED</span>
+                    <span class="hidden sm:inline">·</span>
+                    <span class="hidden sm:inline">INTEL: CLASSIFIED</span>
+                </div>
+            </div>
+
+            <!-- Row 1: 3 cards -->
+            <div class="sr-grid" style="display:grid;grid-template-columns:1fr;gap:var(--gap);margin-bottom:var(--gap)">
+
+                <!-- SwahiliPot FM -->
+                <div class="hud pcard sr" style="border-radius:.75rem;overflow:hidden">
+                    <div class="pcard-scan"></div>
+                    <div style="height:11rem;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
+                                background:linear-gradient(135deg,rgba(220,38,38,.16),rgba(249,115,22,.12),rgba(234,179,8,.07))">
+                        <span style="position:absolute;top:.75rem;right:.75rem;padding:.15rem .6rem;font-size:.65rem;border-radius:9999px;background:rgba(239,68,68,.18);color:#f87171;border:1px solid rgba(248,113,113,.3)">LIVE</span>
+                        <i class="fas fa-radio" style="font-size:3rem;color:#f87171;position:relative;z-index:1;transition:transform .3s"></i>
+                    </div>
+                    <div style="padding:1.25rem;position:relative">
+                        <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,#ef4444,#f97316)"></div>
+                        <h3 class="pcard-title" style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem">
+                            <span style="width:7px;height:7px;border-radius:50%;background:#f87171;animation:blink-dot 2s infinite;flex-shrink:0"></span>
+                            SwahiliPot FM
+                        </h3>
+                        <p style="color:rgba(216,238,217,.55);font-size:.8rem;line-height:1.65;margin-bottom:.85rem">
+                            Coastal Kenya's leading radio station platform — live streaming, podcast archives, and community engagement.
                         </p>
+                        <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.85rem">
+                            <span style="padding:.15rem .6rem;font-size:.65rem;border-radius:9999px;background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(248,113,113,.2)">WordPress</span>
+                            <span style="padding:.15rem .6rem;font-size:.65rem;border-radius:9999px;background:rgba(249,115,22,.1);color:#fb923c;border:1px solid rgba(251,146,60,.2)">Radio Streaming</span>
+                            <span style="padding:.15rem .6rem;font-size:.65rem;border-radius:9999px;background:rgba(234,179,8,.1);color:#facc15;border:1px solid rgba(250,204,21,.2)">Podcast</span>
+                        </div>
+                        <a href="https://www.swahilipotfm.co.ke/" target="_blank" rel="noopener noreferrer"
+                           style="display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .9rem;font-size:.75rem;border-radius:9999px;text-decoration:none;border:1px solid rgba(248,113,113,.28);background:rgba(239,68,68,.09);color:#f87171;transition:all .2s"
+                           onmouseover="this.style.background='linear-gradient(90deg,#ef4444,#f97316)';this.style.color='#fff'"
+                           onmouseout="this.style.background='rgba(239,68,68,.09)';this.style.color='#f87171'">
+                            <i class="fas fa-external-link-alt" style="font-size:.65rem"></i>Visit Website
+                        </a>
                     </div>
                 </div>
-            </section>
 
-            <!-- Mission Brief -->
-            <section id="mission" class="py-8 md:py-16" itemscope itemtype="https://schema.org/AboutPage">
-                <div class="hud-border p-4 sm:p-6 md:p-10">
-                <h2 class="text-2xl font-bold text-neon-green mb-6 section-title">
-                    <i class="fas fa-crosshairs"></i> <span itemprop="headline">MISSION BRIEF</span>
-                </h2>
-                <p id="mission-text" class="text-gray-300 mb-4 leading-relaxed typing-text" itemprop="description"></p>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div>
-                        <p class="text-gray-300 mb-4 leading-relaxed">
-                            This isn't just a portfolio—it's a live ops terminal. I specialize in building robust, secure, and scalable web applications with a focus on clean code and user experience.
+                <!-- Combat Readiness -->
+                <div class="hud pcard sr" style="border-radius:.75rem;overflow:hidden">
+                    <div class="pcard-scan"></div>
+                    <div style="height:11rem;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
+                                background:linear-gradient(135deg,rgba(6,182,212,.16),rgba(37,99,235,.12),rgba(126,34,206,.07))">
+                        <span style="position:absolute;top:.75rem;right:.75rem;padding:.15rem .6rem;font-size:.65rem;border-radius:9999px;background:rgba(6,182,212,.18);color:#22d3ee;border:1px solid rgba(34,211,238,.3)">MILITARY</span>
+                        <i class="fas fa-heartbeat" style="font-size:3rem;color:#22d3ee;position:relative;z-index:1;transition:transform .3s"></i>
+                    </div>
+                    <div style="padding:1.25rem;position:relative">
+                        <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,#06b6d4,#7c3aed)"></div>
+                        <h3 class="pcard-title" style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem">
+                            <span style="width:7px;height:7px;border-radius:50%;background:#22d3ee;animation:blink-dot 2s infinite;flex-shrink:0"></span>
+                            Combat Readiness System
+                        </h3>
+                        <p style="color:rgba(216,238,217,.55);font-size:.8rem;line-height:1.65;margin-bottom:.85rem">
+                            Real-time monitoring of unit status, medical readiness, and training metrics with an analytics dashboard.
                         </p>
-                        <p class="text-gray-300 mb-6 leading-relaxed">
-                            My mission is to deliver high-impact solutions that solve real-world problems while maintaining the highest standards of security and performance.
+                        <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.85rem">
+                            <span style="padding:.15rem .6rem;font-size:.65rem;border-radius:9999px;background:rgba(6,182,212,.1);color:#22d3ee;border:1px solid rgba(34,211,238,.2)">Node.js</span>
+                            <span style="padding:.15rem .6rem;font-size:.65rem;border-radius:9999px;background:rgba(126,34,206,.1);color:#c084fc;border:1px solid rgba(192,132,252,.2)">MongoDB</span>
+                            <span style="padding:.15rem .6rem;font-size:.65rem;border-radius:9999px;background:rgba(37,99,235,.1);color:#60a5fa;border:1px solid rgba(96,165,250,.2)">WebSockets</span>
+                        </div>
+                        <a href="https://github.com/vinlawz/COMBAT_READINESS" target="_blank" rel="noopener noreferrer"
+                           style="display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .9rem;font-size:.75rem;border-radius:9999px;text-decoration:none;border:1px solid rgba(34,211,238,.28);background:rgba(6,182,212,.09);color:#22d3ee;transition:all .2s"
+                           onmouseover="this.style.background='linear-gradient(90deg,#06b6d4,#7c3aed)';this.style.color='#fff'"
+                           onmouseout="this.style.background='rgba(6,182,212,.09)';this.style.color='#22d3ee'">
+                            <i class="fab fa-github" style="font-size:.65rem"></i>View Source
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Pwani Innovation Week -->
+                <div class="hud pcard sr" style="border-radius:.75rem;overflow:hidden">
+                    <div class="pcard-scan"></div>
+                    <div style="height:11rem;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
+                                background:linear-gradient(135deg,rgba(126,34,206,.16),rgba(219,39,119,.12),rgba(67,56,202,.07))">
+                        <span style="position:absolute;top:.75rem;right:.75rem;padding:.15rem .6rem;font-size:.65rem;border-radius:9999px;background:rgba(126,34,206,.18);color:#c084fc;border:1px solid rgba(192,132,252,.3)">EVENT</span>
+                        <i class="fas fa-lightbulb" style="font-size:3rem;color:#c084fc;position:relative;z-index:1;transition:transform .3s"></i>
+                    </div>
+                    <div style="padding:1.25rem;position:relative">
+                        <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,#7c3aed,#db2777)"></div>
+                        <h3 class="pcard-title" style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem">
+                            <span style="width:7px;height:7px;border-radius:50%;background:#c084fc;animation:blink-dot 2s infinite;flex-shrink:0"></span>
+                            Pwani Innovation Week
+                        </h3>
+                        <p style="color:rgba(216,238,217,.55);font-size:.8rem;line-height:1.65;margin-bottom:.85rem">
+                            Annual innovation showcase — tech exhibitions, workshops, and networking events for coastal region innovators.
                         </p>
-                        
-                        <!-- Featured Article -->
-                        <div class="mb-6 p-4 bg-gradient-to-r from-neon-green/5 to-tactical-blue/5 rounded-lg border border-neon-green/20 hover:border-neon-green/40 transition-all duration-300">
-                            <h4 class="text-neon-green font-bold text-sm mb-2 flex items-center">
-                                <i class="fas fa-newspaper mr-2"></i>Featured Mission Report
-                            </h4>
-                            <p class="text-gray-300 text-xs mb-3">
-                                Learn how I deployed this Django portfolio on PythonAnywhere with full email functionality and responsive design.
-                            </p>
-                            <a href="https://vinlawz.hashnode.dev/how-i-deployed-my-django-portfolio-on-pythonanywhere?showSharer=true" 
-                               target="_blank" 
-                               rel="noopener noreferrer"
-                               class="inline-flex items-center px-3 py-1.5 bg-neon-green/10 text-neon-green hover:bg-neon-green hover:text-black rounded-full text-xs font-medium transition-all duration-300 border border-neon-green/30">
-                                <i class="fas fa-external-link-alt mr-1.5"></i>
-                                Read Deployment Guide
-                            </a>
+                        <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.85rem">
+                            <span style="padding:.15rem .6rem;font-size:.65rem;border-radius:9999px;background:rgba(126,34,206,.1);color:#c084fc;border:1px solid rgba(192,132,252,.2)">Next.js</span>
+                            <span style="padding:.15rem .6rem;font-size:.65rem;border-radius:9999px;background:rgba(219,39,119,.1);color:#f472b6;border:1px solid rgba(244,114,182,.2)">Tailwind</span>
+                            <span style="padding:.15rem .6rem;font-size:.65rem;border-radius:9999px;background:rgba(67,56,202,.1);color:#818cf8;border:1px solid rgba(129,140,248,.2)">Vercel</span>
                         </div>
-                        
-                        <div class="flex flex-wrap gap-3">
-                            <span class="px-3 py-1 bg-neon-green/10 text-neon-green text-xs font-mono rounded-full border border-neon-green/30">Full-Stack Development</span>
-                            <span class="px-3 py-1 bg-neon-green/10 text-neon-green text-xs font-mono rounded-full border border-neon-green/30">Cybersecurity</span>
-                            <span class="px-3 py-1 bg-neon-green/10 text-neon-green text-xs font-mono rounded-full border border-neon-green/30">Cloud Architecture</span>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="p-4 bg-black/30 border border-neon-green/20 rounded-lg hover:bg-neon-green/5 transition-all duration-300">
-                            <div class="text-neon-green text-3xl mb-2"><i class="fas fa-shield-alt"></i></div>
-                            <h3 class="font-bold text-white mb-1">Secure</h3>
-                            <p class="text-xs text-gray-400">Enterprise-grade security practices</p>
-                        </div>
-                        <div class="p-4 bg-black/30 border border-neon-green/20 rounded-lg hover:bg-neon-green/5 transition-all duration-300">
-                            <div class="text-neon-green text-3xl mb-2"><i class="fas fa-bolt"></i></div>
-                            <h3 class="font-bold text-white mb-1">Fast</h3>
-                            <p class="text-xs text-gray-400">Optimized performance</p>
-                        </div>
-                        <div class="p-4 bg-black/30 border border-neon-green/20 rounded-lg hover:bg-neon-green/5 transition-all duration-300">
-                            <div class="text-neon-green text-3xl mb-2"><i class="fas fa-mobile-alt"></i></div>
-                            <h3 class="font-bold text-white mb-1">Responsive</h3>
-                            <p class="text-xs text-gray-400">Flawless on all devices</p>
-                        </div>
-                        <div class="p-4 bg-black/30 border border-neon-green/20 rounded-lg hover:bg-neon-green/5 transition-all duration-300">
-                            <div class="text-neon-green text-3xl mb-2"><i class="fas fa-code"></i></div>
-                            <h3 class="font-bold text-white mb-1">Clean Code</h3>
-                            <p class="text-xs text-gray-400">Maintainable & scalable</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Arsenal Section -->
-            <section id="arsenal" class="py-8 md:py-16" itemscope itemtype="https://schema.org/ItemList">
-                <h2 class="text-2xl font-bold text-neon-green mb-8 text-center section-title mx-auto">
-                    <i class="fas fa-tools mr-2"></i>ARSENAL
-                </h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Frontend -->
-                    <div class="hud-border p-6 rounded-lg bg-dark-bg/80 backdrop-blur-sm hover:shadow-neon-green/20 hover:shadow-lg transition-all duration-300">
-                        <div class="flex items-center mb-4">
-                            <div class="text-neon-green text-2xl mr-3"><i class="fas fa-laptop-code"></i></div>
-                            <h3 class="text-xl font-bold text-white" itemprop="name">Frontend</h3>
-                        </div>
-                        <ul class="space-y-3">
-                            <li>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300">HTML5 / CSS3</span>
-                                    <span class="text-neon-green text-sm">95%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 95%"></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300">JavaScript</span>
-                                    <span class="text-neon-green text-sm">90%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 90%"></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300">React</span>
-                                    <span class="text-neon-green text-sm">85%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 85%"></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300">Tailwind CSS</span>
-                                    <span class="text-neon-green text-sm">92%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 92%"></div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Backend -->
-                    <div class="hud-border p-6 rounded-lg bg-dark-bg/80 backdrop-blur-sm hover:shadow-neon-green/20 hover:shadow-lg transition-all duration-300">
-                        <div class="flex items-center mb-4">
-                            <div class="text-neon-green text-2xl mr-3"><i class="fas fa-server"></i></div>
-                            <h3 class="text-xl font-bold text-white">Backend</h3>
-                        </div>
-                        <ul class="space-y-3">
-                            <li>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300">Python</span>
-                                    <span class="text-neon-green text-sm">95%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 95%"></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300">Django</span>
-                                    <span class="text-neon-green text-sm">90%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 90%"></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300">Node.js</span>
-                                    <span class="text-neon-green text-sm">80%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 80%"></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300">REST APIs</span>
-                                    <span class="text-neon-green text-sm">88%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 88%"></div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Other Skills -->
-                    <div class="hud-border p-6 rounded-lg bg-dark-bg/80 backdrop-blur-sm hover:shadow-neon-green/20 hover:shadow-lg transition-all duration-300">
-                        <div class="flex items-center mb-4">
-                            <div class="text-neon-green text-2xl mr-3"><i class="fas fa-shield-alt"></i></div>
-                            <h3 class="text-xl font-bold text-white">Security & Tools</h3>
-                        </div>
-                        <ul class="space-y-3">
-                            <li>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300">Cybersecurity</span>
-                                    <span class="text-neon-green text-sm">85%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 85%"></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300">Docker</span>
-                                    <span class="text-neon-green text-sm">88%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 88%"></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300">Git</span>
-                                    <span class="text-neon-green text-sm">92%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 92%"></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300">AWS/GCP</span>
-                                    <span class="text-neon-green text-sm">78%</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 78%"></div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Field Projects -->
-            <section id="projects" class="py-8 md:py-16" itemscope itemtype="https://schema.org/ItemList">
-                <h2 class="text-2xl font-bold text-neon-green mb-8 text-center section-title mx-auto">
-                    <i class="fas fa-project-diagram mr-2"></i>FIELD PROJECTS
-                </h2>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Project 1: SwahiliPot FM -->
-                    <div class="project-card hud-border rounded-lg overflow-hidden bg-dark-bg/80 backdrop-blur-sm hover:shadow-red-400/30 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 relative group">
-                        <div class="h-48 bg-gradient-to-br from-red-600/20 via-orange-500/20 to-yellow-500/20 flex items-center justify-center relative overflow-hidden">
-                            <div class="absolute inset-0 bg-red-500/10 animate-pulse"></div>
-                            <div class="absolute top-2 right-2">
-                                <span class="px-2 py-1 bg-red-500/20 text-red-400 text-xs rounded-full border border-red-400/30">
-                                    LIVE
-                                </span>
-                            </div>
-                            <div class="relative z-10">
-                                <i class="fas fa-radio text-6xl text-red-400 group-hover:animate-bounce"></i>
-                            </div>
-                        </div>
-                        <div class="p-6 relative">
-                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500 to-orange-500"></div>
-                            <h3 class="project-title text-xl font-bold text-white mb-2 flex items-center">
-                                <span class="w-2 h-2 bg-red-400 rounded-full mr-2 animate-pulse"></span>
-                                SwahiliPot FM
-                            </h3>
-                            <p class="text-gray-300 text-sm mb-4 leading-relaxed">Coastal Kenya's leading radio station platform, featuring live streaming, podcast archives, and community engagement tools.</p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-3 py-1 bg-red-500/20 text-red-400 text-xs rounded-full border border-red-400/30 hover:bg-red-500/30 transition-colors">
-                                    WordPress
-                                </span>
-                                <span class="px-3 py-1 bg-orange-500/20 text-orange-400 text-xs rounded-full border border-orange-400/30 hover:bg-orange-500/30 transition-colors">
-                                    Radio Streaming
-                                </span>
-                                <span class="px-3 py-1 bg-yellow-500/20 text-yellow-400 text-xs rounded-full border border-yellow-400/30 hover:bg-yellow-500/30 transition-colors">
-                                    Podcast
-                                </span>
-                            </div>
-                            <a href="https://www.swahilipotfm.co.ke/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-red-500/20 to-orange-500/20 text-red-400 hover:text-white hover:from-red-500 hover:to-orange-500 text-sm font-medium rounded-full border border-red-400/30 hover:border-red-400 transition-all duration-300">
-                                Visit Website
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Project 2: Combat Readiness System -->
-                    <div class="hud-border rounded-lg overflow-hidden bg-dark-bg/80 backdrop-blur-sm hover:shadow-tactical-blue/30 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 relative group">
-                        <div class="h-48 bg-gradient-to-br from-tactical-blue/20 via-blue-600/20 to-purple-600/20 flex items-center justify-center relative overflow-hidden">
-                            <div class="absolute inset-0 bg-tactical-blue/10 animate-pulse"></div>
-                            <div class="absolute top-2 right-2">
-                                <span class="px-2 py-1 bg-tactical-blue/20 text-tactical-blue text-xs rounded-full border border-tactical-blue/30">
-                                    MILITARY
-                                </span>
-                            </div>
-                            <div class="relative z-10">
-                                <i class="fas fa-heartbeat text-6xl text-tactical-blue group-hover:animate-pulse"></i>
-                            </div>
-                        </div>
-                        <div class="p-6 relative">
-                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-tactical-blue to-purple-500"></div>
-                            <h3 class="project-title text-xl font-bold text-white mb-2 flex items-center">
-                                <span class="w-2 h-2 bg-tactical-blue rounded-full mr-2 animate-pulse"></span>
-                                Combat Readiness System
-                            </h3>
-                            <p class="text-gray-300 text-sm mb-4 leading-relaxed">Real-time monitoring of unit status, medical readiness, and training metrics with analytics dashboard. Full source code available on GitHub.</p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-3 py-1 bg-tactical-blue/20 text-tactical-blue text-xs rounded-full border border-tactical-blue/30 hover:bg-tactical-blue/30 transition-colors">
-                                    Node.js
-                                </span>
-                                <span class="px-3 py-1 bg-purple-500/20 text-purple-400 text-xs rounded-full border border-purple-400/30 hover:bg-purple-500/30 transition-colors">
-                                    MongoDB
-                                </span>
-                                <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full border border-blue-400/30 hover:bg-blue-500/30 transition-colors">
-                                    WebSockets
-                                </span>
-                            </div>
-                            <a href="https://github.com/vinlawz/COMBAT_READINESS" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-tactical-blue/20 to-purple-500/20 text-tactical-blue hover:text-white hover:from-tactical-blue hover:to-purple-500 text-sm font-medium rounded-full border border-tactical-blue/30 hover:border-tactical-blue transition-all duration-300">
-                                View Source Code
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Project 3: Pwani Innovation Week -->
-                    <div class="hud-border rounded-lg overflow-hidden bg-dark-bg/80 backdrop-blur-sm hover:shadow-purple-400/30 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 relative group">
-                        <div class="h-48 bg-gradient-to-br from-purple-600/20 via-pink-500/20 to-indigo-500/20 flex items-center justify-center relative overflow-hidden">
-                            <div class="absolute inset-0 bg-purple-500/10 animate-pulse"></div>
-                            <div class="absolute top-2 right-2">
-                                <span class="px-2 py-1 bg-purple-500/20 text-purple-400 text-xs rounded-full border border-purple-400/30">
-                                    EVENT
-                                </span>
-                            </div>
-                            <div class="relative z-10">
-                                <i class="fas fa-lightbulb text-6xl text-purple-400 group-hover:animate-spin"></i>
-                            </div>
-                        </div>
-                        <div class="p-6 relative">
-                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-pink-500"></div>
-                            <h3 class="project-title text-xl font-bold text-white mb-2 flex items-center">
-                                <span class="w-2 h-2 bg-purple-400 rounded-full mr-2 animate-pulse"></span>
-                                Pwani Innovation Week
-                            </h3>
-                            <p class="text-gray-300 text-sm mb-4 leading-relaxed">Annual innovation showcase platform featuring tech exhibitions, workshops, and networking events for coastal region innovators.</p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-3 py-1 bg-purple-500/20 text-purple-400 text-xs rounded-full border border-purple-400/30 hover:bg-purple-500/30 transition-colors">
-                                    Next.js
-                                </span>
-                                <span class="px-3 py-1 bg-pink-500/20 text-pink-400 text-xs rounded-full border border-pink-400/30 hover:bg-pink-500/30 transition-colors">
-                                    Tailwind
-                                </span>
-                                <span class="px-3 py-1 bg-indigo-500/20 text-indigo-400 text-xs rounded-full border border-indigo-400/30 hover:bg-indigo-500/30 transition-colors">
-                                    Vercel
-                                </span>
-                            </div>
-                            <a href="https://pwaniinnovationweek.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-400 hover:text-white hover:from-purple-500 hover:to-pink-500 text-sm font-medium rounded-full border border-purple-400/30 hover:border-purple-400 transition-all duration-300">
-                                Visit Event Site
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Project 4: MSA Matatu Awards -->
-                    <div class="hud-border rounded-lg overflow-hidden bg-dark-bg/80 backdrop-blur-sm hover:shadow-yellow-400/30 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 relative group">
-                        <div class="h-48 bg-gradient-to-br from-yellow-600/20 via-orange-500/20 to-amber-500/20 flex items-center justify-center relative overflow-hidden">
-                            <div class="absolute inset-0 bg-yellow-500/10 animate-pulse"></div>
-                            <div class="absolute top-2 right-2">
-                                <span class="px-2 py-1 bg-yellow-500/20 text-yellow-400 text-xs rounded-full border border-yellow-400/30">
-                                    AWARDS
-                                </span>
-                            </div>
-                            <div class="relative z-10">
-                                <i class="fas fa-trophy text-6xl text-yellow-400 group-hover:animate-bounce"></i>
-                            </div>
-                        </div>
-                        <div class="p-6 relative">
-                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-500 to-orange-500"></div>
-                            <h3 class="project-title text-xl font-bold text-white mb-2 flex items-center">
-                                <span class="w-2 h-2 bg-yellow-400 rounded-full mr-2 animate-pulse"></span>
-                                MSA Matatu Awards
-                            </h3>
-                            <p class="text-gray-300 text-sm mb-4 leading-relaxed">Digital awards platform for Nairobi's matatu industry, featuring voting systems, nominee profiles, and ceremony management.</p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-3 py-1 bg-yellow-500/20 text-yellow-400 text-xs rounded-full border border-yellow-400/30 hover:bg-yellow-500/30 transition-colors">
-                                    React
-                                </span>
-                                <span class="px-3 py-1 bg-orange-500/20 text-orange-400 text-xs rounded-full border border-orange-400/30 hover:bg-orange-500/30 transition-colors">
-                                    Node.js
-                                </span>
-                                <span class="px-3 py-1 bg-amber-500/20 text-amber-400 text-xs rounded-full border border-amber-400/30 hover:bg-amber-500/30 transition-colors">
-                                    MongoDB
-                                </span>
-                            </div>
-                            <a href="https://msa-matatu-awards.vercel.app/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 text-yellow-400 hover:text-white hover:from-yellow-500 hover:to-orange-500 text-sm font-medium rounded-full border border-yellow-400/30 hover:border-yellow-400 transition-all duration-300">
-                                View Awards Platform
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Project 5: SwahiliPot Hub Foundation -->
-                    <div class="hud-border rounded-lg overflow-hidden bg-dark-bg/80 backdrop-blur-sm hover:shadow-green-400/30 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 relative group">
-                        <div class="h-48 bg-gradient-to-br from-green-600/20 via-emerald-500/20 to-teal-500/20 flex items-center justify-center relative overflow-hidden">
-                            <div class="absolute inset-0 bg-green-500/10 animate-pulse"></div>
-                            <div class="absolute top-2 right-2">
-                                <span class="px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded-full border border-green-400/30">
-                                    COMMUNITY
-                                </span>
-                            </div>
-                            <div class="relative z-10">
-                                <i class="fas fa-hands-helping text-6xl text-green-400 group-hover:animate-pulse"></i>
-                            </div>
-                        </div>
-                        <div class="p-6 relative">
-                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-500 to-teal-500"></div>
-                            <h3 class="project-title text-xl font-bold text-white mb-2 flex items-center">
-                                <span class="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
-                                SwahiliPot Hub Foundation
-                            </h3>
-                            <p class="text-gray-300 text-sm mb-4 leading-relaxed">Community empowerment platform supporting coastal youth through tech education, innovation programs, and social impact initiatives.</p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-3 py-1 bg-green-500/20 text-green-400 text-xs rounded-full border border-green-400/30 hover:bg-green-500/30 transition-colors">
-                                    Next.js
-                                </span>
-                                <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs rounded-full border border-emerald-400/30 hover:bg-emerald-500/30 transition-colors">
-                                    Vercel
-                                </span>
-                                <span class="px-3 py-1 bg-teal-500/20 text-teal-400 text-xs rounded-full border border-teal-400/30 hover:bg-teal-500/30 transition-colors">
-                                    Community
-                                </span>
-                            </div>
-                            <a href="https://swahilipot-hub-foundation.vercel.app/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-green-500/20 to-teal-500/20 text-green-400 hover:text-white hover:from-green-500 hover:to-teal-500 text-sm font-medium rounded-full border border-green-400/30 hover:border-green-400 transition-all duration-300">
-                                Support Foundation
-                            </a>
-                        </div>
+                        <a href="https://pwaniinnovationweek.com/" target="_blank" rel="noopener noreferrer"
+                           style="display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .9rem;font-size:.75rem;border-radius:9999px;text-decoration:none;border:1px solid rgba(192,132,252,.28);background:rgba(126,34,206,.09);color:#c084fc;transition:all .2s"
+                           onmouseover="this.style.background='linear-gradient(90deg,#7c3aed,#db2777)';this.style.color='#fff'"
+                           onmouseout="this.style.background='rgba(126,34,206,.09)';this.style.color='#c084fc'">
+                            <i class="fas fa-external-link-alt" style="font-size:.65rem"></i>Visit Site
+                        </a>
                     </div>
                 </div>
 
-                <div class="mt-10 text-center">
-                    <a href="https://github.com/vinlawz?tab=repositories" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-neon-green/20 to-tactical-blue/20 text-neon-green hover:text-white hover:from-neon-green hover:to-tactical-blue rounded-full border-2 border-neon-green/50 hover:border-neon-green transition-all duration-300 transform hover:scale-105 hover:shadow-neon-green/30 hover:shadow-lg">
-                        <i class="fab fa-github mr-3 text-lg"></i>
-                        <span class="font-bold">View All Projects</span>
-                        <i class="fas fa-code-branch ml-3"></i>
-                    </a>
-                </div>
-            </section>
+            </div>
 
-            <!-- Contact HQ -->
-            <section id="contact" class="py-8 md:py-16" itemscope itemtype="https://schema.org/ContactPage">
-                <div class="hud-border p-6 sm:p-8 md:p-10">
-                <h2 class="text-xl md:text-2xl font-bold text-neon-green mb-6 section-title">
-                    <i class="fas fa-satellite-dish mr-2"></i>CONTACT HQ
-                </h2>
-                
-                <div class="grid md:grid-cols-2 gap-6 md:gap-8">
-                    <div class="space-y-6">
-                        <p class="text-gray-300 text-sm md:text-base leading-relaxed">
-                            Ready to discuss your next mission? Send me an encrypted message and I'll get back to you as soon as possible.
+            <!-- Row 2: 2 cards centred -->
+            <div class="sr-grid" style="display:grid;grid-template-columns:1fr;gap:var(--gap);max-width:820px;margin:0 auto">
+
+                <!-- MSA Matatu Awards -->
+                <div class="hud pcard sr" style="border-radius:.75rem;overflow:hidden">
+                    <div class="pcard-scan"></div>
+                    <div style="height:11rem;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
+                                background:linear-gradient(135deg,rgba(202,138,4,.16),rgba(234,88,12,.12),rgba(217,119,6,.07))">
+                        <span style="position:absolute;top:.75rem;right:.75rem;padding:.15rem .6rem;font-size:.65rem;border-radius:9999px;background:rgba(234,179,8,.18);color:#facc15;border:1px solid rgba(250,204,21,.3)">AWARDS</span>
+                        <i class="fas fa-trophy" style="font-size:3rem;color:#facc15;position:relative;z-index:1;transition:transform .3s"></i>
+                    </div>
+                    <div style="padding:1.25rem;position:relative">
+                        <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,#ca8a04,#ea580c)"></div>
+                        <h3 class="pcard-title" style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem">
+                            <span style="width:7px;height:7px;border-radius:50%;background:#facc15;animation:blink-dot 2s infinite;flex-shrink:0"></span>
+                            MSA Matatu Awards
+                        </h3>
+                        <p style="color:rgba(216,238,217,.55);font-size:.8rem;line-height:1.65;margin-bottom:.85rem">
+                            Digital awards platform for Mombasa's matatu industry — voting systems, nominee profiles, and ceremony management.
                         </p>
-                        
-                        <div class="space-y-3 md:space-y-4">
-                            <div class="flex items-start p-3 bg-black/20 rounded-lg border border-neon-green/10 hover:border-neon-green/30 transition-colors">
-                                <div class="text-neon-green text-lg md:text-xl mr-3 md:mr-4 mt-0.5 flex-shrink-0"><i class="fas fa-envelope"></i></div>
-                                <div class="min-w-0 flex-1">
-                                    <h4 class="font-bold text-white text-sm md:text-base">Email</h4>
-                                    <a href="mailto:vinlawz07@gmail.com" class="text-gray-300 hover:text-neon-green transition-colors text-xs md:text-sm break-all">vinlawz07@gmail.com</a>
-                                </div>
+                        <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.85rem">
+                            <span style="padding:.15rem .6rem;font-size:.65rem;border-radius:9999px;background:rgba(234,179,8,.1);color:#facc15;border:1px solid rgba(250,204,21,.2)">React</span>
+                            <span style="padding:.15rem .6rem;font-size:.65rem;border-radius:9999px;background:rgba(234,88,12,.1);color:#fb923c;border:1px solid rgba(251,146,60,.2)">Node.js</span>
+                            <span style="padding:.15rem .6rem;font-size:.65rem;border-radius:9999px;background:rgba(217,119,6,.1);color:#fbbf24;border:1px solid rgba(251,191,36,.2)">MongoDB</span>
+                        </div>
+                        <a href="https://msa-matatu-awards.vercel.app/" target="_blank" rel="noopener noreferrer"
+                           style="display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .9rem;font-size:.75rem;border-radius:9999px;text-decoration:none;border:1px solid rgba(250,204,21,.28);background:rgba(234,179,8,.09);color:#facc15;transition:all .2s"
+                           onmouseover="this.style.background='linear-gradient(90deg,#ca8a04,#ea580c)';this.style.color='#fff'"
+                           onmouseout="this.style.background='rgba(234,179,8,.09)';this.style.color='#facc15'">
+                            <i class="fas fa-external-link-alt" style="font-size:.65rem"></i>View Platform
+                        </a>
+                    </div>
+                </div>
+
+                <!-- SwahiliPot Hub Foundation -->
+                <div class="hud pcard sr" style="border-radius:.75rem;overflow:hidden">
+                    <div class="pcard-scan"></div>
+                    <div style="height:11rem;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
+                                background:linear-gradient(135deg,rgba(22,163,74,.16),rgba(5,150,105,.12),rgba(13,148,136,.07))">
+                        <span style="position:absolute;top:.75rem;right:.75rem;padding:.15rem .6rem;font-size:.65rem;border-radius:9999px;background:rgba(22,163,74,.18);color:#4ade80;border:1px solid rgba(74,222,128,.3)">COMMUNITY</span>
+                        <i class="fas fa-hands-helping" style="font-size:3rem;color:#4ade80;position:relative;z-index:1;transition:transform .3s"></i>
+                    </div>
+                    <div style="padding:1.25rem;position:relative">
+                        <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,#16a34a,#0d9488)"></div>
+                        <h3 class="pcard-title" style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem">
+                            <span style="width:7px;height:7px;border-radius:50%;background:#4ade80;animation:blink-dot 2s infinite;flex-shrink:0"></span>
+                            SwahiliPot Hub Foundation
+                        </h3>
+                        <p style="color:rgba(216,238,217,.55);font-size:.8rem;line-height:1.65;margin-bottom:.85rem">
+                            Community empowerment platform supporting coastal youth through tech education, innovation programs, and social impact.
+                        </p>
+                        <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.85rem">
+                            <span style="padding:.15rem .6rem;font-size:.65rem;border-radius:9999px;background:rgba(22,163,74,.1);color:#4ade80;border:1px solid rgba(74,222,128,.2)">Next.js</span>
+                            <span style="padding:.15rem .6rem;font-size:.65rem;border-radius:9999px;background:rgba(5,150,105,.1);color:#34d399;border:1px solid rgba(52,211,153,.2)">Vercel</span>
+                            <span style="padding:.15rem .6rem;font-size:.65rem;border-radius:9999px;background:rgba(13,148,136,.1);color:#2dd4bf;border:1px solid rgba(45,212,191,.2)">Community</span>
+                        </div>
+                        <a href="https://swahilipot-hub-foundation.vercel.app/" target="_blank" rel="noopener noreferrer"
+                           style="display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .9rem;font-size:.75rem;border-radius:9999px;text-decoration:none;border:1px solid rgba(74,222,128,.28);background:rgba(22,163,74,.09);color:#4ade80;transition:all .2s"
+                           onmouseover="this.style.background='linear-gradient(90deg,#16a34a,#0d9488)';this.style.color='#fff'"
+                           onmouseout="this.style.background='rgba(22,163,74,.09)';this.style.color='#4ade80'">
+                            <i class="fas fa-external-link-alt" style="font-size:.65rem"></i>Support Foundation
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- View All -->
+            <div class="sr" style="text-align:center;margin-top:2.5rem">
+                <a href="https://github.com/vinlawz?tab=repositories" target="_blank" rel="noopener noreferrer"
+                   class="btn btn-g" style="font-size:.95rem;padding:.8rem 2rem;border-width:2px;border-color:rgba(57,255,20,.4)">
+                    <i class="fab fa-github" style="font-size:1.05rem"></i>
+                    <span style="font-weight:700">View All Projects</span>
+                    <i class="fas fa-code-branch"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- ════════════════════ CONTACT HQ ════════════════════ -->
+        <section id="comms" class="section" itemscope itemtype="https://schema.org/ContactPage">
+            <div class="sh sr">
+                <h2 class="sh-title"><i class="fas fa-satellite-dish"></i>CONTACT HQ</h2>
+                <span class="sh-tag">COMMS_HQ · 04</span>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr;gap:2rem">
+
+                <!-- Info column -->
+                <div class="hud sr" style="padding:1.75rem;transition-delay:60ms">
+                    <span class="sec-n">04</span>
+                    <p style="color:rgba(216,238,217,.7);line-height:1.85;margin-bottom:1.5rem">
+                        Ready to discuss your next mission? Send me a message and I'll get back to you ASAP.
+                    </p>
+
+                    <!-- Contact items -->
+                    <div style="display:flex;flex-direction:column;gap:.75rem;margin-bottom:1.5rem">
+                        <a href="mailto:vinlawz07@gmail.com"
+                           style="display:flex;align-items:center;gap:.85rem;padding:.75rem 1rem;border-radius:.6rem;border:1px solid rgba(57,255,20,.1);background:rgba(0,0,0,.2);text-decoration:none;transition:border-color .2s,background .2s"
+                           onmouseover="this.style.borderColor='rgba(57,255,20,.3)';this.style.background='rgba(0,0,0,.3)'"
+                           onmouseout="this.style.borderColor='rgba(57,255,20,.1)';this.style.background='rgba(0,0,0,.2)'">
+                            <i class="fas fa-envelope" style="color:var(--neon);font-size:1.1rem;flex-shrink:0"></i>
+                            <div>
+                                <p style="color:#fff;font-size:.82rem;font-weight:700;margin-bottom:.1rem">Email</p>
+                                <p style="color:rgba(216,238,217,.5);font-size:.75rem">vinlawz07@gmail.com</p>
                             </div>
-                            
-                            <div class="flex items-start p-3 bg-black/20 rounded-lg border border-neon-green/10 hover:border-neon-green/30 transition-colors">
-                                <div class="text-neon-green text-lg md:text-xl mr-3 md:mr-4 mt-0.5 flex-shrink-0"><i class="fas fa-shield-alt"></i></div>
-                                <div class="min-w-0 flex-1">
-                                    <h4 class="font-bold text-white text-sm md:text-base">Secure Channel</h4>
-                                    <span class="text-gray-300 text-xs md:text-sm">Signal ID: classified</span>
-                                </div>
+                        </a>
+                        <div style="display:flex;align-items:center;gap:.85rem;padding:.75rem 1rem;border-radius:.6rem;border:1px solid rgba(57,255,20,.1);background:rgba(0,0,0,.2)">
+                            <i class="fas fa-shield-alt" style="color:var(--neon);font-size:1.1rem;flex-shrink:0"></i>
+                            <div>
+                                <p style="color:#fff;font-size:.82rem;font-weight:700;margin-bottom:.1rem">Secure Channel</p>
+                                <p style="color:rgba(216,238,217,.4);font-size:.75rem">Signal ID: classified</p>
                             </div>
                         </div>
-                        
-                        <!-- Article Link -->
-                        <div class="p-4 bg-gradient-to-r from-neon-green/10 to-tactical-blue/10 rounded-lg border border-neon-green/20">
-                            <h4 class="font-bold text-white text-sm md:text-base mb-2 flex items-center">
-                                <i class="fas fa-newspaper mr-2 text-neon-green"></i>
-                                Recent Mission Report
-                            </h4>
-                            <p class="text-gray-300 text-xs md:text-sm mb-3">
-                                Read my detailed guide on deploying Django portfolios on PythonAnywhere
-                            </p>
-                            <a href="https://vinlawz.hashnode.dev/how-i-deployed-my-django-portfolio-on-pythonanywhere?showSharer=true" 
-                               target="_blank" 
-                               rel="noopener noreferrer"
-                               class="inline-flex items-center px-3 py-2 bg-neon-green/20 text-neon-green hover:bg-neon-green hover:text-black rounded-full text-xs md:text-sm font-medium transition-all duration-300">
-                                <i class="fas fa-external-link-alt mr-2"></i>
-                                Read Article
+                    </div>
+
+                    <!-- Article -->
+                    <div style="padding:1rem 1.15rem;border-radius:.65rem;border:1px solid rgba(57,255,20,.16);background:linear-gradient(135deg,rgba(57,255,20,.04),rgba(0,247,255,.03));margin-bottom:1.5rem">
+                        <h4 style="color:#fff;font-size:.78rem;font-weight:700;margin-bottom:.4rem;display:flex;align-items:center;gap:.45rem">
+                            <i class="fas fa-newspaper" style="color:var(--neon)"></i>Recent Mission Report
+                        </h4>
+                        <p style="color:rgba(216,238,217,.48);font-size:.72rem;margin-bottom:.65rem;line-height:1.6">
+                            Deploying Django portfolios on PythonAnywhere — a full step-by-step guide.
+                        </p>
+                        <a href="https://vinlawz.hashnode.dev/how-i-deployed-my-django-portfolio-on-pythonanywhere?showSharer=true"
+                           target="_blank" rel="noopener noreferrer"
+                           style="display:inline-flex;align-items:center;gap:.4rem;padding:.28rem .75rem;font-size:.7rem;border-radius:9999px;border:1px solid rgba(57,255,20,.26);background:rgba(57,255,20,.08);color:var(--neon);text-decoration:none;transition:all .2s"
+                           onmouseover="this.style.background='#39FF14';this.style.color='#000'"
+                           onmouseout="this.style.background='rgba(57,255,20,.08)';this.style.color='var(--neon)'">
+                            <i class="fas fa-external-link-alt" style="font-size:.6rem"></i>Read Article
+                        </a>
+                    </div>
+
+                    <!-- Social links -->
+                    <div style="border-top:1px solid rgba(57,255,20,.1);padding-top:1rem">
+                        <p style="color:var(--neon);font-size:.78rem;font-weight:600;margin-bottom:.75rem">Direct Channels</p>
+                        <div style="display:flex;gap:.5rem">
+                            <a href="https://x.com/VChiriba" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter"
+                               style="width:2.4rem;height:2.4rem;display:flex;align-items:center;justify-content:center;border-radius:.5rem;border:1px solid transparent;color:rgba(216,238,217,.4);font-size:1.05rem;transition:all .2s;text-decoration:none"
+                               onmouseover="this.style.color='var(--neon)';this.style.borderColor='rgba(57,255,20,.2)';this.style.background='rgba(0,0,0,.25)'"
+                               onmouseout="this.style.color='rgba(216,238,217,.4)';this.style.borderColor='transparent';this.style.background='transparent'">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/vincent-chiriba-53b551334" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+                               style="width:2.4rem;height:2.4rem;display:flex;align-items:center;justify-content:center;border-radius:.5rem;border:1px solid transparent;color:rgba(216,238,217,.4);font-size:1.05rem;transition:all .2s;text-decoration:none"
+                               onmouseover="this.style.color='var(--neon)';this.style.borderColor='rgba(57,255,20,.2)';this.style.background='rgba(0,0,0,.25)'"
+                               onmouseout="this.style.color='rgba(216,238,217,.4)';this.style.borderColor='transparent';this.style.background='transparent'">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="https://github.com/vinlawz" target="_blank" rel="noopener noreferrer" aria-label="GitHub"
+                               style="width:2.4rem;height:2.4rem;display:flex;align-items:center;justify-content:center;border-radius:.5rem;border:1px solid transparent;color:rgba(216,238,217,.4);font-size:1.05rem;transition:all .2s;text-decoration:none"
+                               onmouseover="this.style.color='var(--neon)';this.style.borderColor='rgba(57,255,20,.2)';this.style.background='rgba(0,0,0,.25)'"
+                               onmouseout="this.style.color='rgba(216,238,217,.4)';this.style.borderColor='transparent';this.style.background='transparent'">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="https://instagram.com/vinlawz" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+                               style="width:2.4rem;height:2.4rem;display:flex;align-items:center;justify-content:center;border-radius:.5rem;border:1px solid transparent;color:rgba(216,238,217,.4);font-size:1.05rem;transition:all .2s;text-decoration:none"
+                               onmouseover="this.style.color='var(--neon)';this.style.borderColor='rgba(57,255,20,.2)';this.style.background='rgba(0,0,0,.25)'"
+                               onmouseout="this.style.color='rgba(216,238,217,.4)';this.style.borderColor='transparent';this.style.background='transparent'">
+                                <i class="fab fa-instagram"></i>
                             </a>
                         </div>
                     </div>
-                    
-                    <form id="contactForm" class="space-y-4 md:space-y-6">
-                        <div id="form-message" class="hidden p-3 md:p-4 mb-4 rounded-md text-sm"></div>
-                        
-                        <div class="space-y-2">
-                            <label for="name" class="block text-sm font-medium text-gray-300">Call Sign</label>
-                            <input type="text" id="name" name="name" required
-                                   class="w-full bg-black/30 border border-neon-green/30 rounded-lg px-3 md:px-4 py-2.5 md:py-3 text-white text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-neon-green/50 focus:border-transparent transition-all duration-200" 
-                                   placeholder="Your name">
+                </div>
+
+                <!-- Form column -->
+                <div class="hud sr" style="padding:1.75rem;transition-delay:120ms">
+                    <!-- Encryption indicator -->
+                    <div style="display:flex;align-items:center;gap:.4rem;margin-bottom:1.25rem;font-size:.6rem;letter-spacing:.08em;color:rgba(57,255,20,.35)">
+                        <i class="fas fa-lock" style="font-size:.6rem"></i>
+                        <span>CHANNEL SECURED &nbsp;·&nbsp; ENCRYPTION: AES-256</span>
+                    </div>
+
+                    <form id="contactForm" novalidate style="display:flex;flex-direction:column;gap:1rem">
+                        <div id="form-msg" class="hidden" style="padding:.75rem 1rem;border-radius:.5rem;font-size:.82rem;font-weight:500"></div>
+
+                        <div>
+                            <label for="name" style="display:block;font-size:.78rem;color:rgba(216,238,217,.55);margin-bottom:.4rem">Call Sign</label>
+                            <input type="text" id="name" name="name" required placeholder="Your name" class="finput">
                         </div>
-                        
-                        <div class="space-y-2">
-                            <label for="email" class="block text-sm font-medium text-gray-300">Secure Comms</label>
-                            <input type="email" id="email" name="email" required
-                                   class="w-full bg-black/30 border border-neon-green/30 rounded-lg px-3 md:px-4 py-2.5 md:py-3 text-white text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-neon-green/50 focus:border-transparent transition-all duration-200" 
-                                   placeholder="your.secure@comms.ch">
+                        <div>
+                            <label for="email" style="display:block;font-size:.78rem;color:rgba(216,238,217,.55);margin-bottom:.4rem">Secure Comms</label>
+                            <input type="email" id="email" name="email" required placeholder="your.secure@comms.ch" class="finput">
                         </div>
-                        
-                        <div class="space-y-2">
-                            <label for="message" class="block text-sm font-medium text-gray-300">Encrypted Message</label>
-                            <textarea id="message" name="message" rows="4" required
-                                     class="w-full bg-black/30 border border-neon-green/30 rounded-lg px-3 md:px-4 py-2.5 md:py-3 text-white text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-neon-green/50 focus:border-transparent resize-y transition-all duration-200" 
-                                     placeholder="Begin secure transmission..."></textarea>
+                        <div>
+                            <label for="message" style="display:block;font-size:.78rem;color:rgba(216,238,217,.55);margin-bottom:.4rem">Encrypted Message</label>
+                            <textarea id="message" name="message" rows="5" required placeholder="Begin secure transmission..." class="finput" style="resize:vertical"></textarea>
                         </div>
-                        
-                        <button type="submit" id="submitBtn" class="w-full bg-neon-green/10 border border-neon-green text-neon-green py-2.5 md:py-3 px-4 md:px-6 rounded-lg hover:bg-neon-green hover:text-black transition-all duration-300 font-medium text-sm md:text-base flex items-center justify-center transform hover:scale-[1.02] active:scale-[0.98]">
-                            <i class="fas fa-paper-plane mr-2"></i> <span id="submitText">Transmit</span>
-                            <span id="spinner" class="hidden ml-2">
-                                <i class="fas fa-circle-notch fa-spin"></i>
-                            </span>
+
+                        <button type="submit" id="submitBtn"
+                                style="display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.75rem 1.5rem;border-radius:.65rem;border:1px solid rgba(57,255,20,.45);background:rgba(57,255,20,.08);color:var(--neon);font-family:inherit;font-size:.9rem;font-weight:500;cursor:pointer;transition:all .2s"
+                                onmouseover="if(!this.disabled){this.style.background='#39FF14';this.style.color='#000'}"
+                                onmouseout="if(!this.disabled){this.style.background='rgba(57,255,20,.08)';this.style.color='var(--neon)'}">
+                            <i class="fas fa-paper-plane"></i>
+                            <span id="submitText">Transmit</span>
+                            <i id="spinner" class="fas fa-circle-notch fa-spin hidden"></i>
                         </button>
                     </form>
-                    
-                    <!-- Social Media Links -->
-                    <div class="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-neon-green/20">
-                        <h3 class="text-neon-green font-medium mb-3 md:mb-4 text-sm md:text-base">Direct Channels</h3>
-                        <div class="flex flex-wrap justify-center gap-4 md:gap-6">
-                            <a href="https://x.com/VChiriba" target="_blank" rel="noopener noreferrer" 
-                               class="text-gray-400 hover:text-neon-green transition-colors duration-300 p-2 rounded-lg hover:bg-black/20"
-                               aria-label="Twitter Profile">
-                                <i class="fab fa-twitter text-xl md:text-2xl"></i>
-                                <span class="sr-only">Twitter</span>
-                            </a>
-                            <a href="https://www.linkedin.com/in/vincent-chiriba-53b551334" target="_blank" rel="noopener noreferrer"
-                               class="text-gray-400 hover:text-neon-green transition-colors duration-300 p-2 rounded-lg hover:bg-black/20"
-                               aria-label="LinkedIn Profile">
-                                <i class="fab fa-linkedin text-xl md:text-2xl"></i>
-                                <span class="sr-only">LinkedIn</span>
-                            </a>
-                            <a href="https://github.com/vinlawz" target="_blank" rel="noopener noreferrer"
-                               class="text-gray-400 hover:text-neon-green transition-colors duration-300 p-2 rounded-lg hover:bg-black/20"
-                               aria-label="GitHub Profile">
-                                <i class="fab fa-github text-xl md:text-2xl"></i>
-                                <span class="sr-only">GitHub</span>
-                            </a>
-                            <a href="https://instagram.com/vinlawz" target="_blank" rel="noopener noreferrer"
-                               class="text-gray-400 hover:text-neon-green transition-colors duration-300 p-2 rounded-lg hover:bg-black/20"
-                               aria-label="Instagram Profile">
-                                <i class="fab fa-instagram text-xl md:text-2xl"></i>
-                                <span class="sr-only">Instagram</span>
-                            </a>
-                        </div>
-                    </div>
                 </div>
-            </section>
 
-            <script>
-            document.getElementById('contactForm').addEventListener('submit', function(e) {
-                        e.preventDefault();
-                        
-                        const form = e.target;
-                        const submitBtn = document.getElementById('submitBtn');
-                        const submitText = document.getElementById('submitText');
-                        const spinner = document.getElementById('spinner');
-                        const messageDiv = document.getElementById('form-message');
-                        
-                        // Show loading state
-                        submitBtn.disabled = true;
-                        submitText.textContent = 'Transmitting...';
-                        spinner.classList.remove('hidden');
-                        messageDiv.classList.add('hidden');
-                        
-                        // Get form data
-                        const formData = {
-                            name: document.getElementById('name').value,
-                            email: document.getElementById('email').value,
-                            message: document.getElementById('message').value
-                        };
-                        
-                        // Send AJAX request
-                        fetch('/contact/submit/', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRFToken': '{{ csrf_token }}'
-                            },
-                            body: JSON.stringify(formData)
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            // Show success/error message
-                            messageDiv.textContent = data.message;
-                            messageDiv.className = `p-4 mb-4 rounded-md ${data.success ? 'bg-green-900/50 text-green-300' : 'bg-red-900/50 text-red-300'}`;
-                            messageDiv.classList.remove('hidden');
-                            
-                            if (data.success) {
-                                // Reset form on success
-                                form.reset();
-                                submitText.textContent = 'Transmission Complete';
-                                setTimeout(() => {
-                                    submitText.textContent = 'Transmit';
-                                }, 3000);
-                            } else {
-                                submitText.textContent = 'Retry Transmission';
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            messageDiv.textContent = 'Error: Could not send message. Please try again.';
-                            messageDiv.className = 'p-4 mb-4 rounded-md bg-red-900/50 text-red-300';
-                            messageDiv.classList.remove('hidden');
-                            submitText.textContent = 'Retry Transmission';
-                        })
-                        .finally(() => {
-                            // Reset button state
-                            submitBtn.disabled = false;
-                            spinner.classList.add('hidden');
-                            
-                            // Scroll to message
-                            messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        });
-                    });
-                    </script>
-                </div>
-            </section>
-
-            <!-- Current Objective -->
-            <section class="py-8 md:py-16" itemscope itemtype="https://schema.org/Action">
-                <div class="hud-border p-8 sm:p-10">
-                <h2 class="text-2xl font-bold text-neon-green mb-6 section-title">
-                    <i class="fas fa-bullseye mr-2"></i> <span itemprop="name">CURRENT OBJECTIVE</span>
-                </h2>
-                
-                <div class="mb-4">
-                    <h3 class="text-lg font-semibold text-white mb-2">Mission Accomplished: Full Deployment</h3>
-                    <p class="text-gray-300 mb-4">Successfully deployed military portfolio to PythonAnywhere with fully functional contact system and enhanced UI/UX.</p>
-                    
-                    <div class="mb-2 flex justify-between text-sm text-gray-400">
-                        <span>Deployment Status</span>
-                        <span>100% Complete</span>
-                    </div>
-                    
-                    <div class="w-full bg-black/30 rounded-full h-3">
-                        <div class="bg-gradient-to-r from-neon-green to-tactical-blue h-full rounded-full" style="width: 100%"></div>
-                    </div>
-                    
-                    <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                        <div class="p-3 bg-black/30 rounded-lg border border-neon-green/20">
-                            <div class="text-neon-green text-xl mb-1"><i class="fas fa-check-circle"></i></div>
-                            <p class="text-xs text-gray-300">Research</p>
-                        </div>
-                        <div class="p-3 bg-black/30 rounded-lg border border-neon-green/20">
-                            <div class="text-neon-green text-xl mb-1"><i class="fas fa-check-circle"></i></div>
-                            <p class="text-xs text-gray-300">Design</p>
-                        </div>
-                        <div class="p-3 bg-black/30 rounded-lg border border-neon-green/20">
-                            <div class="text-neon-green text-xl mb-1"><i class="fas fa-check-circle"></i></div>
-                            <p class="text-xs text-gray-300">Development</p>
-                        </div>
-                        <div class="p-3 bg-gradient-to-br from-neon-green/10 to-tactical-blue/10 rounded-lg border border-neon-green/30">
-                            <div class="text-neon-green text-xl mb-1"><i class="fas fa-rocket"></i></div>
-                            <p class="text-xs text-neon-green font-medium">Deployed</p>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-6 p-4 bg-neon-green/5 border border-neon-green/20 rounded-lg">
-                        <h4 class="text-neon-green font-medium mb-2"><i class="fas fa-envelope mr-2"></i>Contact System Online</h4>
-                        <p class="text-gray-300 text-sm">Email functionality fully operational - messages from the contact form are delivered directly to vinlawz07@gmail.com</p>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <!-- Footer -->
-        <footer class="text-center py-12 text-gray-400 text-sm" role="contentinfo" itemscope itemtype="https://schema.org/WPFooter">
-            <!-- Logo with Description -->
-            <div class="mb-6 flex flex-col items-center justify-center">
-                <div class="flex items-center justify-center mb-3">
-                    <a href="https://vinlawz.github.io" target="_blank" rel="noopener noreferrer" class="hover:scale-105 transition-transform duration-300">
-                        <img src="{% static 'images/codewithvin-logo.png' %}" 
-                             alt="CodeWithVin Logo" 
-                             class="h-16 w-auto object-contain cursor-pointer"
-                             style="filter: drop-shadow(0 0 6px rgba(57, 255, 20, 0.5));">
-                    </a>
-                </div>
-                </div>
-                <p class="max-w-md text-gray-400 text-sm mt-2 px-4">
-                    The CodeWithVin logo represents my personal brand, symbolizing the fusion of tactical precision with creative coding solutions.
-                </p>
             </div>
-            
-            <div class="border-t border-neon-green/20 pt-6 mt-6">
-                <p>© 2023 <span itemprop="copyrightHolder" itemscope itemtype="https://schema.org/Person"><span itemprop="name">VINLAWZ</span></span>. All rights reserved. | <a href="#" class="hover:text-neon-green transition-colors" aria-label="Privacy Policy">Privacy Policy</a></p>
-        </footer>
+        </section>
+
+    </div><!-- /page -->
+
+    <!-- ════════════════════ FOOTER ════════════════════ -->
+    <footer style="text-align:center;padding:3rem 1.5rem 2.5rem;border-top:1px solid rgba(57,255,20,.1);margin-top:1rem"
+            role="contentinfo" itemscope itemtype="https://schema.org/WPFooter">
+
+        <div style="margin-bottom:1.25rem">
+            <a href="https://vinlawz.github.io" target="_blank" rel="noopener noreferrer"
+               style="display:inline-block;transition:transform .3s"
+               onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'">
+                <img src="{% static 'images/codewithvin-logo.png' %}" alt="CodeWithVin Logo"
+                     style="height:3.25rem;width:auto;object-fit:contain;filter:drop-shadow(0 0 6px rgba(57,255,20,.38))">
+            </a>
+        </div>
+
+        <!-- Deployment status line -->
+        <div style="display:inline-flex;align-items:center;gap:.5rem;margin-bottom:1rem;padding:.28rem .9rem;border-radius:9999px;border:1px solid rgba(57,255,20,.18);background:rgba(57,255,20,.05);font-size:.65rem;letter-spacing:.08em;color:rgba(57,255,20,.5)">
+            <span class="blink-dot" style="width:5px;height:5px;box-shadow:0 0 5px var(--neon)"></span>
+            DEPLOYED · PYTHONANYWHERE · CONTACT SYSTEM ONLINE
+        </div>
+
+        <p style="max-width:30rem;margin:0 auto .75rem;color:rgba(216,238,217,.25);font-size:.72rem;line-height:1.7;padding:0 1rem">
+            CodeWithVin — the fusion of tactical precision with creative coding solutions.
+        </p>
+        <p style="color:rgba(216,238,217,.18);font-size:.7rem">
+            &copy; 2024
+            <span itemprop="copyrightHolder" itemscope itemtype="https://schema.org/Person">
+                <span itemprop="name">VINLAWZ</span>
+            </span>.
+            All rights reserved.
+        </p>
+    </footer>
+
+    <!-- Profile modal -->
+    <div id="modal-profile"
+         class="hidden" role="dialog" aria-modal="true" aria-label="Profile picture"
+         style="position:fixed;inset:0;background:rgba(0,0,0,.92);backdrop-filter:blur(12px);z-index:100;display:none;align-items:center;justify-content:center;padding:1rem"
+         onclick="this.style.display='none';this.classList.add('hidden')">
+        <div style="position:relative;max-width:32rem;width:100%" onclick="event.stopPropagation()">
+            <button onclick="document.getElementById('modal-profile').style.display='none';document.getElementById('modal-profile').classList.add('hidden')"
+                    style="position:absolute;top:-2.5rem;right:0;background:none;border:none;cursor:pointer;color:var(--neon);font-size:1.1rem"
+                    aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+            <img src="{% static 'images/profile-picture.jpg' %}" alt="Vincent Chiriba"
+                 style="width:100%;max-height:85vh;object-fit:contain;border-radius:.75rem;border:2px solid rgba(57,255,20,.35);box-shadow:0 0 40px rgba(57,255,20,.18)">
+        </div>
     </div>
 
-    <!-- Preload critical resources -->
-    <link rel="preload" href="{% static 'images/profile-picture.jpg' %}" as="image">
-    
+    <!-- ════════════════════ SCRIPTS ════════════════════ -->
     <script>
-        // Optimized scroll animations with throttling
-        function initScrollAnimations() {
-            const elements = document.querySelectorAll('.animate-on-scroll');
-            const header = document.querySelector('header');
-            let ticking = false;
-            let lastScroll = 0;
-            
-            // Throttle function for scroll events
-            function throttle(callback, limit) {
-                let waiting = false;
-                return function() {
-                    if (!waiting) {
-                        callback.apply(this, arguments);
-                        waiting = true;
-                        setTimeout(() => {
-                            waiting = false;
-                        }, limit);
-                    }
-                };
-            }
-            
-            // Intersection Observer for scroll animations
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        requestAnimationFrame(() => {
-                            entry.target.classList.add('visible');
-                        });
-                    }
-                });
-            function updateHeader() {
-                const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-                
-                // Reset at top of page
-                if (currentScroll <= 10) {
-                    header.style.transform = 'translateY(0)';
-                    header.classList.remove('scrolled');
-                    ticking = false;
-                    return;
-                }
-                
-                // Add/remove scrolled class based on scroll direction
-                if (currentScroll > 100) {
-                    if (currentScroll > lastScroll && !header.classList.contains('scrolled')) {
-                        header.classList.add('scrolled');
-                        header.style.transform = 'translateY(-100%)';
-                    } else if (currentScroll < lastScroll && header.classList.contains('scrolled')) {
-                        header.classList.remove('scrolled');
-                        header.style.transform = 'translateY(0)';
-                    }
-                } else {
-                    header.style.transform = 'translateY(0)';
-                }
-                
-                // Smooth transform for header
-                header.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-                
-                lastScroll = currentScroll;
-                ticking = false;
-            }
-            
-            // Modern scroll event with RAF and debounce
-            let scrollTimeout;
-            window.addEventListener('scroll', function() {
-                // Clear the timeout if it's already been set
-                clearTimeout(scrollTimeout);
-                
-                // Set a timeout to run after scrolling stops
-                scrollTimeout = setTimeout(function() {
-                    if (!ticking) {
-                        window.requestAnimationFrame(function() {
-                            updateHeader();
-                            
-                            // Animate elements on scroll with intersection observer for better performance
-                            const observer = new IntersectionObserver((entries) => {
-                                entries.forEach(entry => {
-                                    if (entry.isIntersecting) {
-                                        entry.target.classList.add('visible');
-                                        observer.unobserve(entry.target);
-                                    }
-                                });
-                            }, {
-                                threshold: 0.1,
-                                rootMargin: '0px 0px -50px 0px'
-                            });
-                            
-                            elements.forEach(element => {
-                                if (!element.classList.contains('visible')) {
-                                    observer.observe(element);
-                                }
-                            });
-                            
-                            ticking = false;
-                        });
-                        ticking = true;
-                    }
-                }, 50); // Adjust timing as needed
-            }, { passive: true });
-            
-            // Initial check for elements in view
-            const initialObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, {
-                threshold: 0.1
-            });
-            
-            elements.forEach(element => {
-                initialObserver.observe(element);
-            });
-            
-            // Smooth scroll for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-        };
-        
-        // Close mobile menu when clicking a link
-        document.querySelectorAll('#mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                document.getElementById('mobile-menu').classList.add('hidden');
-            });
-        });
-        const mobileMenu = document.getElementById('mobile-menu');
-        
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
+    (function(){
+    'use strict';
 
-        // Typing effect
-        const texts = ['Full-Stack Developer', 'Cybersecurity Enthusiast', 'Problem Solver', 'Tech Enthusiast'];
-        let count = 0;
-        let index = 0;
-        let currentText = '';
-        let letter = '';
-        let isDeleting = false;
-        let typingSpeed = 100;
+    /* Modal: show flex when opened */
+    document.getElementById('modal-profile').addEventListener('click',function(e){
+        if(e.target===this){this.style.display='none';this.classList.add('hidden');}
+    });
+    function openModal(){var m=document.getElementById('modal-profile');m.classList.remove('hidden');m.style.display='flex';}
+    document.querySelector('.p-ring button').addEventListener('click',openModal);
 
-        function type() {
-            if (count === texts.length) {
-                count = 0;
-            }
-            
-            currentText = texts[count];
-            
-            if (isDeleting) {
-                letter = currentText.substring(0, index - 1);
-                index--;
-                typingSpeed = 50;
+    /* Mobile menu */
+    var ham=document.getElementById('ham'),
+        menu=document.getElementById('mobile-menu'),
+        hamIcon=document.getElementById('ham-icon');
+    ham.addEventListener('click',function(){
+        var open=menu.classList.toggle('open');
+        hamIcon.className=open?'fas fa-times':'fas fa-bars';
+        ham.setAttribute('aria-expanded',String(open));
+    });
+    document.querySelectorAll('.mobile-link').forEach(function(a){
+        a.addEventListener('click',function(){
+            menu.classList.remove('open');
+            hamIcon.className='fas fa-bars';
+            ham.setAttribute('aria-expanded','false');
+        });
+    });
+
+    /* Active nav */
+    var secs=document.querySelectorAll('section[id]');
+    var navLinks=document.querySelectorAll('.nav-link');
+    function syncNav(){
+        var y=window.scrollY||window.pageYOffset,cur='';
+        secs.forEach(function(s){if(y>=s.offsetTop-130)cur=s.id;});
+        navLinks.forEach(function(l){l.classList.toggle('active',l.getAttribute('href')==='#'+cur);});
+    }
+    window.addEventListener('scroll',syncNav,{passive:true});
+    syncNav();
+
+    /* ── Bidirectional scroll reveal ── */
+    var dir='down', lastY=0;
+    window.addEventListener('scroll',function(){
+        var y=window.scrollY||window.pageYOffset;
+        dir=y>lastY?'down':'up'; lastY=y;
+    },{passive:true});
+
+    var srObs=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting){
+                e.target.classList.add('visible');
+                e.target.classList.remove('from-top');
             } else {
-                letter = currentText.substring(0, index + 1);
-                index++;
-                typingSpeed = 100;
-            }
-            
-            document.querySelector('.typing-text').textContent = letter;
-            
-            if (!isDeleting && letter === currentText) {
-                typingSpeed = 2000;
-                isDeleting = true;
-            } else if (isDeleting && letter === '') {
-                isDeleting = false;
-                count++;
-                typingSpeed = 500;
-            }
-            
-            setTimeout(type, typingSpeed);
-        }
-        
-        // Mission Brief Typing Animation
-        const missionText = "This isn't just a portfolio—it's a live ops terminal. I specialize in building robust, secure, and scalable web applications with a focus on clean code and user experience. My mission is to deliver high-impact solutions that solve real-world problems while maintaining the highest standards of security and performance.";
-        let charIndex = 0;
-        let isDeleting = false;
-        let isEnd = false;
-        
-        function typeMissionText() {
-            const currentText = missionText.substring(0, charIndex);
-            document.getElementById('mission-text').textContent = currentText;
-            
-            if (!isDeleting && charIndex < missionText.length) {
-                charIndex++;
-                setTimeout(typeMissionText, Math.random() * 20 + 20);
-            } else if (isDeleting && charIndex > 0) {
-                charIndex--;
-                setTimeout(typeMissionText, 30);
-            } else if (charIndex === missionText.length) {
-                isDeleting = true;
-                setTimeout(typeMissionText, 2000);
-            } else if (charIndex === 0 && isDeleting) {
-                isDeleting = false;
-                setTimeout(typeMissionText, 500);
-            }
-        }
-        
-        // Typing animation for the hero text
-        function typeWriter(text, element, speed = 100) {
-            let i = 0;
-            element.textContent = '';
-            
-            function type() {
-                if (i < text.length) {
-                    element.textContent += text.charAt(i);
-                    i++;
-                    setTimeout(type, speed);
-                } else {
-                    // Keep the cursor blinking after typing is done
-                    element.classList.add('typing-done');
-                }
-            }
-            
-            type();
-        }
-        
-        // Start the typing effects with requestAnimationFrame for better performance
-        document.addEventListener('DOMContentLoaded', () => {
-            // Initialize scroll animations
-            initScrollAnimations();
-            
-            // Use requestIdleCallback for non-critical animations
-            if ('requestIdleCallback' in window) {
-                window.requestIdleCallback(initAnimations, { timeout: 2000 });
-            } else {
-                // Fallback for browsers that don't support requestIdleCallback
-                setTimeout(initAnimations, 0);
+                e.target.classList.remove('visible');
+                if(dir==='up') e.target.classList.add('from-top');
+                else           e.target.classList.remove('from-top');
             }
         });
-        
-        function initAnimations() {
-            // Hero typing text
-            const typingText = 'This isn\'t a website — it\'s a live operations terminal.';
-            const typingElement = document.getElementById('typing-text');
-            if (typingElement) {
-                // Add initial cursor
-                typingElement.innerHTML = '<span class="cursor"></span>';
-                // Start typing after a short delay
-                setTimeout(() => {
-                    typeWriter(typingText, typingElement, 50);
-                }, 1000);
+    },{threshold:0.1,rootMargin:'-8px 0px -8px 0px'});
+    document.querySelectorAll('.sr').forEach(function(el){srObs.observe(el);});
+
+    /* Skill bars (one-time) */
+    var skillObs=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+            if(e.isIntersecting){
+                e.target.querySelectorAll('.skill-prog').forEach(function(b){
+                    b.style.width=(b.dataset.w||0)+'%';
+                });
+                skillObs.unobserve(e.target);
             }
-            // Hero typing effect
-            setTimeout(type, 1000);
-            // Start the mission text typing after hero text is done
-            setTimeout(startMissionTyping, 1500);
-        }
-        
-        // Intersection Observer for scroll animations
-        const animateOnScroll = () => {
-            const elements = document.querySelectorAll('.animate-on-scroll');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-fadeInUp');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            });
-            
-            elements.forEach(element => observer.observe(element));
-        };
-        
-        // Add animation classes to elements
-        document.addEventListener('DOMContentLoaded', () => {
-            // Add animation classes to sections
-            document.querySelectorAll('section').forEach((section, index) => {
-                section.classList.add('animate-on-scroll', 'opacity-0', 'transition-all', 'duration-500', 'ease-out');
-                section.style.transitionDelay = `${index * 100}ms`;
-            });
-            
-            // Initialize animations
-            animateOnScroll();
-            
-            // Add animation to skill bars on scroll
-            const skillBars = document.querySelectorAll('.skill-progress');
-            
-            const animateOnScroll = () => {
-                skillBars.forEach(bar => {
-                    const barPosition = bar.getBoundingClientRect().top;
-                    const screenPosition = window.innerHeight / 1.3;
-                    
-                    if (barPosition < screenPosition) {
-                        bar.style.width = bar.getAttribute('style').match(/\d+/)[0] + '%';
-                    }
-                });
-            };
-            
-            window.addEventListener('scroll', animateOnScroll);
-            // Initial check in case elements are already in view
-            animateOnScroll();
         });
+    },{threshold:0.3});
+    document.querySelectorAll('.hud').forEach(function(c){
+        if(c.querySelector('.skill-prog'))skillObs.observe(c);
+    });
+
+    /* Deploy bar */
+    var df=document.getElementById('deployFill');
+    if(df){
+        var dObs=new IntersectionObserver(function(e){
+            if(e[0].isIntersecting){
+                setTimeout(function(){df.style.transition='width 1.5s cubic-bezier(.4,0,.2,1)';df.style.width='100%';},200);
+                dObs.disconnect();
+            }
+        },{threshold:.5});
+        dObs.observe(df);
+    }
+
+    /* Typing */
+    var roles=['Full-Stack Developer','Cybersecurity Enthusiast','Problem Solver','Tech Enthusiast'];
+    var el=document.getElementById('typing'),ri=0,ci=0,del=false;
+    function tick(){
+        var c=roles[ri];
+        el.textContent=del?c.substring(0,--ci):c.substring(0,++ci);
+        var d=del?42:90;
+        if(!del&&ci===c.length){d=2100;del=true;}
+        else if(del&&ci===0){del=false;ri=(ri+1)%roles.length;d=400;}
+        setTimeout(tick,d);
+    }
+    setTimeout(tick,800);
+
+    /* Contact form */
+    document.getElementById('contactForm').addEventListener('submit',function(e){
+        e.preventDefault();
+        var btn=document.getElementById('submitBtn'),
+            txt=document.getElementById('submitText'),
+            spn=document.getElementById('spinner'),
+            msg=document.getElementById('form-msg');
+        btn.disabled=true;
+        btn.style.background='rgba(57,255,20,.04)';btn.style.color='var(--neon)';
+        txt.textContent='Transmitting...';
+        spn.classList.remove('hidden');
+        msg.classList.add('hidden');
+
+        fetch('/contact/submit/',{
+            method:'POST',
+            headers:{'Content-Type':'application/json','X-CSRFToken':'{{ csrf_token }}'},
+            body:JSON.stringify({
+                name:document.getElementById('name').value,
+                email:document.getElementById('email').value,
+                message:document.getElementById('message').value
+            })
+        })
+        .then(function(r){return r.json();})
+        .then(function(d){
+            msg.textContent=d.message;
+            msg.style.background=d.success?'rgba(22,163,74,.12)':'rgba(220,38,38,.12)';
+            msg.style.border='1px solid '+(d.success?'rgba(74,222,128,.3)':'rgba(248,113,113,.3)');
+            msg.style.color=d.success?'#86efac':'#fca5a5';
+            msg.classList.remove('hidden');
+            if(d.success){e.target.reset();txt.textContent='Transmission Complete';setTimeout(function(){txt.textContent='Transmit';},3000);}
+            else{txt.textContent='Retry';}
+        })
+        .catch(function(){
+            msg.textContent='Error — could not send. Please try again.';
+            msg.style.background='rgba(220,38,38,.12)';msg.style.border='1px solid rgba(248,113,113,.3)';msg.style.color='#fca5a5';
+            msg.classList.remove('hidden');txt.textContent='Retry';
+        })
+        .finally(function(){
+            btn.disabled=false;spn.classList.add('hidden');
+            msg.scrollIntoView({behavior:'smooth',block:'nearest'});
+        });
+    });
+
+    /* Responsive Arsenal grid (3-col on lg) */
+    function setArsenalGrid(){
+        var g=document.querySelector('#arsenal .sr-grid');
+        if(!g)return;
+        if(window.innerWidth>=1024) g.style.gridTemplateColumns='repeat(3,1fr)';
+        else if(window.innerWidth>=640) g.style.gridTemplateColumns='repeat(2,1fr)';
+        else g.style.gridTemplateColumns='1fr';
+    }
+    /* Responsive Projects rows */
+    function setProjGrid(){
+        var rows=document.querySelectorAll('#ops .sr-grid');
+        if(rows.length<2)return;
+        var w=window.innerWidth;
+        rows[0].style.gridTemplateColumns=w>=1024?'repeat(3,1fr)':w>=640?'repeat(2,1fr)':'1fr';
+        rows[1].style.gridTemplateColumns=w>=640?'repeat(2,1fr)':'1fr';
+    }
+    /* Responsive Sitrep stats */
+    function setStatGrid(){
+        var g=document.querySelector('#sitrep .sr-grid');
+        if(!g)return;
+        g.style.gridTemplateColumns=window.innerWidth>=640?'repeat(4,1fr)':'repeat(2,1fr)';
+    }
+    /* Responsive Contact columns */
+    function setContactGrid(){
+        var g=document.querySelector('#comms > div > div');
+        if(!g)return;
+        g.style.gridTemplateColumns=window.innerWidth>=768?'1fr 1fr':'1fr';
+    }
+    function applyGrids(){setArsenalGrid();setProjGrid();setStatGrid();setContactGrid();}
+    applyGrids();
+    window.addEventListener('resize',applyGrids);
+
+    }());
     </script>
 </body>
 </html>
