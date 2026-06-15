@@ -1049,31 +1049,126 @@
             </div>
         </section>
 
-        <!-- Gallery detail modal -->
-        <div id="modal-gallery"
-             role="dialog" aria-modal="true" aria-label="Event detail"
-             style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.94);backdrop-filter:blur(14px);z-index:100;align-items:center;justify-content:center;padding:1rem"
+        <!-- ═══════════════ EVENT DOSSIER MODAL ═══════════════ -->
+        <div id="modal-gallery" role="dialog" aria-modal="true" aria-label="Event dossier"
+             style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.96);backdrop-filter:blur(18px);z-index:100;overflow-y:auto;padding:1rem 1rem 4rem"
              onclick="if(event.target===this)closeGalleryModal()">
-            <div style="position:relative;max-width:36rem;width:100%;background:var(--card);border:1px solid rgba(57,255,20,.22);border-radius:.85rem;overflow:hidden;box-shadow:0 0 60px rgba(57,255,20,.1)"
+
+            <div style="max-width:42rem;margin:2rem auto;position:relative;background:var(--card);border:1px solid rgba(57,255,20,.25);border-radius:1rem;overflow:hidden;box-shadow:0 0 80px rgba(57,255,20,.08)"
                  onclick="event.stopPropagation()">
-                <div id="gm-header" style="height:2px;background:linear-gradient(90deg,var(--neon),var(--cyan))"></div>
-                <div style="padding:1.5rem">
-                    <button onclick="closeGalleryModal()"
-                            style="position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;color:rgba(216,238,217,.45);font-size:1rem;transition:color .2s"
-                            onmouseover="this.style.color='var(--neon)'" onmouseout="this.style.color='rgba(216,238,217,.45)'"
-                            aria-label="Close">
-                        <i class="fas fa-times"></i>
+
+                <!-- Scan line top -->
+                <div id="gm-topline" style="height:2px;background:linear-gradient(90deg,var(--neon),var(--cyan),var(--neon))"></div>
+
+                <!-- Close + classification -->
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.25rem;border-bottom:1px solid rgba(57,255,20,.08)">
+                    <span style="font-size:.6rem;letter-spacing:.2em;color:rgba(57,255,20,.4)">// FIELD INTEL DOSSIER · CLASSIFIED</span>
+                    <button onclick="closeGalleryModal()" aria-label="Close"
+                            style="background:none;border:1px solid rgba(57,255,20,.2);border-radius:.35rem;color:rgba(216,238,217,.5);cursor:pointer;padding:.25rem .65rem;font-size:.75rem;transition:all .2s"
+                            onmouseover="this.style.borderColor='var(--neon)';this.style.color='var(--neon)'"
+                            onmouseout="this.style.borderColor='rgba(57,255,20,.2)';this.style.color='rgba(216,238,217,.5)'">
+                        <i class="fas fa-times"></i> CLOSE
                     </button>
-                    <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:1rem">
-                        <span style="padding:.18rem .65rem;font-size:.6rem;border-radius:9999px;background:rgba(57,255,20,.12);color:var(--neon);border:1px solid rgba(57,255,20,.28);letter-spacing:.08em">ATTENDED</span>
-                        <span id="gm-tag" style="padding:.18rem .65rem;font-size:.6rem;border-radius:9999px;background:rgba(0,247,255,.08);color:var(--cyan);border:1px solid rgba(0,247,255,.2);letter-spacing:.06em"></span>
-                    </div>
-                    <h3 id="gm-title" style="font-size:1.15rem;font-weight:700;color:#fff;margin-bottom:.65rem"></h3>
-                    <p id="gm-desc" style="color:rgba(216,238,217,.6);font-size:.82rem;line-height:1.75;margin-bottom:1.25rem"></p>
-                    <div id="gm-photo" style="width:100%;min-height:11rem;border-radius:.6rem;border:1px solid rgba(57,255,20,.14);background:rgba(0,0,0,.3);overflow:hidden"></div>
                 </div>
-            </div>
-        </div>
+
+                <!-- ── PHOTO HERO VIEWER ── -->
+                <div id="gm-hero" style="position:relative;width:100%;height:18rem;background:#000;overflow:hidden">
+                    <img id="gm-hero-img" style="width:100%;height:100%;object-fit:cover;transition:opacity .4s" alt="event photo">
+                    <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,transparent 50%);pointer-events:none"></div>
+
+                    <!-- Prev / Next arrows -->
+                    <button id="gm-prev" onclick="heroNav(-1)"
+                            style="position:absolute;left:.75rem;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:50%;width:2.2rem;height:2.2rem;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:all .2s;z-index:2"
+                            onmouseover="this.style.background='rgba(57,255,20,.2)';this.style.borderColor='var(--neon)'"
+                            onmouseout="this.style.background='rgba(0,0,0,.55)';this.style.borderColor='rgba(255,255,255,.2)'">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button id="gm-next" onclick="heroNav(1)"
+                            style="position:absolute;right:.75rem;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:50%;width:2.2rem;height:2.2rem;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:all .2s;z-index:2"
+                            onmouseover="this.style.background='rgba(57,255,20,.2)';this.style.borderColor='var(--neon)'"
+                            onmouseout="this.style.background='rgba(0,0,0,.55)';this.style.borderColor='rgba(255,255,255,.2)'">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+
+                    <!-- Photo counter -->
+                    <span id="gm-counter" style="position:absolute;bottom:.75rem;right:.85rem;font-size:.62rem;color:rgba(255,255,255,.7);letter-spacing:.08em;z-index:2"></span>
+
+                    <!-- Dot indicators -->
+                    <div id="gm-dots-hero" style="position:absolute;bottom:.75rem;left:50%;transform:translateX(-50%);display:flex;gap:.35rem;z-index:2"></div>
+                </div>
+
+                <!-- Photo thumbnail strip -->
+                <div id="gm-thumbstrip" style="display:flex;gap:.35rem;padding:.6rem 1rem;overflow-x:auto;background:rgba(0,0,0,.4);scrollbar-width:thin"></div>
+
+                <!-- ── DOSSIER BODY ── -->
+                <div style="padding:1.5rem 1.5rem 2rem">
+
+                    <!-- Badges row -->
+                    <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem">
+                        <span style="padding:.2rem .7rem;font-size:.58rem;border-radius:9999px;background:rgba(57,255,20,.12);color:var(--neon);border:1px solid rgba(57,255,20,.3);letter-spacing:.1em">✓ ATTENDED</span>
+                        <span id="gm-tag" style="padding:.2rem .7rem;font-size:.58rem;border-radius:9999px;background:rgba(0,247,255,.08);color:var(--cyan);border:1px solid rgba(0,247,255,.22);letter-spacing:.08em"></span>
+                        <span id="gm-loc-badge" style="padding:.2rem .7rem;font-size:.58rem;border-radius:9999px;background:rgba(255,255,255,.05);color:rgba(216,238,217,.5);border:1px solid rgba(255,255,255,.1);letter-spacing:.06em"></span>
+                    </div>
+
+                    <!-- Title -->
+                    <h2 id="gm-title" style="font-size:1.4rem;font-weight:800;color:#fff;margin-bottom:.3rem;letter-spacing:.03em"></h2>
+                    <p id="gm-date-line" style="font-size:.72rem;color:rgba(57,255,20,.6);letter-spacing:.1em;margin-bottom:1.25rem"></p>
+
+                    <!-- Quick-stat pills -->
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1.5rem">
+                        <div style="padding:.7rem .9rem;border-radius:.5rem;border:1px solid rgba(57,255,20,.1);background:rgba(57,255,20,.04)">
+                            <div style="font-size:.55rem;letter-spacing:.12em;color:rgba(57,255,20,.45);margin-bottom:.25rem">OPERATIVE ROLE</div>
+                            <div id="gm-role" style="font-size:.8rem;color:#e2f0e2;font-weight:600"></div>
+                        </div>
+                        <div style="padding:.7rem .9rem;border-radius:.5rem;border:1px solid rgba(0,247,255,.1);background:rgba(0,247,255,.03)">
+                            <div style="font-size:.55rem;letter-spacing:.12em;color:rgba(0,247,255,.45);margin-bottom:.25rem">MISSION TEAM</div>
+                            <div id="gm-team" style="font-size:.8rem;color:#e2f0e2;font-weight:600"></div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Intel Briefing -->
+                    <div style="margin-bottom:1.25rem">
+                        <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.6rem">
+                            <i class="fas fa-broadcast-tower" style="color:var(--neon);font-size:.7rem"></i>
+                            <span style="font-size:.6rem;letter-spacing:.18em;color:var(--neon);font-weight:700">INTEL BRIEFING</span>
+                            <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(57,255,20,.3),transparent)"></div>
+                        </div>
+                        <p id="gm-desc" style="font-size:.82rem;color:rgba(216,238,217,.65);line-height:1.85;margin:0"></p>
+                    </div>
+
+                    <!-- Section: Why I Went -->
+                    <div style="margin-bottom:1.25rem">
+                        <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.6rem">
+                            <i class="fas fa-crosshairs" style="color:var(--cyan);font-size:.7rem"></i>
+                            <span style="font-size:.6rem;letter-spacing:.18em;color:var(--cyan);font-weight:700">WHY I DEPLOYED</span>
+                            <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(0,247,255,.3),transparent)"></div>
+                        </div>
+                        <p id="gm-why" style="font-size:.82rem;color:rgba(216,238,217,.65);line-height:1.85;margin:0"></p>
+                    </div>
+
+                    <!-- Section: What I Gained -->
+                    <div style="margin-bottom:1.5rem">
+                        <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem">
+                            <i class="fas fa-trophy" style="color:#FFD343;font-size:.7rem"></i>
+                            <span style="font-size:.6rem;letter-spacing:.18em;color:#FFD343;font-weight:700">MISSION GAINS</span>
+                            <div style="flex:1;height:1px;background:linear-gradient(90deg,rgba(255,211,67,.3),transparent)"></div>
+                        </div>
+                        <ul id="gm-gained" style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:.5rem"></ul>
+                    </div>
+
+                    <!-- Section: Photo Recon grid -->
+                    <div id="gm-photo-section">
+                        <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem">
+                            <i class="fas fa-camera" style="color:rgba(216,238,217,.4);font-size:.7rem"></i>
+                            <span style="font-size:.6rem;letter-spacing:.18em;color:rgba(216,238,217,.4);font-weight:700">PHOTO RECON</span>
+                            <div style="flex:1;height:1px;background:rgba(216,238,217,.08)"></div>
+                        </div>
+                        <div id="gm-photo-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem"></div>
+                    </div>
+
+                </div><!-- /dossier body -->
+            </div><!-- /modal content -->
+        </div><!-- /modal-gallery -->
 
         <!-- ════════════════════ CONTACT HQ ════════════════════ -->
         <section id="comms" class="section" itemscope itemtype="https://schema.org/ContactPage">
@@ -1392,69 +1487,173 @@
         });
     });
 
-    /* Gallery modal */
+    /* ═══════════════ EVENT DOSSIER DATA ═══════════════ */
+    var pyconPhotos=[
+        '{% static "images/gallery/pycon-ke-1.jpg" %}',
+        '{% static "images/gallery/pycon-ke-2.jpg" %}',
+        '{% static "images/gallery/pycon-ke-3.jpg" %}',
+        '{% static "images/gallery/pycon-ke-4.jpg" %}',
+        '{% static "images/gallery/pycon-ke-5.jpg" %}',
+        '{% static "images/gallery/pycon-ke-6.jpg" %}',
+        '{% static "images/gallery/pycon-ke-7.jpg" %}',
+        '{% static "images/gallery/pycon-ke-8.jpg" %}',
+        '{% static "images/gallery/pycon-ke-9.jpg" %}',
+        '{% static "images/gallery/pycon-ke-10.jpg" %}',
+        '{% static "images/gallery/pycon-ke-11.jpg" %}'
+    ];
     var galleryEvents={
-        pycon:{tag:'PYCON KE 2025',photos:['{% static "images/gallery/pycon-ke-1.jpg" %}','{% static "images/gallery/pycon-ke-2.jpg" %}','{% static "images/gallery/pycon-ke-3.jpg" %}','{% static "images/gallery/pycon-ke-4.jpg" %}','{% static "images/gallery/pycon-ke-5.jpg" %}','{% static "images/gallery/pycon-ke-6.jpg" %}','{% static "images/gallery/pycon-ke-7.jpg" %}','{% static "images/gallery/pycon-ke-8.jpg" %}','{% static "images/gallery/pycon-ke-9.jpg" %}','{% static "images/gallery/pycon-ke-10.jpg" %}','{% static "images/gallery/pycon-ke-11.jpg" %}']},
-        ubucon:{tag:'UBUCON KE',photos:[]},
-        gdgpwani:{tag:'GDG PWANI',photos:[]},
-        gdgnairobi:{tag:'GDG NAIROBI',photos:[]},
-        djangogirls:{tag:'DJANGO GIRLS MSA',photos:[]}
-    };
-    var gmLightIdx=0,gmLightPhotos=[];
-    function openGalleryModal(title,desc,key){
-        var m=document.getElementById('modal-gallery');
-        document.getElementById('gm-title').textContent=title;
-        document.getElementById('gm-desc').textContent=desc;
-        var ev=galleryEvents[key]||{tag:'',photos:[]};
-        document.getElementById('gm-tag').textContent=ev.tag;
-        var pa=document.getElementById('gm-photo');
-        gmLightPhotos=ev.photos||[];
-        if(gmLightPhotos.length){
-            var html='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;max-height:16rem;overflow-y:auto;border-radius:.5rem">';
-            gmLightPhotos.forEach(function(src,i){
-                html+='<img src="'+src+'" alt="photo '+(i+1)+'" onclick="openLightbox('+i+')" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:.35rem;cursor:zoom-in;transition:transform .2s" onmouseover="this.style.transform=\'scale(1.04)\'" onmouseout="this.style.transform=\'\'"/>';
-            });
-            html+='</div>';
-            pa.innerHTML=html;
-        } else {
-            pa.innerHTML='<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;color:rgba(216,238,217,.2);height:100%"><i class="fas fa-image" style="font-size:2rem"></i><span style="font-size:.65rem;letter-spacing:.1em">PHOTOS COMING SOON</span></div>';
+        pycon:{
+            tag:'PYCON KE 2025',
+            location:'Nairobi, Kenya',
+            date:'📅  2025  ·  NAIROBI, KENYA',
+            role:'Attendee · Python Developer',
+            team:'Coastal KE devs & new allies',
+            desc:'PyCon Kenya is Africa\'s premier Python conference — themed "Connect, Discover, Transform." It brings together Python engineers, data scientists, open-source contributors, and tech enthusiasts from across the continent for a full day of talks, workshops, deep-dives, and networking.',
+            why:'Python is the backbone of my backend work and a tool I use daily. Attending PyCon KE was a mission-critical move — to see how Africa\'s best engineers are building with it, to represent the coastal developer scene, and to plug into a community that shares my obsession with clean, powerful code.',
+            gained:[
+                'Direct networking with Python engineers and open-source contributors across East Africa',
+                'Insights on FastAPI, Django ORM optimisation, Redis, and production-grade Python patterns',
+                'Exposure to how major Kenyan tech companies architect their Python backends',
+                'Inspiration and energy from Kenya\'s most passionate developer community',
+                'Signed the iconic PyCon KE wall — a rite of passage for every attendee',
+                'New contacts in Nairobi\'s tech scene and future collaboration leads'
+            ],
+            photos:pyconPhotos
+        },
+        ubucon:{
+            tag:'UBUCON KE',location:'Kenya',date:'📅  KENYA',role:'Attendee · Linux Enthusiast',team:'Open-source community',
+            desc:'Ubucon Kenya is the Ubuntu & open-source community conference for East Africa — celebrating Linux, free software, and the power of community-driven tech.',
+            why:'A belief that open-source is the foundation of all great software. Ubucon is where that philosophy lives.',
+            gained:['Community connections','Linux deep-dives','Open-source contribution pathways'],
+            photos:[]
+        },
+        gdgpwani:{
+            tag:'GDG PWANI',location:'Mombasa, Kenya',date:'📅  MOMBASA, KENYA',role:'Attendee · Local Chapter Member',team:'Mombasa tech community',
+            desc:'Google Developer Group Pwani is the coastal Kenya chapter of GDG — bringing Google tech, dev talks, and community growth to Mombasa and the Coast region.',
+            why:'Building the local tech scene from the ground up. GDG Pwani is home ground.',
+            gained:['Google Cloud & Firebase skills','Local developer network','Community leadership insights'],
+            photos:[]
+        },
+        gdgnairobi:{
+            tag:'GDG NAIROBI',location:'Nairobi, Kenya',date:'📅  NAIROBI, KENYA',role:'Attendee · Developer',team:'Nairobi tech community',
+            desc:'GDG Nairobi is one of Africa\'s most active Google Developer Groups — hosting DevFests, study jams, and cutting-edge Google tech talks.',
+            why:'To tap into Nairobi\'s tech pulse and bring ideas back to the coast.',
+            gained:['Android & Flutter knowledge','Firebase architecture patterns','Cross-city dev connections'],
+            photos:[]
+        },
+        djangogirls:{
+            tag:'DJANGO GIRLS MSA',location:'Mombasa, Kenya',date:'📅  MOMBASA, KENYA',role:'Supporter · Django Developer',team:'Django Girls Mombasa org team',
+            desc:'Django Girls Mombasa empowers women in the coastal region with hands-on Django web development workshops — growing inclusive tech talent on the Kenyan coast.',
+            why:'Inclusive tech is not optional — it\'s essential. Supporting Django Girls Mombasa is part of the mission.',
+            gained:['Community organising experience','Teaching and mentorship skills','Seeing the impact of inclusive tech first-hand'],
+            photos:[]
         }
-        m.style.display='flex';
+    };
+
+    /* ═══════════════ HERO PHOTO VIEWER ═══════════════ */
+    var gmHeroIdx=0, gmPhotos=[];
+
+    function heroNav(dir){
+        gmHeroIdx=(gmHeroIdx+dir+gmPhotos.length)%gmPhotos.length;
+        heroShow(gmHeroIdx);
+    }
+    function heroShow(i){
+        var img=document.getElementById('gm-hero-img');
+        img.style.opacity='0';
+        setTimeout(function(){img.src=gmPhotos[i];img.style.opacity='1';},200);
+        document.getElementById('gm-counter').textContent=(i+1)+' / '+gmPhotos.length;
+        /* dots */
+        var dots=document.querySelectorAll('.gm-dot');
+        dots.forEach(function(d,di){d.style.background=di===i?'var(--neon)':'rgba(255,255,255,.3)';});
+        /* thumbstrip */
+        var thumbs=document.querySelectorAll('.gm-thumb');
+        thumbs.forEach(function(t,ti){t.style.outline=ti===i?'2px solid var(--neon)':'2px solid transparent';});
+    }
+    function buildHero(photos){
+        gmPhotos=photos; gmHeroIdx=0;
+        var hero=document.getElementById('gm-hero');
+        hero.style.display=photos.length?'block':'none';
+        if(!photos.length)return;
+        document.getElementById('gm-hero-img').src=photos[0];
+        document.getElementById('gm-counter').textContent='1 / '+photos.length;
+        /* dots (max 11) */
+        var dotsEl=document.getElementById('gm-dots-hero');
+        dotsEl.innerHTML='';
+        photos.forEach(function(_,i){
+            var d=document.createElement('span');
+            d.className='gm-dot';
+            d.style.cssText='display:inline-block;width:'+(photos.length>7?'5px':'7px')+';height:'+(photos.length>7?'5px':'7px')+';border-radius:50%;background:'+(i===0?'var(--neon)':'rgba(255,255,255,.3)')+';cursor:pointer;transition:background .2s';
+            d.onclick=(function(idx){return function(){gmHeroIdx=idx;heroShow(idx);};})(i);
+            dotsEl.appendChild(d);
+        });
+        /* thumb strip */
+        var strip=document.getElementById('gm-thumbstrip');
+        strip.innerHTML='';
+        photos.forEach(function(src,i){
+            var t=document.createElement('img');
+            t.src=src; t.className='gm-thumb';
+            t.style.cssText='width:4rem;height:3rem;object-fit:cover;border-radius:.3rem;cursor:pointer;flex-shrink:0;outline:'+(i===0?'2px solid var(--neon)':'2px solid transparent')+';transition:outline .2s';
+            t.onclick=(function(idx){return function(){gmHeroIdx=idx;heroShow(idx);};})(i);
+            strip.appendChild(t);
+        });
+    }
+
+    /* ═══════════════ OPEN / CLOSE MODAL ═══════════════ */
+    function openGalleryModal(title,desc,key){
+        var ev=galleryEvents[key]||{};
+        /* populate fields */
+        document.getElementById('gm-title').textContent=title;
+        document.getElementById('gm-tag').textContent=ev.tag||'';
+        document.getElementById('gm-loc-badge').textContent='📍 '+(ev.location||'');
+        document.getElementById('gm-date-line').textContent=ev.date||'';
+        document.getElementById('gm-role').textContent=ev.role||'—';
+        document.getElementById('gm-team').textContent=ev.team||'—';
+        document.getElementById('gm-desc').textContent=ev.desc||desc||'';
+        document.getElementById('gm-why').textContent=ev.why||'';
+        /* gained list */
+        var ul=document.getElementById('gm-gained');
+        ul.innerHTML='';
+        (ev.gained||[]).forEach(function(g){
+            var li=document.createElement('li');
+            li.style.cssText='display:flex;align-items:flex-start;gap:.6rem;font-size:.8rem;color:rgba(216,238,217,.7);line-height:1.65';
+            li.innerHTML='<span style="color:#FFD343;flex-shrink:0;margin-top:.15rem">▸</span><span>'+g+'</span>';
+            ul.appendChild(li);
+        });
+        /* photos */
+        var photos=ev.photos||[];
+        buildHero(photos);
+        /* photo grid */
+        var grid=document.getElementById('gm-photo-grid');
+        var section=document.getElementById('gm-photo-section');
+        grid.innerHTML='';
+        if(photos.length){
+            section.style.display='block';
+            photos.forEach(function(src,i){
+                var img=document.createElement('img');
+                img.src=src; img.alt='photo '+(i+1);
+                img.style.cssText='width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:.4rem;cursor:zoom-in;transition:transform .2s,outline .2s;outline:2px solid transparent';
+                img.onmouseover=function(){this.style.transform='scale(1.04)';this.style.outline='2px solid var(--neon)';};
+                img.onmouseout=function(){this.style.transform='';this.style.outline='2px solid transparent';};
+                img.onclick=(function(idx){return function(){gmHeroIdx=idx;heroShow(idx);document.getElementById('gm-hero').scrollIntoView({behavior:'smooth'});};})(i);
+                grid.appendChild(img);
+            });
+        } else {
+            section.style.display='none';
+        }
+        /* show modal */
+        var m=document.getElementById('modal-gallery');
+        m.style.display='block';
+        m.scrollTop=0;
         document.body.style.overflow='hidden';
     }
     function closeGalleryModal(){
         document.getElementById('modal-gallery').style.display='none';
         document.body.style.overflow='';
     }
-    /* Lightbox for full-size photo */
-    function openLightbox(idx){
-        gmLightIdx=idx;
-        var lb=document.getElementById('lb');
-        if(!lb){
-            lb=document.createElement('div');
-            lb.id='lb';
-            lb.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:200;display:flex;align-items:center;justify-content:center';
-            lb.innerHTML='<button onclick="lbNav(-1)" style="position:absolute;left:1rem;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;z-index:3;padding:.5rem"><i class="fas fa-chevron-left"></i></button>'
-                +'<img id="lb-img" style="max-width:92vw;max-height:90vh;object-fit:contain;border-radius:.5rem;user-select:none">'
-                +'<button onclick="lbNav(1)" style="position:absolute;right:1rem;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;z-index:3;padding:.5rem"><i class="fas fa-chevron-right"></i></button>'
-                +'<button onclick="closeLightbox()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:#fff;font-size:1.2rem;cursor:pointer;z-index:3"><i class="fas fa-times"></i></button>'
-                +'<span id="lb-count" style="position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.5);font-size:.7rem;letter-spacing:.1em"></span>';
-            lb.addEventListener('click',function(e){if(e.target===lb)closeLightbox();});
-            document.body.appendChild(lb);
-        }
-        lbShow();
-        lb.style.display='flex';
-    }
-    function lbShow(){
-        document.getElementById('lb-img').src=gmLightPhotos[gmLightIdx];
-        document.getElementById('lb-count').textContent=(gmLightIdx+1)+' / '+gmLightPhotos.length;
-    }
-    function lbNav(dir){gmLightIdx=(gmLightIdx+dir+gmLightPhotos.length)%gmLightPhotos.length;lbShow();}
-    function closeLightbox(){var lb=document.getElementById('lb');if(lb)lb.style.display='none';}
     document.addEventListener('keydown',function(e){
-        if(e.key==='Escape'){closeLightbox();closeGalleryModal();}
-        if(e.key==='ArrowRight')lbNav(1);
-        if(e.key==='ArrowLeft')lbNav(-1);
+        if(e.key==='Escape')closeGalleryModal();
+        if(e.key==='ArrowRight')heroNav(1);
+        if(e.key==='ArrowLeft')heroNav(-1);
     });
 
     /* PyCon card auto-slideshow */
