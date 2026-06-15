@@ -1710,6 +1710,11 @@
     applyGrids();
     window.addEventListener('resize',applyGrids);
 
+    /* Expose modal functions to global scope (needed for inline onclick attrs) */
+    window.openGalleryModal  = openGalleryModal;
+    window.closeGalleryModal = closeGalleryModal;
+    window.heroNav           = heroNav;
+
     }());
     </script>
 </body>
