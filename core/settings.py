@@ -40,21 +40,16 @@ if DEBUG:
 
 # Application definition
 INSTALLED_APPS = [
-   'django.contrib.admin',
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
-    'tailwind',
     'military_portfolio',
-    'sslserver',
 ]
 
-# Tailwind settings
-TAILWIND_APP_NAME = 'military_portfolio'
-NPM_BIN_PATH = "C:\\Program Files\\nodejs\\npm.cmd"
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
