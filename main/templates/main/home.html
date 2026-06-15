@@ -879,17 +879,24 @@
                 <!-- PyCon Kenya 2025 -->
                 <div class="hud pcard sr" style="border-radius:.75rem;overflow:hidden">
                     <div class="pcard-scan"></div>
-                    <!-- Replace the div below with: <img src="{% static 'images/gallery/pycon-ke-2025.jpg' %}" ...> once you have the photo -->
-                    <div class="gallery-thumb" style="height:13rem;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
-                                background:linear-gradient(135deg,rgba(55,118,171,.22),rgba(255,211,67,.14),rgba(55,118,171,.08));cursor:pointer"
-                         onclick="openGalleryModal('PyCon Kenya 2025','Africa\'s premier Python conference. Mombasa, Kenya. Connected with Python developers from across the continent.','pycon')">
-                        <span style="position:absolute;top:.75rem;left:.75rem;padding:.18rem .65rem;font-size:.6rem;border-radius:9999px;background:rgba(57,255,20,.15);color:var(--neon);border:1px solid rgba(57,255,20,.3);letter-spacing:.08em">ATTENDED</span>
-                        <span style="position:absolute;top:.75rem;right:.75rem;padding:.18rem .65rem;font-size:.6rem;border-radius:9999px;background:rgba(55,118,171,.2);color:#93c5fd;border:1px solid rgba(147,197,253,.3)">2025</span>
-                        <div style="text-align:center;z-index:1">
-                            <i class="fab fa-python" style="font-size:3.5rem;color:#FFD343;display:block;margin-bottom:.5rem;filter:drop-shadow(0 0 12px rgba(255,211,67,.4))"></i>
-                            <span style="font-size:.62rem;letter-spacing:.1em;color:rgba(216,238,217,.3)">[TAP TO VIEW]</span>
-                        </div>
-                        <div style="position:absolute;bottom:.6rem;right:.75rem;font-size:.6rem;color:rgba(216,238,217,.2);letter-spacing:.06em"><i class="fas fa-expand-alt" style="margin-right:.3rem"></i>EXPAND</div>
+                    <div class="gallery-thumb" id="pycon-slider"
+                         style="height:13rem;position:relative;overflow:hidden;cursor:pointer"
+                         onclick="openGalleryModal('PyCon Kenya 2025','Africa\'s premier Python conference. Nairobi, Kenya 2025. Connected with Python developers from across the continent.','pycon')">
+                        <img src="{% static 'images/gallery/pycon-ke-1.jpg' %}"  class="pycon-slide" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity .8s" alt="PyCon KE 2025">
+                        <img src="{% static 'images/gallery/pycon-ke-2.jpg' %}"  class="pycon-slide" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s" alt="PyCon KE 2025">
+                        <img src="{% static 'images/gallery/pycon-ke-3.jpg' %}"  class="pycon-slide" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s" alt="PyCon KE 2025">
+                        <img src="{% static 'images/gallery/pycon-ke-4.jpg' %}"  class="pycon-slide" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s" alt="PyCon KE 2025">
+                        <img src="{% static 'images/gallery/pycon-ke-5.jpg' %}"  class="pycon-slide" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s" alt="PyCon KE 2025">
+                        <img src="{% static 'images/gallery/pycon-ke-6.jpg' %}"  class="pycon-slide" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s" alt="PyCon KE 2025">
+                        <img src="{% static 'images/gallery/pycon-ke-7.jpg' %}"  class="pycon-slide" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s" alt="PyCon KE 2025">
+                        <img src="{% static 'images/gallery/pycon-ke-8.jpg' %}"  class="pycon-slide" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s" alt="PyCon KE 2025">
+                        <img src="{% static 'images/gallery/pycon-ke-9.jpg' %}"  class="pycon-slide" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s" alt="PyCon KE 2025">
+                        <img src="{% static 'images/gallery/pycon-ke-10.jpg' %}" class="pycon-slide" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s" alt="PyCon KE 2025">
+                        <img src="{% static 'images/gallery/pycon-ke-11.jpg' %}" class="pycon-slide" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s" alt="PyCon KE 2025">
+                        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55) 0%,transparent 60%);z-index:1;pointer-events:none"></div>
+                        <span style="position:absolute;top:.75rem;left:.75rem;padding:.18rem .65rem;font-size:.6rem;border-radius:9999px;background:rgba(57,255,20,.15);color:var(--neon);border:1px solid rgba(57,255,20,.3);letter-spacing:.08em;z-index:2">ATTENDED</span>
+                        <span style="position:absolute;top:.75rem;right:.75rem;padding:.18rem .65rem;font-size:.6rem;border-radius:9999px;background:rgba(55,118,171,.2);color:#93c5fd;border:1px solid rgba(147,197,253,.3);z-index:2">2025</span>
+                        <span style="position:absolute;bottom:.65rem;right:.75rem;font-size:.6rem;color:rgba(255,255,255,.7);z-index:2;letter-spacing:.06em"><i class="fas fa-images" style="margin-right:.3rem"></i>11 PHOTOS</span>
                     </div>
                     <div style="padding:1.25rem;position:relative">
                         <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,#3776AB,#FFD343)"></div>
@@ -1063,11 +1070,7 @@
                     </div>
                     <h3 id="gm-title" style="font-size:1.15rem;font-weight:700;color:#fff;margin-bottom:.65rem"></h3>
                     <p id="gm-desc" style="color:rgba(216,238,217,.6);font-size:.82rem;line-height:1.75;margin-bottom:1.25rem"></p>
-                    <!-- Photo area: swap icon for <img> once you upload photos -->
-                    <div id="gm-photo" style="width:100%;height:11rem;border-radius:.6rem;border:1px solid rgba(57,255,20,.14);background:rgba(0,0,0,.3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;color:rgba(216,238,217,.2)">
-                        <i class="fas fa-image" style="font-size:2rem"></i>
-                        <span style="font-size:.65rem;letter-spacing:.1em">PHOTO COMING SOON</span>
-                    </div>
+                    <div id="gm-photo" style="width:100%;min-height:11rem;border-radius:.6rem;border:1px solid rgba(57,255,20,.14);background:rgba(0,0,0,.3);overflow:hidden"></div>
                 </div>
             </div>
         </div>
@@ -1391,18 +1394,31 @@
 
     /* Gallery modal */
     var galleryEvents={
-        pycon:    {tag:'PYCON KE 2025'},
-        ubucon:   {tag:'UBUCON KE'},
-        gdgpwani: {tag:'GDG PWANI'},
-        gdgnairobi:{tag:'GDG NAIROBI'},
-        djangogirls:{tag:'DJANGO GIRLS MSA'}
+        pycon:{tag:'PYCON KE 2025',photos:['{% static "images/gallery/pycon-ke-1.jpg" %}','{% static "images/gallery/pycon-ke-2.jpg" %}','{% static "images/gallery/pycon-ke-3.jpg" %}','{% static "images/gallery/pycon-ke-4.jpg" %}','{% static "images/gallery/pycon-ke-5.jpg" %}','{% static "images/gallery/pycon-ke-6.jpg" %}','{% static "images/gallery/pycon-ke-7.jpg" %}','{% static "images/gallery/pycon-ke-8.jpg" %}','{% static "images/gallery/pycon-ke-9.jpg" %}','{% static "images/gallery/pycon-ke-10.jpg" %}','{% static "images/gallery/pycon-ke-11.jpg" %}']},
+        ubucon:{tag:'UBUCON KE',photos:[]},
+        gdgpwani:{tag:'GDG PWANI',photos:[]},
+        gdgnairobi:{tag:'GDG NAIROBI',photos:[]},
+        djangogirls:{tag:'DJANGO GIRLS MSA',photos:[]}
     };
+    var gmLightIdx=0,gmLightPhotos=[];
     function openGalleryModal(title,desc,key){
         var m=document.getElementById('modal-gallery');
         document.getElementById('gm-title').textContent=title;
         document.getElementById('gm-desc').textContent=desc;
-        var ev=galleryEvents[key]||{};
-        document.getElementById('gm-tag').textContent=ev.tag||'';
+        var ev=galleryEvents[key]||{tag:'',photos:[]};
+        document.getElementById('gm-tag').textContent=ev.tag;
+        var pa=document.getElementById('gm-photo');
+        gmLightPhotos=ev.photos||[];
+        if(gmLightPhotos.length){
+            var html='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;max-height:16rem;overflow-y:auto;border-radius:.5rem">';
+            gmLightPhotos.forEach(function(src,i){
+                html+='<img src="'+src+'" alt="photo '+(i+1)+'" onclick="openLightbox('+i+')" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:.35rem;cursor:zoom-in;transition:transform .2s" onmouseover="this.style.transform=\'scale(1.04)\'" onmouseout="this.style.transform=\'\'"/>';
+            });
+            html+='</div>';
+            pa.innerHTML=html;
+        } else {
+            pa.innerHTML='<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;color:rgba(216,238,217,.2);height:100%"><i class="fas fa-image" style="font-size:2rem"></i><span style="font-size:.65rem;letter-spacing:.1em">PHOTOS COMING SOON</span></div>';
+        }
         m.style.display='flex';
         document.body.style.overflow='hidden';
     }
@@ -1410,7 +1426,48 @@
         document.getElementById('modal-gallery').style.display='none';
         document.body.style.overflow='';
     }
-    document.addEventListener('keydown',function(e){if(e.key==='Escape')closeGalleryModal();});
+    /* Lightbox for full-size photo */
+    function openLightbox(idx){
+        gmLightIdx=idx;
+        var lb=document.getElementById('lb');
+        if(!lb){
+            lb=document.createElement('div');
+            lb.id='lb';
+            lb.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:200;display:flex;align-items:center;justify-content:center';
+            lb.innerHTML='<button onclick="lbNav(-1)" style="position:absolute;left:1rem;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;z-index:3;padding:.5rem"><i class="fas fa-chevron-left"></i></button>'
+                +'<img id="lb-img" style="max-width:92vw;max-height:90vh;object-fit:contain;border-radius:.5rem;user-select:none">'
+                +'<button onclick="lbNav(1)" style="position:absolute;right:1rem;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;z-index:3;padding:.5rem"><i class="fas fa-chevron-right"></i></button>'
+                +'<button onclick="closeLightbox()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:#fff;font-size:1.2rem;cursor:pointer;z-index:3"><i class="fas fa-times"></i></button>'
+                +'<span id="lb-count" style="position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.5);font-size:.7rem;letter-spacing:.1em"></span>';
+            lb.addEventListener('click',function(e){if(e.target===lb)closeLightbox();});
+            document.body.appendChild(lb);
+        }
+        lbShow();
+        lb.style.display='flex';
+    }
+    function lbShow(){
+        document.getElementById('lb-img').src=gmLightPhotos[gmLightIdx];
+        document.getElementById('lb-count').textContent=(gmLightIdx+1)+' / '+gmLightPhotos.length;
+    }
+    function lbNav(dir){gmLightIdx=(gmLightIdx+dir+gmLightPhotos.length)%gmLightPhotos.length;lbShow();}
+    function closeLightbox(){var lb=document.getElementById('lb');if(lb)lb.style.display='none';}
+    document.addEventListener('keydown',function(e){
+        if(e.key==='Escape'){closeLightbox();closeGalleryModal();}
+        if(e.key==='ArrowRight')lbNav(1);
+        if(e.key==='ArrowLeft')lbNav(-1);
+    });
+
+    /* PyCon card auto-slideshow */
+    (function(){
+        var slides=document.querySelectorAll('.pycon-slide');
+        if(!slides.length)return;
+        var cur=0;
+        setInterval(function(){
+            slides[cur].style.opacity='0';
+            cur=(cur+1)%slides.length;
+            slides[cur].style.opacity='1';
+        },2800);
+    })();
 
     /* Responsive Gallery grid */
     function setGalleryGrid(){
