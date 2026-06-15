@@ -918,15 +918,16 @@
                 <!-- Ubucon Kenya -->
                 <div class="hud pcard sr" style="border-radius:.75rem;overflow:hidden">
                     <div class="pcard-scan"></div>
-                    <div class="gallery-thumb" style="height:13rem;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
-                                background:linear-gradient(135deg,rgba(233,84,32,.22),rgba(255,140,0,.12),rgba(233,84,32,.07));cursor:pointer"
+                    <div class="gallery-thumb" style="height:13rem;position:relative;overflow:hidden;cursor:pointer"
                          onclick="openGalleryModal('Ubucon Kenya','Ubuntu community conference celebrating open-source, Linux, and free software in Kenya.','ubucon')">
-                        <span style="position:absolute;top:.75rem;left:.75rem;padding:.18rem .65rem;font-size:.6rem;border-radius:9999px;background:rgba(57,255,20,.15);color:var(--neon);border:1px solid rgba(57,255,20,.3);letter-spacing:.08em">ATTENDED</span>
-                        <div style="text-align:center;z-index:1">
-                            <i class="fab fa-ubuntu" style="font-size:3.5rem;color:#E95420;display:block;margin-bottom:.5rem;filter:drop-shadow(0 0 12px rgba(233,84,32,.5))"></i>
-                            <span style="font-size:.62rem;letter-spacing:.1em;color:rgba(216,238,217,.3)">[TAP TO VIEW]</span>
-                        </div>
-                        <div style="position:absolute;bottom:.6rem;right:.75rem;font-size:.6rem;color:rgba(216,238,217,.2);letter-spacing:.06em"><i class="fas fa-expand-alt" style="margin-right:.3rem"></i>EXPAND</div>
+                        <img src="{% static 'images/gallery/ubucon-ke.jpg' %}"
+                             style="width:100%;height:100%;object-fit:cover;transition:transform .4s"
+                             alt="Ubucon Kenya"
+                             onmouseover="this.style.transform='scale(1.05)'"
+                             onmouseout="this.style.transform=''">
+                        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.6) 0%,transparent 55%);pointer-events:none"></div>
+                        <span style="position:absolute;top:.75rem;left:.75rem;padding:.18rem .65rem;font-size:.6rem;border-radius:9999px;background:rgba(233,84,32,.25);color:#fb923c;border:1px solid rgba(251,146,60,.4);letter-spacing:.08em;z-index:2;font-weight:700">SPEAKER</span>
+                        <span style="position:absolute;bottom:.65rem;right:.75rem;font-size:.6rem;color:rgba(255,255,255,.7);z-index:2;letter-spacing:.06em"><i class="fas fa-microphone" style="margin-right:.3rem;color:#E95420"></i>ON STAGE</span>
                     </div>
                     <div style="padding:1.25rem;position:relative">
                         <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,#E95420,#FF8C00)"></div>
@@ -935,12 +936,12 @@
                             Ubucon Kenya
                         </h3>
                         <p style="color:rgba(216,238,217,.5);font-size:.78rem;line-height:1.65;margin-bottom:.8rem">
-                            Kenya's Ubuntu community conference — open-source advocacy, Linux talks, and connecting with FOSS contributors across East Africa.
+                            Kenya's Ubuntu community conference — took the stage as a speaker on open-source, Linux, and FOSS advocacy across East Africa.
                         </p>
                         <div style="display:flex;flex-wrap:wrap;gap:.4rem">
-                            <span style="padding:.15rem .6rem;font-size:.63rem;border-radius:9999px;background:rgba(233,84,32,.12);color:#fb923c;border:1px solid rgba(251,146,60,.22)">Linux</span>
-                            <span style="padding:.15rem .6rem;font-size:.63rem;border-radius:9999px;background:rgba(255,140,0,.1);color:#fcd34d;border:1px solid rgba(252,211,77,.22)">Open Source</span>
-                            <span style="padding:.15rem .6rem;font-size:.63rem;border-radius:9999px;background:rgba(57,255,20,.07);color:var(--neon);border:1px solid rgba(57,255,20,.2)">Kenya</span>
+                            <span style="padding:.15rem .6rem;font-size:.63rem;border-radius:9999px;background:rgba(233,84,32,.15);color:#fb923c;border:1px solid rgba(251,146,60,.3);font-weight:600">Speaker</span>
+                            <span style="padding:.15rem .6rem;font-size:.63rem;border-radius:9999px;background:rgba(255,140,0,.1);color:#fcd34d;border:1px solid rgba(252,211,77,.22)">Linux</span>
+                            <span style="padding:.15rem .6rem;font-size:.63rem;border-radius:9999px;background:rgba(57,255,20,.07);color:var(--neon);border:1px solid rgba(57,255,20,.2)">Open Source</span>
                         </div>
                     </div>
                 </div>
@@ -1521,11 +1522,21 @@
             photos:pyconPhotos
         },
         ubucon:{
-            tag:'UBUCON KE',location:'Kenya',date:'  KENYA',role:'Attendee · Linux Enthusiast',team:'Open-source community',
-            desc:'Ubucon Kenya is the Ubuntu & open-source community conference for East Africa — celebrating Linux, free software, and the power of community-driven tech.',
-            why:'A belief that open-source is the foundation of all great software. Ubucon is where that philosophy lives.',
-            gained:['Community connections','Linux deep-dives','Open-source contribution pathways'],
-            photos:[]
+            tag:'UBUCON KE',
+            location:'Kenya',
+            date:'  KENYA',
+            role:'Speaker · Open-Source Advocate',
+            team:'Ubucon Kenya community',
+            desc:'Ubucon Kenya is the Ubuntu & open-source community conference for East Africa — celebrating Linux, free software, and the power of community-driven technology. I took the stage as a speaker, sharing knowledge with the FOSS community across Kenya.',
+            why:'Open source is not just a tool — it is a philosophy. Getting on stage at Ubucon Kenya was a mission to share that belief, contribute to the community, and inspire others to build in the open.',
+            gained:[
+                'Public speaking experience in front of Kenya\'s open-source community',
+                'Deeper understanding of Linux systems and FOSS advocacy',
+                'Recognition as a voice in the East African open-source space',
+                'Connections with Ubuntu contributors and Linux enthusiasts across the region',
+                'Confidence to represent and speak at future tech conferences'
+            ],
+            photos:['{% static "images/gallery/ubucon-ke.jpg" %}']
         },
         gdgpwani:{
             tag:'GDG PWANI',location:'Mombasa, Kenya',date:'  MOMBASA, KENYA',role:'Attendee · Local Chapter Member',team:'Mombasa tech community',
