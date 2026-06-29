@@ -126,4 +126,9 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # Whitenoise configuration
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# CompressedStaticFilesStorage (not the *Manifest* variant) compresses assets
+# but does NOT build a strict staticfiles.json manifest. The manifest backend
+# raises a 500 on the whole page if any {% static %} reference is missing from
+# the manifest; for a portfolio site that strictness causes more outages than
+# the cache-busting is worth.
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
